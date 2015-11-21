@@ -10,6 +10,4 @@ router.route('/user/:id')
     res.send('Test. Hello user!');
   })
 
-
-
   module.exports = router;

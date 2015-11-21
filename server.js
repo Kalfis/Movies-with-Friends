@@ -27,7 +27,7 @@ db.once('open', (callback) => {
 
 // register our routes
 // all routes starting with /users will be in userRoutes
-app.use('/users', userRoutes);
+app.use('/users', userRoutes); // ***** LA modified *****
 // all routes starting with /movies will be in movieRoutes
 app.use('/movies', movieRoutes);
 
