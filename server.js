@@ -15,6 +15,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+let User = require('./models/user');
+let Movie = require('./models/movie');
+
 let mongoose = require('mongoose');
 // connect to our database, moviegoerApp
 mongoose.connect('mongodb://localhost/moviegoerApp');
