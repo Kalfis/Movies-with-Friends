@@ -2,7 +2,7 @@
 
 let express = require('express');
 let router = express.Router();
-let User = require('../models/user')
+// let User = require('../models/user')
 
 // Index
 router.route('/user/:id')

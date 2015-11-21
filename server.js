@@ -25,11 +25,16 @@ db.once('open', (callback) => {
   console.log('Mongoose Connected');
 });
 
-// register our routes
+app.get('/', function(req, res) {
+  console.log('hit /');
+  res.send('hello!');
+})
+
+// Register our routes
 // all routes starting with /users will be in userRoutes
 app.use('/users', userRoutes);
 // all routes starting with /movies will be in movieRoutes
-app.use('/movies', movieRoutes);
+// app.use('/movies', movieRoutes);
 
 let server = app.listen(3000, () => {
   let host = server.address().address;
