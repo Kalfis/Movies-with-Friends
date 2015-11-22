@@ -1,6 +1,7 @@
 'use strict';
 let express = require('express');
 let logger = require('morgan');
+let request = require('request');
 let path = require('path');
 let bodyParser = require('body-parser');
 let request = require('request')
@@ -18,7 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 let mongoose = require('mongoose');
 // connect to our database, moviegoerApp
-mongoose.connect('mongodb://localhost/moviegoerApp');
+mongoose.connect('mongodb://localhost/moviegoerApp'); // LA changed moviegoerApp to moviegoer
 
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
@@ -26,22 +27,11 @@ db.once('open', (callback) => {
   console.log('Mongoose Connected');
 });
 
-// register our routes
+// Register our routes
 // all routes starting with /users will be in userRoutes
 // app.use('/users', userRoutes);
 // all routes starting with /movies will be in movieRoutes
 // app.use('/movies', movieRoutes);
-
-app.get('/movies', function(req, res){
-  console.log('hit movies');
-  request('https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b', function(err, res, body){
-
-  }).on('data', function(data){
-    console.log(data)
-    res.send(data)
-  });
-
-})
 
 
 let server = app.listen(3000, () => {
