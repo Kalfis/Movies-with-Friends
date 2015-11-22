@@ -5,8 +5,8 @@ let path = require('path');
 let bodyParser = require('body-parser');
 
 // require our routes
-let userRoutes = require('./controllers/users_controller');
-let movieRoutes = require('./controllers/movies_controller');
+// let userRoutes = require('./controllers/users_controller');
+// let movieRoutes = require('./controllers/movies_controller');
 
 let app = express();
 
@@ -27,9 +27,19 @@ db.once('open', (callback) => {
 
 // register our routes
 // all routes starting with /users will be in userRoutes
-app.use('/users', userRoutes);
+// app.use('/users', userRoutes);
 // all routes starting with /movies will be in movieRoutes
-app.use('/movies', movieRoutes);
+// app.use('/movies', movieRoutes);
+
+app.get('/movies', function(req, res){
+  console.log('hit movies');
+  request('https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b', function(err, res, body){
+
+  }).on('data', function(data){
+    res.send(data)
+  });
+})
+
 
 let server = app.listen(3000, () => {
   let host = server.address().address;
