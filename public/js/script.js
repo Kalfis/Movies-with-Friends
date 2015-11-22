@@ -13,17 +13,28 @@ $(function(){
 
     // pending to add listener event to search form
     // var titleInput = $('#title-input').val();
-    var titleInput = "Creed" // hard coded for now, will retrieve from input form
-    console.log(titleInput);
 
-    $.ajax({
-        url: 'http://localhost:3000/movies/searchByTitle/'+titleInput
-      }).done(function(data){
-        console.log('movie title selected');
-        $('#movie-profile').empty();
-        console.log(data);
-        showData(data);
-      });
+    // event listener for Submit button to display movie
+    $('#submit-button').click(function(event){
+      event.preventDefault();
+
+      console.log('Clicked Submit Button');
+
+      var titleInput = $('#title-input').val();
+      console.log(titleInput);
+
+    // var titleInput = "Creed" // hard coded for now, will retrieve from input form
+    // console.log(titleInput);
+
+      $.ajax({
+          url: 'http://localhost:3000/movies/searchByTitle/'+titleInput
+        }).done(function(data){
+          console.log('movie title selected');
+          $('#movie-profile').empty();
+          console.log(data);
+          showMovie(data);
+        });
+      }); // close #submit-button
 
       ////// POST route
 
@@ -44,7 +55,7 @@ $(function(){
   //   })
   // })
 
-  var showData = function(data){
+  var showMovie = function(data){
     // using JavaScript to render info on the DOM
     console.log(data);
 
@@ -66,6 +77,6 @@ $(function(){
     //   result.append('<p>' + key + " : " + value + '</p>');
     // });
 
-  }; // close showData
+  }; // close showMovie
 
 }) // close main anonymous function
