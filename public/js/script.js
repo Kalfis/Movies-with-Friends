@@ -3,6 +3,26 @@
 $(function(){
   console.log ('index.html linked to script.js'); // ADDED by LA
 
+
+  // event listener for Submit button
+    $('#API-button').click(function(event){
+      event.preventDefault();
+
+      console.log('Clicked Submit Button');
+
+      var titleInput = $('#title-input').val();
+      console.log(titleInput);
+
+      $.ajax({
+        url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
+      }).done(function(data){
+        console.log('movie title selected');
+        // $('#results-container').empty();
+        showMovie(data);
+      });
+    }); // close #submit-button
+
+
 // displays all information from database in console log while on Index Page
     $.ajax({
       url: 'http://localhost:3000/movies'
@@ -11,10 +31,7 @@ $(function(){
       console.log(data);
     })
 
-    // pending to add listener event to search form
-    // var titleInput = $('#title-input').val();
-
-    // event listener for Submit button to display movie
+    // event listener for Submit button to display movie that we searched for
     $('#submit-button').click(function(event){
       event.preventDefault();
 
@@ -26,16 +43,30 @@ $(function(){
     // var titleInput = "Creed" // hard coded for now, will retrieve from input form
     // console.log(titleInput);
 
-      $.ajax({
-          url: 'http://localhost:3000/movies/searchByTitle/'+titleInput
-        }).done(function(data){
-          console.log('movie title selected');
-          $('#movie-profile').empty();
-          console.log(data);
-          showMovie(data);
-        });
+          $.ajax({
+              url: 'http://localhost:3000/movies/searchByTitle/'+titleInput
+            }).done(function(data){
+              console.log('movie title selected');
+              $('#movie-profile').empty();
+              console.log(data);
+              showMovie(data);
+            });
       }); // close #submit-button
 
+      // event listener for EDIT button\
+      $('#edit-button').click(function(event){
+        event.preventDefault();
+
+        console.log('Clicked Edit Button');
+
+        // edit information from database
+        // #####  PENDING ########## ///
+
+      }); // close #edit-button event listener
+
+      var updateForm = function (data) {
+        var resultsDiv = $(".")
+      };
       ////// POST route
 
   //   ('.keep').click(function(e){
