@@ -31,6 +31,7 @@ app.use('/users', userRoutes);
 // all routes starting with /movies will be in movieRoutes
 app.use('/movies', movieRoutes);
 
+
 let server = app.listen(3000, () => {
   let host = server.address().address;
   let port = server.address().port;

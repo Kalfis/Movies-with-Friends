@@ -36,7 +36,7 @@ router.route('/searchByTitle/:title')
       res.send(movie);
     });
   })
-  
+
   // EDITS  a movie profile, selected by its title from database
   // pending to test in browser as it requires AJAX code in
   // public/js/script to be completed
