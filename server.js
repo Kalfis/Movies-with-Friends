@@ -30,7 +30,7 @@ db.once('open', (callback) => {
 // all routes starting with /users will be in userRoutes
 app.use('/users', userRoutes);
 // all routes starting with /movies will be in movieRoutes
-// app.use('/movies', movieRoutes);
+app.use('/movies', movieRoutes);
 
 
 let server = app.listen(3000, () => {
