@@ -10,8 +10,8 @@ let userSchema = new mongoose.Schema({
   updated_at: Date,
   bio: String,
   password: String,
-  watched_list: [],
-  to_watch_list: []
+  watchedList: [],
+  toWatchList: []
   // consider adding comments to user?
 });
 
