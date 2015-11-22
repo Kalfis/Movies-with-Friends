@@ -15,7 +15,7 @@ let userSchema = new mongoose.Schema({
   // consider adding comments to user?
 });
 
-let user = mongoose.model('User', userSchema);
+let User = mongoose.model('User', userSchema);
 
 // Before saving a password, make sure it is encrypted.
 userSchema.pre('save', (next) => {
@@ -40,7 +40,7 @@ userSchema.pre('save', (next) => {
 });
 
 // Implement password verification
-userSchema.methods.authenticate = (password, callback) => {
+userSchema.methods.authenticate = function(password, callback) {
   // compare method that returns a boolean
   // Determine if the first argument once encrypted corres. to the second argument
   bcrypt.compare(password, this.password, (err, isMatch) => {
@@ -48,6 +48,4 @@ userSchema.methods.authenticate = (password, callback) => {
   });
 }
 
-
-
-module.exports = user;
+module.exports = User;
