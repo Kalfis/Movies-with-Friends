@@ -17,10 +17,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 let mongoose = require('mongoose');
-
-let User = require('./models/user');
-let Movie = require('./models/movie');
-
 // connect to our database, moviegoerApp
 mongoose.connect('mongodb://localhost/moviegoerApp');
 
@@ -29,11 +25,6 @@ db.on('error', console.error.bind(console, 'Connection error:'));
 db.once('open', (callback) => {
   console.log('Mongoose Connected');
 });
-
-app.get('/', function(req, res) {
-  console.log('hit /');
-  res.send('hello!');
-})
 
 // Register our routes
 // all routes starting with /users will be in userRoutes
