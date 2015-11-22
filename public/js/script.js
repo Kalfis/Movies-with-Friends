@@ -1,10 +1,10 @@
 'use strict';
 
 $(function(){
-  console.log ('index.html linked to script.js'); // ADDED by LA
+  console.log ('index.html linked to script.js');
 
-
-  // event listener for Submit button
+  //===== Event listener for API button to retrieve & display information for a hardcoded movie from API
+  //======================================
     $('#API-button').click(function(event){
       event.preventDefault();
 
@@ -22,8 +22,8 @@ $(function(){
       });
     }); // close #submit-button
 
-
-// displays all information from database in console log while on Index Page
+    //===== Display all information from database in console log while on Index Page
+    //======================================
     $.ajax({
       url: 'http://localhost:3000/movies'
     }).done(function(data){
@@ -31,7 +31,8 @@ $(function(){
       console.log(data);
     })
 
-    // event listener for Submit button to display movie that we searched for
+    //===== Event listener for Submit button to search for movie & display movie profile
+    //======================================
     $('#submit-button').click(function(event){
       event.preventDefault();
 
@@ -39,9 +40,6 @@ $(function(){
 
       var titleInput = $('#title-input').val();
       console.log(titleInput);
-
-    // var titleInput = "Creed" // hard coded for now, will retrieve from input form
-    // console.log(titleInput);
 
           $.ajax({
               url: 'http://localhost:3000/movies/searchByTitle/'+titleInput
@@ -53,7 +51,8 @@ $(function(){
             });
       }); // close #submit-button
 
-      // event listener for EDIT button\
+      //===== event listener for EDIT button
+      //======================================
       $('#edit-button').click(function(event){
         event.preventDefault();
 
@@ -86,6 +85,13 @@ $(function(){
   //   })
   // })
 
+  var editMovie = function () {
+
+  }
+
+
+  // render information of a movie profile thru DOM in index.html
+  //======================================
   var showMovie = function(data){
     // using JavaScript to render info on the DOM
     console.log(data);
