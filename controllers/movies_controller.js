@@ -41,6 +41,7 @@ router.route('/searchByTitle/:title')
   // EDITS  a movie profile, selected by its title from database
   // pending to test in browser as it requires AJAX code in
   // public/js/script to be completed
+
   .put((req, res) => {
     var title = req.params.title;
     Movie.findOneAndUpdate({ _title: title}, { $set: req.body }, (err, movie) => {
@@ -53,6 +54,7 @@ router.route('/searchByTitle/:title')
   // DELETES a movie profile, selected by its title from database
   // pending to test in browser as it requires AJAX code in
   // public/js/script to be completed
+
   .delete((req, res) => {
     var title = req.params.title;
     Movie.findOneAndRemove({ _title: title}, (err, movie) => {

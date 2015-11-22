@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 let mongoose = require('mongoose');
 // connect to our database, moviegoerApp
-mongoose.connect('mongodb://localhost/moviegoerApp'); // LA changed moviegoerApp to moviegoer
+mongoose.connect('mongodb://localhost/moviegoer'); // LA changed moviegoerApp to moviegoer
 
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
