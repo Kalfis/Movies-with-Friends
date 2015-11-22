@@ -4,11 +4,11 @@ let logger = require('morgan');
 let request = require('request');
 let path = require('path');
 let bodyParser = require('body-parser');
-let request = require('request')
+
 
 // require our routes
-// let userRoutes = require('./controllers/users_controller');
-// let movieRoutes = require('./controllers/movies_controller');
+let userRoutes = require('./controllers/users_controller');
+let movieRoutes = require('./controllers/movies_controller');
 
 let app = express();
 
@@ -29,9 +29,9 @@ db.once('open', (callback) => {
 
 // Register our routes
 // all routes starting with /users will be in userRoutes
-// app.use('/users', userRoutes);
+app.use('/users', userRoutes);
 // all routes starting with /movies will be in movieRoutes
-// app.use('/movies', movieRoutes);
+app.use('/movies', movieRoutes);
 
 
 let server = app.listen(3000, () => {

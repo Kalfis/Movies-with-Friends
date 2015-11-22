@@ -2,17 +2,8 @@
 let express = require('express');
 let router = express.Router();
 let User = require('../models/user');
-
+let request = require('request')
 let Movie = require('../models/movie.js')  // requires access to the model in movie.js
-
-app.get('/api', function(req, res){
-  console.log('hit api');
-  request('https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b', function(err, res, body){
-
-  }).on('data', function(data){
-    console.log(data)
-    res.send(data)
-  });
 
 // create '/' route within /movies.  Accessed in browser at /movies/
 // this route displays all of the database's contents, i.e. the profiles of each of
@@ -29,7 +20,6 @@ router.route('/')
 });
 
 
-})
 // Sets router constructor
 router.route('/searchByTitle/:title')
 // SEARCHES by title for movie in mymovies collection in database
@@ -71,5 +61,17 @@ router.route('/searchByTitle/:title')
       res.send("Movie deleleted from my movies")
     });
   });
+
+router.route('/api')
+  .get((req, res, next) => {
+    console.log('hit api');
+    request('https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b', function(err, res, body){
+
+    }).on('data', function(data){
+      console.log(data);
+      res.send(data.body);
+    });
+  })
+
 
 module.exports = router;
