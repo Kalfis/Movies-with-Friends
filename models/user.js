@@ -15,11 +15,10 @@ let userSchema = new mongoose.Schema({
   // consider adding comments to user?
 });
 
-let User = mongoose.model('User', userSchema);
-
 // Before saving a password, make sure it is encrypted.
-userSchema.pre('save', (next) => {
+userSchema.pre('save', function(next) {
     let user = this;
+    console.log(user);
 
   // hash the password only if it's new or has been modified
   if (!user.isModified('password')) return next();
@@ -34,6 +33,7 @@ userSchema.pre('save', (next) => {
 
       // override cleartext password with hashed password
       user.password = hash;
+      // console.log(user.password);
       next();
     });
   });
@@ -43,9 +43,11 @@ userSchema.pre('save', (next) => {
 userSchema.methods.authenticate = function(password, callback) {
   // compare method that returns a boolean
   // Determine if the first argument once encrypted corres. to the second argument
-  bcrypt.compare(password, this.password, (err, isMatch) => {
+  bcrypt.compare(password, this.password, function(err, isMatch) {
+    if (err) return callback(err);
     callback( null, isMatch);
   });
-}
+};
 
+let User = mongoose.model('User', userSchema);
 module.exports = User;
