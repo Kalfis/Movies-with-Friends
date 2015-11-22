@@ -1,6 +1,7 @@
 'use strict';
 let express = require('express');
 let logger = require('morgan');
+let request = require('request');
 let path = require('path');
 let bodyParser = require('body-parser');
 
@@ -25,11 +26,11 @@ db.once('open', (callback) => {
   console.log('Mongoose Connected');
 });
 
-// register our routes
+// Register our routes
 // all routes starting with /users will be in userRoutes
 app.use('/users', userRoutes); // ***** LA modified *****
 // all routes starting with /movies will be in movieRoutes
-app.use('/movies', movieRoutes);
+// app.use('/movies', movieRoutes);
 
 let server = app.listen(3000, () => {
   let host = server.address().address;
