@@ -1,8 +1,8 @@
 'use strict';
 let mongoose = require('mongoose');
 let bcrypt = require('bcrypt');
-// Ddefine the rounds/iterations the bcrypy key setup phase uses
-SALT_WORK_FACTOR = 10;
+// Define the rounds/iterations the bcrypy key setup phase uses
+let SALT_WORK_FACTOR = 10;
 
 let userSchema = new mongoose.Schema({
   username: String,
@@ -14,6 +14,8 @@ let userSchema = new mongoose.Schema({
   to_watch_list: []
   // consider adding comments to user?
 });
+
+let user = mongoose.model('User', userSchema);
 
 // Before saving a password, make sure it is encrypted.
 userSchema.pre('save', (next) => {
@@ -38,7 +40,7 @@ userSchema.pre('save', (next) => {
 });
 
 // Implement password verification
-User.methods.authenticate = (password, callback) => {
+userSchema.methods.authenticate = (password, callback) => {
   // compare method that returns a boolean
   // Determine if the first argument once encrypted corres. to the second argument
   bcrypt.compare(password, this.password, (err, isMatch) => {
@@ -46,6 +48,6 @@ User.methods.authenticate = (password, callback) => {
   });
 }
 
-let user = mongoose.model('User', userSchema);
+
 
 module.exports = user;
