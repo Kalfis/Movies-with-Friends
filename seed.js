@@ -100,7 +100,7 @@ gustave.save(function(err) {
           if (err) {
             console.log(err);
           } else {
-            gustave.toWatchList.push(gustaveToWatch1._id);
+            gustave.toWatchList.push(gustaveToWatch1);
             let gustaveToWatch2 = new Movie({
               title: toWatchLists[0][1]["title"],
               overview: toWatchLists[0][1]["overview"],
@@ -112,11 +112,11 @@ gustave.save(function(err) {
               if (err) {
                 console.log(err);
               } else {
-                gustave.toWatchList.push(gustaveToWatch2._id);
+                gustave.toWatchList.push(gustaveToWatch2);
                 gustave.save();
                 console.log('gustaveWatched1: ' + gustaveWatched1);
-                console.log(watchedLists[0][0]);
-                console.log('Movies MGustave wants to watch: ' + gustave.toWatchList[0])
+                console.log('watchedLists[0][0]: ', watchedLists[0][0]);
+                console.log('Movies MGustave wants to watch: ', gustave.toWatchList)
               } //ends else statement
             }) //ends gustaveToWatch2.save
           } // ends else statement
