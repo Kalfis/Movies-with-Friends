@@ -3,6 +3,7 @@ let express = require('express');
 let logger = require('morgan');
 let path = require('path');
 let bodyParser = require('body-parser');
+let request = require('request')
 
 // require our routes
 // let userRoutes = require('./controllers/users_controller');
@@ -36,8 +37,10 @@ app.get('/movies', function(req, res){
   request('https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b', function(err, res, body){
 
   }).on('data', function(data){
+    console.log(data)
     res.send(data)
   });
+
 })
 
 
