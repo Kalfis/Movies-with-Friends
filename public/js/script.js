@@ -6,7 +6,11 @@ $(function(){
 
   console.log ('index.html linked to script.js');
 
-  $('.keep').click(function(event){
+
+  //===== Event listener for Keep button to save data for a new Movie as input in Form
+  //======================================
+
+  $('#keep-button').click(function(event){
     event.preventDefault();
 
     console.log ('Clicked Keep Button');
@@ -14,14 +18,15 @@ $(function(){
     var newMovieData = {};
     newMovieData.title = $('#movie_title').val();
     newMovieData.overview = $('#movie-overview').val()
-    
+
     console.log(newMovieData);
     $.ajax({
       url: "/movies/",
       method: "POST",
       data: newMovieData
     }); // close $.ajax
-  }); // close ('.keep')
+  }); // close ('.keep-button')
+
 
   //===== Event listener for API button to retrieve & display information for a hardcoded movie from API
   //======================================
@@ -128,24 +133,6 @@ $(function(){
       var updateForm = function (data) {
         var resultsDiv = $(".")
       };
-      ////// POST route
-
-  //   ('.keep').click(function(e){
-  //     e.preventDefault();
-  //     data = {};
-  //     data.title = $('#movie_title').val();
-  //     data.director = $('#director').val();
-  //     data.actors = $('#actors').val();
-  //     data.released = $('#released').val();
-  //     data.plot = $('#plot').val();
-  //     console.log(data)
-  //
-  //   $.ajax({
-  //     type: "POST",
-  //     url: "/",
-  //     data: data
-  //   })
-  // })
 
   // var editMovie = function () { // PENDING
   //   $.ajax({
