@@ -6,9 +6,27 @@ $(function(){
 
   console.log ('index.html linked to script.js');
 
+  $('.keep').click(function(event){
+    event.preventDefault();
+
+    console.log ('Clicked Keep Button');
+
+    var newMovieData = {};
+    newMovieData.title = $('#movie_title').val();
+    newMovieData.overview = $('#movie-overview').val()
+    
+    console.log(newMovieData);
+    $.ajax({
+      url: "/movies/",
+      method: "POST",
+      data: newMovieData
+    }); // close $.ajax
+  }); // close ('.keep')
+
   //===== Event listener for API button to retrieve & display information for a hardcoded movie from API
   //======================================
-    $('#API-button').click(function(event){
+
+  $('#API-button').click(function(event){
       event.preventDefault();
 
       console.log('Clicked Submit Button');
@@ -65,11 +83,6 @@ $(function(){
       });
     }); // close #API-releases-button
 
-
-    // url: 'https://api.themoviedb.org/3/discover/movie?api_key=5c47d1a627613469f840623448f6e67b&primary_release_date.gte=2015-10-15&primary_release_date.lte=2015-11-22'
-    // url: 'https://api.themoviedb.org/3/movie/now_playing?api_key=5c47d1a627613469f840623448f6e67b'
-// url: 'https://api.themoviedb.org/3/movie/upcoming?api_key=5c47d1a627613469f840623448f6e67b'
-
     //===== Display all information from database in console log while on Index Page
     //======================================
     $.ajax({
@@ -94,6 +107,7 @@ $(function(){
             }).done(function(data){
               console.log('movie title selected');
               $('#movie-profile').empty();
+              console.log("here is the data for the movie selected: ")
               console.log(data);
               showMovie(data);
             });
@@ -164,32 +178,11 @@ $(function(){
           };
     };
 
-
-///////
-// var showData = function(data){
-//       // using JavaScript to render info on the DOM
-//       console.log(data);
-//
-//       $.each( data, function(key, value){
-//         console.log( key + " : " + value);
-//       }); // checking in console how data displays before sending to the DOM
-//
-//       var result = $('#results-container').append('<div>').find('div');
-//       result.attr('class', 'movie');
-//
-//       $.each( data, function(key, value){
-//         result.append('<p>' + key + " : " + value + '</p>');
-//       });
-//
-//     }; // close showData
-
-
-
-
   // Render information of a movie profile thru DOM in index.html
   //======================================
   var showMovie = function(data){
     // using JavaScript to render info on the DOM
+    console.log("here is the data passing from Ajax to showMovie()");
     console.log(data);
 
     $.each( data, function(key, value){

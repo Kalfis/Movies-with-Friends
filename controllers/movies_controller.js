@@ -17,7 +17,18 @@ router.route('/')
     res.send(movie);
     console.log('this is all the contents in the movies datatabase');
   });
-});
+})
+.post((req, res) => {
+  var movie = new Movie(req.body);
+  movie.save(function(err){
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(movie);
+      console.log("Movie updated");
+    }
+  });
+})
 
 // Sets router constructor
 router.route('/searchByTitle/:title')
