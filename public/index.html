@@ -11,7 +11,7 @@
   <body>
     <p>Hello! Welcome to our static index page (/public/index.html)</p>
 
-    <script type="text/javascript" src="js/script.js"></script>
+
 
 
     <div id="movie-db-search-formholder">
@@ -22,6 +22,11 @@
     </div>
 
     <button id="API-button">API Button</button>
+
+    <!-- MAGGIE CODE -->
+    <button id="upcoming-button">Movies Coming Soon!</div>
+    <button id="now-playing-button">Movies Now Playing!</button>
+  <!-- END MAGGIE CODE -->
 
 
     <div id="movie-profile">
@@ -41,6 +46,17 @@
 
     </div>
 
+    <!-- MAGGIE CODE -->
+      <div id="results-container">
+        <!-- data will display in this div  -->
+      </div>
+      <template id="currentmovies" type="text/x-handlebars-template">
+        {{data}}
+        <p>{{this.["results"][0].title}} </p>
+        <!-- this.results[0]. -->
+      </template>
+    <!--END MAGGIE CODE  -->
 
+      <script type="text/javascript" src="js/script.js"></script>
   </body>
 </html>

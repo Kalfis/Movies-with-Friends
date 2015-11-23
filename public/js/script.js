@@ -5,22 +5,22 @@ $(function(){
 
 
   // event listener for Submit button
-    // $('#API-button').click(function(event){
-    //   event.preventDefault();
-    //
-    //   console.log('Clicked Submit Button');
-    //
-    //   var titleInput = $('#title-input').val();
-    //   console.log(titleInput);
-    //
-    //   $.ajax({
-    //     url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
-    //   }).done(function(data){
-    //     console.log('movie title selected');
-    //     // $('#results-container').empty();
-    //     showMovie(data);
-    //   });
-    // }); // close #submit-button
+    $('#API-button').click(function(event){
+      event.preventDefault();
+
+      console.log('Clicked Submit Button');
+
+      var titleInput = $('#title-input').val();
+      console.log(titleInput);
+
+      $.ajax({
+        url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
+      }).done(function(data){
+        console.log('movie title selected');
+        // $('#results-container').empty();
+        showMovie(data);
+      });
+    }); // close #submit-button
 
 
 // displays all information from database in console log while on Index Page
@@ -86,24 +86,7 @@ $(function(){
   //   })
   // })
 
-  // MAGGIE TEST CODE
-  // Note: commented out l. 8-23!
-  $('#API-button').click(function(event){
-    event.preventDefault();
 
-    console.log('Clicked Submit Button');
-
-    var titleInput = $('#title-input').val();
-    console.log(titleInput);
-
-    $.ajax({
-      url: 'https://api.themoviedb.org/3/movie/now_playing?api_key=5c47d1a627613469f840623448f6e67b'
-    }).done(function(data){
-      console.log(data["results"][0]);
-      // $('#results-container').empty();
-      // showMovie(data);
-    });
-  }); // close #submit-button
 
   var showMovie = function(data){
     // using JavaScript to render info on the DOM
@@ -128,5 +111,39 @@ $(function(){
     // });
 
   }; // close showMovie
+
+  // MAGGIE CODE
+  var renderTemplate_currentmovies = Handlebars.compile($('template#currentmovies').html());
+  $('#upcoming-button').click(function(event){
+    event.preventDefault();
+    console.log('Clicked Upcoming Button');
+    $.ajax({
+      url: 'https://api.themoviedb.org/3/movie/upcoming?api_key=5c47d1a627613469f840623448f6e67b'
+      // check if I need to add params to this
+    }).done(function(data){
+      // console.log(data["results"]);
+      console.log({ results: data });
+      var $list = $('#results-container');
+      var compiledTemplate = renderTemplate_currentmovies(data["results"]);
+      // empty out the div in case there's something displayed in it, then add the data from the click
+      $list.html('').append(compiledTemplate)
+      // next step: looping through with Handlebars to display movies on page
+    }); //ends .done
+  }); //ends .click
+
+  $('#now-playing-button').click(function(event){
+    event.preventDefault();
+    console.log('Clicked Now Playing Button');
+    $.ajax({
+      url: 'https://api.themoviedb.org/3/movie/now_playing?api_key=5c47d1a627613469f840623448f6e67b',
+      // check capitalization of json
+      dataType: 'json'
+    }).done(function(data){
+      console.log(data["results"]);
+      // next step: looping through with Handlebars to display movies on page
+    });
+  });
+
+  // END MAGGIE CODE
 
 }) // close main anonymous function
