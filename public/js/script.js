@@ -37,7 +37,7 @@ $(function(){
       console.log(titleInput);
 
       $.ajax({
-        url: 'https://api.themoviedb.org/3/discover/movie?api_key=5c47d1a627613469f840623448f6e67b&primary_release_date.gte=2015-10-15&primary_release_date.lte=2015-11-22'
+        url: 'https://api.themoviedb.org/3/movie/upcoming?api_key=5c47d1a627613469f840623448f6e67b'
       }).done(function(movieObjs){
         console.log('movies released selected');
         $('#movie-profile').empty();
@@ -46,7 +46,8 @@ $(function(){
     }); // close #API-releases-button
 
     // url: 'https://api.themoviedb.org/3/discover/movie?api_key=5c47d1a627613469f840623448f6e67b&primary_release_date.gte=2015-10-15&primary_release_date.lte=2015-11-22'
-url: 'https://api.themoviedb.org/3/movie/now_playing?api_key=5c47d1a627613469f840623448f6e67b'
+    // url: 'https://api.themoviedb.org/3/movie/now_playing?api_key=5c47d1a627613469f840623448f6e67b'
+// url: 'https://api.themoviedb.org/3/movie/upcoming?api_key=5c47d1a627613469f840623448f6e67b'
 
     //===== Display all information from database in console log while on Index Page
     //======================================
@@ -125,34 +126,20 @@ url: 'https://api.themoviedb.org/3/movie/now_playing?api_key=5c47d1a627613469f84
 
   var newMovies = function(movieObjs){
 
-        console.log(movieObjs);
-        // for (var i = 0; i < movieObjs.length; i++){
-        //   var showMovies = movieObjs[i].data;
+      console.log(movieObjs); // just to confirm data is retrieved from API and see how it is organized
 
-            $.each( movieObjs, function(key, value){
-              console.log("now key + value");
-              console.log( key + " : " + value);
-            });
+      var result = $('#movie-profile').append('<div>').find('div');
+      result.attr('class', 'movie');
 
-            var result = $('#movie-profile').append('<div>').find('div');
-            result.attr('class', 'movie');
+      console.log("length" + movieObjs.results.length); // just to confirm how data's objects are organized
 
-            console.log("length " + movieObjs.results.length);
+      for (var i=0; i < movieObjs.results.length; i++){
 
-            for (var i=0; i < movieObjs.results.length; i++){
-            // $.each( movieObjs, function(key, value){
-              // console.log(key,value);
-              console.log (movieObjs.results[i].title);
-
-                result.append('<p><strong> Title: </strong>'+ movieObjs.results[i].title + '</p>');
-                result.append('<img src=https://image.tmdb.org/t/p/w185' + movieObjs.results[i].poster_path + '></img>');
-                result.append('<p><strong>  Released Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
-              // });
-            };
+          result.append('<p><strong> Title: </strong>'+ movieObjs.results[i].title + '</p>');
+          result.append('<img src=https://image.tmdb.org/t/p/w185' + movieObjs.results[i].poster_path + '></img>');
+          result.append('<p><strong>  Released Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
+          };
     };
-
-
-
 
 
 ///////
