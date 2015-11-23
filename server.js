@@ -1,6 +1,7 @@
 'use strict';
 let express = require('express');
 let logger = require('morgan');
+let request = require('request');
 let path = require('path');
 let bodyParser = require('body-parser');
 
