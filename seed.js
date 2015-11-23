@@ -60,15 +60,10 @@ let toWatchLists = [
   ]
 ];
 
-
-
-
 let gustave = new User({
   username: usernames[0],
   bio: bios[0],
   password: passwords[0]
-  // watched_list:
-  // to_watch_list:
 })
 
 gustave.save(function(err) {
@@ -76,7 +71,6 @@ gustave.save(function(err) {
     console.log(err)
   } else {
     let gustaveWatched1 = new Movie ({
-      // test 'title' versus title,
       title: watchedLists[0][0]["title"],
       overview: watchedLists[0][0]["overview"],
       release_date: watchedLists[0][0]["release_date"],
@@ -87,7 +81,7 @@ gustave.save(function(err) {
       if (err) {
         console.log(err)
       } else {
-        // experiment with removing ._id
+        // We're using ._id to be able to populate users using reference to movies.
         gustave.watchedList.push(gustaveWatched1._id);
         let gustaveToWatch1 = new Movie ({
           title: toWatchLists[0][0]["title"],
@@ -100,7 +94,7 @@ gustave.save(function(err) {
           if (err) {
             console.log(err);
           } else {
-            gustave.toWatchList.push(gustaveToWatch1);
+            gustave.toWatchList.push(gustaveToWatch1._id);
             let gustaveToWatch2 = new Movie({
               title: toWatchLists[0][1]["title"],
               overview: toWatchLists[0][1]["overview"],
@@ -112,11 +106,10 @@ gustave.save(function(err) {
               if (err) {
                 console.log(err);
               } else {
-                gustave.toWatchList.push(gustaveToWatch2);
+                gustave.toWatchList.push(gustaveToWatch2._id);
                 gustave.save();
-                console.log('gustaveWatched1: ' + gustaveWatched1);
-                console.log('watchedLists[0][0]: ', watchedLists[0][0]);
-                console.log('Movies MGustave wants to watch: ', gustave.toWatchList)
+                console.log('IDs of movies Gustave has watched: ', gustave.watchedList);
+                console.log('IDs of Movies MGustave wants to watch: ', gustave.toWatchList)
               } //ends else statement
             }) //ends gustaveToWatch2.save
           } // ends else statement
@@ -126,9 +119,133 @@ gustave.save(function(err) {
   } // ends else for gustave.save
 }) //ends gustave.save
 
-//
-// // // let zero = new User({
-// // //   username: usernames[1],
-// // //   bio: bios[1],
-// // //   password: passwords[1]
-// // // })
+
+let zero = new User({
+  username: usernames[1],
+  bio: bios[1],
+  password: passwords[1]
+})
+
+zero.save(function(err) {
+  if (err) {
+    console.log(err)
+  } else {
+    let zeroWatched1 = new Movie({
+      title: watchedLists[1][0]["title"],
+      overview: watchedLists[1][0]["overview"],
+      release_date: watchedLists[1][0]["release_date"],
+      poster_path: watchedLists[1][0]["poster_path"],
+      comments: watchedLists[1][0]["comments"]
+    });
+    zeroWatched1.save( function(err) {
+      if (err) {
+        console.log(err)
+      } else {
+        zero.watchedList.push(zeroWatched1._id);
+        let zeroWatched2 = new Movie ({
+          title: watchedLists[1][1]["title"],
+          overview: watchedLists[1][1]["overview"],
+          release_date: watchedLists[1][1]["release_date"],
+          poster_path: watchedLists[1][1]["poster_path"],
+          comments: watchedLists[1][1]["comments"]
+        });
+        zeroWatched2.save(function(err) {
+          if (err){
+            console.log(err)
+          } else {
+            zero.watchedList.push(zeroWatched2._id);
+            let zeroToWatch1 = new Movie ({
+              title: toWatchLists[1][0]["title"],
+              overview: toWatchLists[1][0]["overview"],
+              release_date: toWatchLists[1][0]["release_date"],
+              poster_path: toWatchLists[1][0]["poster_path"],
+              comments: toWatchLists[1][0]["comments"]
+            });
+            zeroToWatch1.save(function(err) {
+              if (err) {
+                console.log(err)
+              } else {
+                zero.toWatchList.push(zeroToWatch1._id);
+                let zeroToWatch2 = new Movie ({
+                  title: toWatchLists[1][1]["title"],
+                  overview: toWatchLists[1][1]["overview"],
+                  release_date: toWatchLists[1][1]["release_date"],
+                  poster_path: toWatchLists[1][1]["poster_path"],
+                  comments: toWatchLists[1][1]["comments"]
+                })
+                zeroToWatch2.save(function(err) {
+                  if (err) {
+                    console.log(err)
+                  } else {
+                    zero.toWatchList.push(zeroToWatch2._id);
+                    zero.save();
+                    console.log('IDs of movies Zero has watched: ', zero.watchedList);
+                    console.log('IDs of Movies Zero wants to watch: ', zero.toWatchList)
+                  }
+                })
+              }
+            })
+          }
+        })
+      }
+    })
+  }
+})
+
+let agatha = new User({
+  username: usernames[2],
+  bio: bios[2],
+  password: passwords[2]
+})
+
+agatha.save(function(err) {
+  if (err) {
+    console.log(err)
+  } else {
+    let agathaWatched1 = new Movie({
+      title: watchedLists[2][0]["title"],
+      overview: watchedLists[2][0]["overview"],
+      release_date: watchedLists[2][0]["release_date"],
+      poster_path: watchedLists[2][0]["poster_path"],
+      comments: watchedLists[2][0]["comments"]
+    });
+    agathaWatched1.save( function(err) {
+      if (err) {
+        console.log(err)
+      } else {
+        agatha.watchedList.push(agathaWatched1._id);
+        let agathaWatched2 = new Movie ({
+          title: watchedLists[2][1]["title"],
+          overview: watchedLists[2][1]["overview"],
+          release_date: watchedLists[2][1]["release_date"],
+          poster_path: watchedLists[2][1]["poster_path"],
+          comments: watchedLists[2][1]["comments"]
+        });
+        agathaWatched2.save(function(err) {
+          if (err){
+            console.log(err)
+          } else {
+            agatha.watchedList.push(agathaWatched2._id);
+            let agathaToWatch1 = new Movie ({
+              title: toWatchLists[2][0]["title"],
+              overview: toWatchLists[2][0]["overview"],
+              release_date: toWatchLists[2][0]["release_date"],
+              poster_path: toWatchLists[2][0]["poster_path"],
+              comments: toWatchLists[2][0]["comments"]
+            });
+            agathaToWatch1.save(function(err) {
+              if (err) {
+                console.log(err)
+              } else {
+                agatha.toWatchList.push(agathaToWatch1._id);
+                agatha.save();
+                console.log('IDs of movies Agatha has watched: ', agatha.watchedList);
+                console.log('IDs of Movies Agatha wants to watch: ', agatha.toWatchList)
+              }
+            }) //ends agathaToWatch1.save
+          } // ends else (l. 227)
+        }) // ends agathaWatched2.save
+      } // ends else (l. 215)
+    }) //ends agathaWatched1.save (l. 212)
+  } // ends else (l. 204)
+}) //ends agatha.save

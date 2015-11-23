@@ -18,7 +18,7 @@ let userSchema = new mongoose.Schema({
 // Before saving a password, make sure it is encrypted.
 userSchema.pre('save', function(next) {
     let user = this;
-    // console.log(user);
+    console.log(user);
 
   // hash the password only if it's new or has been modified
   if (!user.isModified('password')) return next();
