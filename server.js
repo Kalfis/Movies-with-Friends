@@ -4,6 +4,9 @@ let logger = require('morgan');
 let request = require('request');
 let path = require('path');
 let bodyParser = require('body-parser');
+let jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
+let User = require('./models/user'); // get our mongoose model for user
+
 
 
 // require our routes
