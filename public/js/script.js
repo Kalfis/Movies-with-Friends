@@ -161,8 +161,13 @@ $(function(){
           result.append('<p><strong>  Released Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
           result.append('<button id="Add-Watchlist-button">Add to Want to Watch List </button>');
           result.append('<button id="Add-Watchlist-button">Add to Already Watched List </button>');
+
           };
     };
+
+// maggie
+
+    movieObjs[i].save()
 
 
 ///////

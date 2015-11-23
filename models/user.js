@@ -10,7 +10,13 @@ let userSchema = new mongoose.Schema({
   updated_at: Date,
   bio: String,
   password: String,
-  watchedList: [],
+  // stories : [{ type: Schema.Types.ObjectId, ref: 'Story' }]
+  watchedList: [
+    { type: Schema.Types.ObjectId,
+      // not sure if ref should be 'Movie' or 'mymovies'
+      ref: 'mymovies'
+    }
+  ],
   toWatchList: []
   // consider adding comments to user?
 });
