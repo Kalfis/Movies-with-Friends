@@ -13,6 +13,9 @@ $(function(){
 
       console.log('Clicked New Release Button');
 
+      var titleInput = $('#title-input').val();
+      console.log(titleInput);
+
       $.ajax({
         url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
       }).done(function(data){
@@ -202,20 +205,5 @@ $(function(){
     result.append('<p><strong>  Released Date: </strong>'+ data.release_date + '</p>');
     result.append('<p><strong>  Comments: </strong>'+ data.comments + '</p>');
 
-    var newMovies = function(movieObjs){
-      console.log(movieObjs);
-      for (var i = 0; i < movieObjs.length; i++){
-        var showMovies = movieObjs[i].data;
-
-          $.each( data, function(key, value){
-            console.log( key + " : " + value);
-          });
-
-          var result = $('#movie-profile').append('<div>').find('div');
-          result.attr('class', 'movie');
-          result.append('<p><strong> Title: </strong>'+ data.title + '</p>');
-          result.append('<img src=https://image.tmdb.org/t/p/w185' + data.poster_path + '></img>');
-          result.append('<p><strong>  Released Date: </strong>'+ data.release_date + '</p>');
-      }
-  }; // close newMovies
+  };
 })
