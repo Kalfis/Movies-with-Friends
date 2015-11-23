@@ -5,7 +5,7 @@ $(function(){
 
 
   // event listener for Submit button
-    $('#API-button').click(function(event){
+    $('#newRelease-button').click(function(event){
       event.preventDefault();
 
       console.log('Clicked Submit Button');
@@ -14,11 +14,11 @@ $(function(){
       console.log(titleInput);
 
       $.ajax({
-        url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
-      }).done(function(data){
+        url: 'https://api.themoviedb.org/3/discover/movie?api_key=5c47d1a627613469f840623448f6e67b&primary_release_date.gte=2015-10-15&primary_release_date.lte=2015-11-22'
+      }).done(function(movieObjs){
         console.log('movie title selected');
         // $('#results-container').empty();
-        showMovie(data);
+        newMovie(movieObjs);
       });
     }); // close #submit-button
 
@@ -103,11 +103,22 @@ $(function(){
     result.append('<p><strong>  Released Date: </strong>'+ data.release_date + '</p>');
     result.append('<p><strong>  Comments: </strong>'+ data.comments + '</p>');
 
-    // This code below displays the information directly as a key/pair exactly as labeled in database
-    // $.each( data, function(key, value){
-    //   result.append('<p>' + key + " : " + value + '</p>');
-    // });
+    var newMovies = function(movieObjs){
+      
+      console.log(movieObjs);
+      for (var i = 0; i < movieObjs.length; i++){
+        var showMovies = movieObjs[i].data;
 
-  }; // close showMovie
+          $.each( data, function(key, value){
+            console.log( key + " : " + value);
+          });
+
+          var result = $('#movie-profile').append('<div>').find('div');
+          result.attr('class', 'movie');
+          result.append('<p><strong> Title: </strong>'+ data.title + '</p>');
+          result.append('<img src=https://image.tmdb.org/t/p/w185' + data.poster_path + '></img>');
+          result.append('<p><strong>  Released Date: </strong>'+ data.release_date + '</p>');
+      }
+  }; // close newMovies
 
 }) // close main anonymous function

@@ -41,7 +41,6 @@ router.route('/searchByTitle/:title')
   // EDITS  a movie profile, selected by its title from database
   // pending to test in browser as it requires AJAX code in
   // public/js/script to be completed
-
   .put((req, res) => {
     var title = req.params.title;
     Movie.findOneAndUpdate({ _title: title}, { $set: req.body }, (err, movie) => {
@@ -54,7 +53,6 @@ router.route('/searchByTitle/:title')
   // DELETES a movie profile, selected by its title from database
   // pending to test in browser as it requires AJAX code in
   // public/js/script to be completed
-
   .delete((req, res) => {
     var title = req.params.title;
     Movie.findOneAndRemove({ _title: title}, (err, movie) => {
@@ -63,17 +61,5 @@ router.route('/searchByTitle/:title')
       res.send("Movie deleleted from my movies")
     });
   });
-
-router.route('/api')
-  .get((req, res, next) => {
-    console.log('hit api');
-    request('https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b', function(err, res, body){
-
-    }).on('data', function(data){
-      console.log(data);
-      res.send(data.body);
-    });
-  })
-
 
 module.exports = router;
