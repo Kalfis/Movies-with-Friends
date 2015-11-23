@@ -149,20 +149,18 @@ $(function(){
   var newMovies = function(movieObjs){
 
       console.log(movieObjs); // just to confirm data is retrieved from API and see how it is organized
-
-      var result = $('#movie-profile').append('<div>').find('div');
-      result.attr('class', 'movie');
-
       console.log("length" + movieObjs.results.length); // just to confirm how data's objects are organized
 
       for (var i=0; i < movieObjs.results.length; i++){
+        var movieDiv = $('<div class="single-movie-profile"></div>');
+        $('#movie-profile').append(movieDiv);
 
-          result.append('<p><strong> Title: </strong>'+ movieObjs.results[i].title + '</p>');
-          result.append('<img src=https://image.tmdb.org/t/p/w185' + movieObjs.results[i].poster_path + '></img>');
-          result.append('<p><strong>  Released Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
-          result.append('<button id="Add-Watchlist-button">Add to Want to Watch List </button>');
-          result.append('<button id="Add-Watchlist-button">Add to Already Watched List </button>');
-          };
+        movieDiv.append('<p><strong> Title: </strong>'+ movieObjs.results[i].title + '</p>');
+        movieDiv.append('<img src=https://image.tmdb.org/t/p/w185' + movieObjs.results[i].poster_path + '></img>');
+        movieDiv.append('<p><strong>  Released Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
+        movieDiv.append('<button id="Add-Watchlist-button">Add to Want to Watch List </button>');
+        movieDiv.append('<button id="Add-Watchlist-button">Add to Already Watched List </button>');
+      };
     };
 
   // Render information of a movie profile thru DOM in index.html
