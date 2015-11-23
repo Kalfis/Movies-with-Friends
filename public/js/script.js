@@ -5,22 +5,22 @@ $(function(){
 
 
   // event listener for Submit button
-    $('#API-button').click(function(event){
-      event.preventDefault();
-
-      console.log('Clicked Submit Button');
-
-      var titleInput = $('#title-input').val();
-      console.log(titleInput);
-
-      $.ajax({
-        url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
-      }).done(function(data){
-        console.log('movie title selected');
-        // $('#results-container').empty();
-        showMovie(data);
-      });
-    }); // close #submit-button
+    // $('#API-button').click(function(event){
+    //   event.preventDefault();
+    //
+    //   console.log('Clicked Submit Button');
+    //
+    //   var titleInput = $('#title-input').val();
+    //   console.log(titleInput);
+    //
+    //   $.ajax({
+    //     url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
+    //   }).done(function(data){
+    //     console.log('movie title selected');
+    //     // $('#results-container').empty();
+    //     showMovie(data);
+    //   });
+    // }); // close #submit-button
 
 
 // displays all information from database in console log while on Index Page
@@ -85,6 +85,25 @@ $(function(){
   //     data: data
   //   })
   // })
+
+  // MAGGIE TEST CODE
+  // Note: commented out l. 8-23!
+  $('#API-button').click(function(event){
+    event.preventDefault();
+
+    console.log('Clicked Submit Button');
+
+    var titleInput = $('#title-input').val();
+    console.log(titleInput);
+
+    $.ajax({
+      url: 'https://api.themoviedb.org/3/movie/now_playing?api_key=5c47d1a627613469f840623448f6e67b'
+    }).done(function(data){
+      console.log(data["results"][0]);
+      // $('#results-container').empty();
+      // showMovie(data);
+    });
+  }); // close #submit-button
 
   var showMovie = function(data){
     // using JavaScript to render info on the DOM
