@@ -25,13 +25,13 @@ $(function(){
       });
     }); // close #submit-button
 
-    //===== Event listener for API button to retrieve & display  releaased movies from API
+    //===== Event listener for API button to retrieve & display Upcoming Movies from API
     //======================================
 
-    $('#API-Releases-button').click(function(event){
+    $('#API-Upcoming-Movies-button').click(function(event){
       event.preventDefault();
 
-      console.log('Clicked Submit Button');
+      console.log('Clicked Upcoming Movies Button');
 
       var titleInput = $('#title-input').val();
       console.log(titleInput);
@@ -39,11 +39,32 @@ $(function(){
       $.ajax({
         url: 'https://api.themoviedb.org/3/movie/upcoming?api_key=5c47d1a627613469f840623448f6e67b'
       }).done(function(movieObjs){
-        console.log('movies released selected');
+        console.log('Upcoming Movies Displayed');
         $('#movie-profile').empty();
         newMovies(movieObjs);
       });
     }); // close #API-releases-button
+
+    //===== Event listener for API button to retrieve & display Now Playing movies from API
+    //======================================
+
+    $('#API-NowPlaying-Movies-button').click(function(event){
+      event.preventDefault();
+
+      console.log('Clicked Now Playing button');
+
+      var titleInput = $('#title-input').val();
+      console.log(titleInput);
+
+      $.ajax({
+        url: 'https://api.themoviedb.org/3/movie/now_playing?api_key=5c47d1a627613469f840623448f6e67b'
+      }).done(function(movieObjs){
+        console.log('Now Playing Movies Displayed');
+        $('#movie-profile').empty();
+        newMovies(movieObjs);
+      });
+    }); // close #API-releases-button
+
 
     // url: 'https://api.themoviedb.org/3/discover/movie?api_key=5c47d1a627613469f840623448f6e67b&primary_release_date.gte=2015-10-15&primary_release_date.lte=2015-11-22'
     // url: 'https://api.themoviedb.org/3/movie/now_playing?api_key=5c47d1a627613469f840623448f6e67b'
@@ -138,6 +159,8 @@ $(function(){
           result.append('<p><strong> Title: </strong>'+ movieObjs.results[i].title + '</p>');
           result.append('<img src=https://image.tmdb.org/t/p/w185' + movieObjs.results[i].poster_path + '></img>');
           result.append('<p><strong>  Released Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
+          result.append('<button id="Add-Watchlist-button">Add to Want to Watch List </button>');
+          result.append('<button id="Add-Watchlist-button">Add to Already Watched List </button>');
           };
     };
 
@@ -188,8 +211,5 @@ $(function(){
     // });
 
   }; // close showMovie
-
-
-
 
 }) // close main anonymous function
