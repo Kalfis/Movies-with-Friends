@@ -26,12 +26,13 @@ router.route('/searchByTitle/:title')
   .get((req, res, next) => {
     console.log ('hit /movies/searchByTitle:/:title');
     var title = req.params.title;
+    // note: to make title search case insensitive, .toLowerCase titles before they are put in our db
     Movie.findOne({ title: title}, (err, movie) => {
       if(err) return next(err);
       if (movie == null) {
         res.send("The Movie you searched for is not in 'mymovies'.");
       };
-      console.log('movie profile searched by title accessed.');
+      console.log('movie profile searched by title accesused.');
       console.log("This is the data: " + movie);
       res.send(movie);
     });

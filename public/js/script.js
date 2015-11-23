@@ -2,28 +2,43 @@
 
 $(function(){
 
+  // eventually: we'll want this to be a link to "profile" for user and a link to another user's profile.
+  $('#view-user-test').click((event) => {
+    event.preventDefault();
+    console.log('User test button clicked');
+    $.ajax({
+      url: '/users/agatha'
+      // url: '/users/' + id of Agatha
+    }).done(function(data) {
+      $('#user-profile').empty();
+      showUser(data);
+      // empty user info display div.
+      // add the info for this particular user into the div.
+    })
+  })
+
   // var renderTemplate_movies = Handlebars.compile($('template#movies').html));
 
   console.log ('index.html linked to script.js');
 
   //===== Event listener for API button to retrieve & display information for a hardcoded movie from API
   //======================================
-    $('#API-button').click(function(event){
-      event.preventDefault();
-
-      console.log('Clicked Submit Button');
-
-      var titleInput = $('#title-input').val();
-      console.log(titleInput);
-
-      $.ajax({
-        url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
-      }).done(function(data){
-        console.log('movie title selected');
-        $('#movie-profile').empty();
-        showMovie(data);
-      });
-    }); // close #submit-button
+    // $('#API-button').click(function(event){
+    //   event.preventDefault();
+    //
+    //   console.log('Clicked Submit Button');
+    //
+    //   var titleInput = $('#title-input').val();
+    //   console.log(titleInput);
+    //
+    //   $.ajax({
+    //     url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
+    //   }).done(function(data){
+    //     console.log('movie title selected');
+    //     $('#movie-profile').empty();
+    //     showMovie(data);
+    //   });
+    // }); // close #submit-button
 
     //===== Event listener for API button to retrieve & display Upcoming Movies from API
     //======================================
@@ -85,8 +100,9 @@ $(function(){
       event.preventDefault();
 
       console.log('Clicked Submit Button');
-
-      var titleInput = $('#title-input').val();
+      // note: searches currently case sensitve. To make them case insensitive, add .toLowerCase() to the end of .val()
+      // then add .toLowerCase() to titles in our method to save movies from the API into our own database.
+      var titleInput = $('#title-input').val()
       console.log(titleInput);
 
           $.ajax({
@@ -165,10 +181,6 @@ $(function(){
           };
     };
 
-// maggie
-
-    movieObjs[i].save()
-
 
 ///////
 // var showData = function(data){
@@ -215,5 +227,24 @@ $(function(){
     // });
 
   }; // close showMovie
+
+// Render information of a user profile thru DOM in index.html
+//======================================
+let showUser = function(data) {
+  console.log(data[0]);
+  // try not appending another div to this div
+  let result = $('#user-profile').append('<div>').find('div');
+  result.append('<h3>Username: </h3>' + '<p>' + data[0].username + '</p>' );
+  result.append('<h3>Bio: </h3>' + '<p>' + data[0].bio + '</p>');
+  result.append('<h3>Want to Watch IDs: </h3>'); //+ '<p>' + data[0].toWatchList + '</p>');
+  for (i = 0; i < data[0].watchedList.length; i++){
+    // try making this not a string..
+    let movie = Movie.find({ "_id:" ObjectId(watchedList[i].toString()) })
+    console.log(movie.title);
+    // db.mymovies.find( { "_id" : ObjectId("5653463894b9f15058893d4f") } )
+  }
+  result.append('<h3> Watched Movie IDs: </h3>' + '</p>' + data[0].watchedList + '</p>');
+}
+
 
 }) // close main anonymous function
