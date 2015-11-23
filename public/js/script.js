@@ -8,17 +8,14 @@ $(function(){
     $('#newRelease-button').click(function(event){
       event.preventDefault();
 
-      console.log('Clicked Submit Button');
-
-      var titleInput = $('#title-input').val();
-      console.log(titleInput);
+      console.log('Clicked New Release Button');
 
       $.ajax({
         url: 'https://api.themoviedb.org/3/discover/movie?api_key=5c47d1a627613469f840623448f6e67b&primary_release_date.gte=2015-10-15&primary_release_date.lte=2015-11-22'
       }).done(function(movieObjs){
-        console.log('movie title selected');
+        console.log(movieObjs);
         // $('#results-container').empty();
-        newMovie(movieObjs);
+        newMovies(movieObjs);
       });
     }); // close #submit-button
 
@@ -104,7 +101,6 @@ $(function(){
     result.append('<p><strong>  Comments: </strong>'+ data.comments + '</p>');
 
     var newMovies = function(movieObjs){
-      
       console.log(movieObjs);
       for (var i = 0; i < movieObjs.length; i++){
         var showMovies = movieObjs[i].data;
@@ -120,5 +116,4 @@ $(function(){
           result.append('<p><strong>  Released Date: </strong>'+ data.release_date + '</p>');
       }
   }; // close newMovies
-
-}) // close main anonymous function
+})
