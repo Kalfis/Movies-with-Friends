@@ -11,6 +11,7 @@ let userSchema = new mongoose.Schema({
   updated_at: Date,
   bio: String,
   password: String,
+  token: String,
   // stories : [{ type: Schema.Types.ObjectId, ref: 'Story' }]
   watchedList: [
     { type: mongoose.Schema.Types.ObjectId,
@@ -52,7 +53,7 @@ userSchema.pre('save', function(next) {
   });
 });
 
-// // Implement password verification
+// Implement password verification
 // userSchema.methods.authenticate = function(password, callback) {
 //   // compare method that returns a boolean
 //   // Determine if the first argument once encrypted corres. to the second argument
