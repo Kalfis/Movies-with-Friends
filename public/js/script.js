@@ -14,8 +14,6 @@ $(function(){
   //
   // }); // close ('.Add-Database-Button')
 
-
-
   //===== Event listener for Keep button to save data for a new Movie as input in Form
   //====================================================
   $('#keep-button').click(function(event){
@@ -83,8 +81,8 @@ $(function(){
 
       console.log('Clicked Now Playing button');
 
-      var titleInput = $('#title-input').val();
-      console.log(titleInput);
+      var titleInput = $('#title-input').val(); //
+      console.log(titleInput); //
 
       APInowPlayingData();
 
@@ -171,6 +169,16 @@ $(function(){
        $('#Add-Database-Button'+i).click(function(event){
          event.preventDefault();
          console.log('Clicked Add to MyMovies Button');
+
+
+
+         var selectedMovieData = {};
+         selectedMovieData.title = movieObjs.results[i].title;
+         selectedMovieData.overview = movieObjs.results[i].overview;
+
+         console.log(selectedMovieData);
+
+
 
 
        }); // close ('.Add-Database-Button')
