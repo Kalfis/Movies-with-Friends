@@ -1,6 +1,6 @@
 'use strict';
 
-let User = require('./models/user')
+let User = require('./models/user');
 let Movie = require('./models/movie')
 let mongoose = require('mongoose');
 // let json = JSON.parse(data);
@@ -14,16 +14,18 @@ db.once('open', (callback) => {
   console.log('Mongoose Connected');
 });
 
-let usernames = [ 'MGustave', 'Zero', 'Agatha' ]
+let usernames = [ 'MGustave', 'Zero', 'Agatha', 'Cat' ]
 let bios = [
   'I appreciate the finer things in life. Always looking for the next great adventure.',
   'Along for the ride--especially if the ride involves cakes.',
-  'Firm believer in happy endings.'
+  'Firm believer in happy endings.',
+  'Meow.'
 ]
 let passwords = [
   'password1',
   'password2',
-  'password3'
+  'password3',
+  'password4'
 ]
 // Note: These will ultimately be pulled from TMDb API
 let watchedLists = [
@@ -38,8 +40,15 @@ let watchedLists = [
   ],
   // watched by Agatha
   [
-    { title: "The Hunger Games: Mockingjay - Part 2", overview: "With the nation of Panem in a full scale war, Katniss confronts President Snow in the final showdown.", release_date: "2015-11-18", poster_path: "/l3tmn2WOAIgLyGP7zcsTYkl5ejH.jpg", comments: "Believe the hype!"},
-    { title: "The 33", overview: "Based on a true story about the collapse at the mine in San Jose, Chile that  left 33 miners isolated underground for 69 days.", release_date: "2015-11-13", poster_path: "/cQ21yxf5seYrGzjFmMzCkX9PHa2.jpg", comments: "Inspiring."}
+    { title: "The Hunger Games: Mockingjay - Part 2", overview: "With the nation of Panem in a full scale war, Katniss confronts President Snow in the final showdown.", release_date: "2015-11-18", poster_path: "/l3tmn2WOAIgLyGP7zcsTYkl5ejH.jpg"},
+    { title: "The 33", overview: "Based on a true story about the collapse at the mine in San Jose, Chile that  left 33 miners isolated underground for 69 days.", release_date: "2015-11-13", poster_path: "/cQ21yxf5seYrGzjFmMzCkX9PHa2.jpg"}
+  ],
+  // watched by Cat--will compare ObjectIds with Agatha's to see if they are identical.
+  // also check mymovies to see if the total number of movies is 5 (means no duplicates) or 7 (means duplicates)
+  // note: removing comments from Agatha and Cat to remove that variable.
+  [
+    { title: "The Hunger Games: Mockingjay - Part 2", overview: "With the nation of Panem in a full scale war, Katniss confronts President Snow in the final showdown.", release_date: "2015-11-18", poster_path: "/l3tmn2WOAIgLyGP7zcsTYkl5ejH.jpg"},
+    { title: "The 33", overview: "Based on a true story about the collapse at the mine in San Jose, Chile that  left 33 miners isolated underground for 69 days.", release_date: "2015-11-13", poster_path: "/cQ21yxf5seYrGzjFmMzCkX9PHa2.jpg"}
   ]
 ]
 // Note: these will ultimately be pulled from TMDb API.
@@ -56,7 +65,11 @@ let toWatchLists = [
   ],
   // Agatha's movies to watch
   [
-    { title: "Jane Got a Gun", overview: "After her outlaw husband returns home shot with eight bullets and barely alive, Jane reluctantly reaches out to an ex-lover who she hasn't seen in over ten years to help her defend her farm when the time comes that her husband's gang eventually tracks him down to finish the job.", release_date: "2015-11-25", poster_path:  "/qg3cEqlszcU1sBb8P83hwPEEHnP.jpg", comments: "I'm all about the suspense."}
+    { title: "Jane Got a Gun", overview: "After her outlaw husband returns home shot with eight bullets and barely alive, Jane reluctantly reaches out to an ex-lover who she hasn't seen in over ten years to help her defend her farm when the time comes that her husband's gang eventually tracks him down to finish the job.", release_date: "2015-11-25", poster_path:  "/qg3cEqlszcU1sBb8P83hwPEEHnP.jpg"}
+  ],
+  // movies watched by Cat--match Agatha's again--let's see if ObjectIds are identical or diffferent
+  [
+    { title: "Jane Got a Gun", overview: "After her outlaw husband returns home shot with eight bullets and barely alive, Jane reluctantly reaches out to an ex-lover who she hasn't seen in over ten years to help her defend her farm when the time comes that her husband's gang eventually tracks him down to finish the job.", release_date: "2015-11-25", poster_path:  "/qg3cEqlszcU1sBb8P83hwPEEHnP.jpg"}
   ]
 ];
 
@@ -249,3 +262,61 @@ agatha.save(function(err) {
     }) //ends agathaWatched1.save (l. 212)
   } // ends else (l. 204)
 }) //ends agatha.save
+
+let cat = new User({
+  username: usernames[3],
+  bio: bios[3],
+  password: passwords[3]
+})
+
+cat.save(function(err) {
+  if (err) {
+    console.log(err)
+  } else {
+    let catWatched1 = new Movie({
+      title: watchedLists[3][0]["title"],
+      overview: watchedLists[3][0]["overview"],
+      release_date: watchedLists[3][0]["release_date"],
+      poster_path: watchedLists[3][0]["poster_path"],
+      comments: watchedLists[3][0]["comments"]
+    });
+    catWatched1.save( function(err) {
+      if (err) {
+        console.log(err)
+      } else {
+        cat.watchedList.push(catWatched1._id);
+        let catWatched2 = new Movie ({
+          title: watchedLists[3][1]["title"],
+          overview: watchedLists[3][1]["overview"],
+          release_date: watchedLists[3][1]["release_date"],
+          poster_path: watchedLists[3][1]["poster_path"],
+          comments: watchedLists[3][1]["comments"]
+        });
+        catWatched2.save(function(err) {
+          if (err){
+            console.log(err)
+          } else {
+            cat.watchedList.push(catWatched2._id);
+            let catToWatch1 = new Movie ({
+              title: toWatchLists[3][0]["title"],
+              overview: toWatchLists[3][0]["overview"],
+              release_date: toWatchLists[3][0]["release_date"],
+              poster_path: toWatchLists[3][0]["poster_path"],
+              comments: toWatchLists[3][0]["comments"]
+            });
+            catToWatch1.save(function(err) {
+              if (err) {
+                console.log(err)
+              } else {
+                cat.toWatchList.push(catToWatch1._id);
+                cat.save();
+                console.log('IDs of movies Cat has watched: ', cat.watchedList);
+                console.log('IDs of Movies Cat wants to watch: ', cat.toWatchList)
+              }
+            })
+          }
+        })
+      }
+    })
+  }
+})

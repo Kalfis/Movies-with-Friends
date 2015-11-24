@@ -19,7 +19,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 let mongoose = require('mongoose');
 // connect to our database, moviegoerApp
 
-// look for mongolab URI if in production OR connect to local db if not in production.
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/moviegoerApp');
 
 
