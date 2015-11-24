@@ -1,6 +1,6 @@
 'use strict';
 const jwt = require('jsonwebtoken');
-const secret = "supersekret";
+const secret = process.env.SECRET;
 let bcrypt = require('bcrypt');
 let mongoose = require('mongoose');
 // require model

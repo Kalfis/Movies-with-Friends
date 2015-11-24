@@ -14,7 +14,7 @@ let userRoutes = require('./controllers/users_controller');
 let movieRoutes = require('./controllers/movies_controller');
 
 let app = express();
-const secret = "superSekret"
+const secret = "supersekret"
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
