@@ -170,7 +170,8 @@ $(function(){
 
        $('#Add-Database-Button'+i).click(function(event){
          event.preventDefault();
-         console.log('Clicked Add to Database Button');
+         console.log('Clicked Add to MyMovies Button');
+
 
        }); // close ('.Add-Database-Button')
      };
