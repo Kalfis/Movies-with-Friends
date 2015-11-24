@@ -288,16 +288,28 @@ let showUser = function(data) {
   // console.log(data[0]);
   // try not appending another div to this div
   let result = $('#user-profile');
-  let watchedContainer = $('#watched-container');
-  let toWatchContainter = $('#to-watch-container')
+  let watchedContainer = $('#watched-container').append('<div>').find('div');
+  let toWatchContainer = $('#to-watch-container');
+  result.append(watchedContainer);
+  watchedContainer.append('<p>Hello?</p>');
+  // watchedContainer.append('<p> This is inside the watchedContainer. Pink! </p>');
+  // result.append(watchedContainer);
   result.append('<h3>Username: </h3>' + '<p>' + data[0].username + '</p>' );
   result.append('<h3>Bio: </h3>' + '<p>' + data[0].bio + '</p>');
-  result.append(watchContainer);
-  result.append('<h3>Movies ' + data[0].username + ' Wants to Watch: </h3>'); //+ '<p>' + data[0].toWatchList + '</p>');
+  let wantMovieDiv = document.createElement('div');
+  wantMovieDiv.id = "want-movie-div";
+  // wantMovieDiv.css("background-color", "red");
+  wantMovieDiv.innerHTML = '<h3>Movies ' + data[0].username + ' Wants to Watch: </h3>' //+ '<p>' + data[0].toWatchList + '</p>');
+  result.append(wantMovieDiv);
+  // result.append(watchedContainer);
+
   // console.log(data[0]._id)
   // Loop through a user's toWatchList, a list of ids of films the user wants to watch.
-  let displayToWatch = () => {
+  console.log('This number should be 1: ' + data[0].toWatchList.length);
+  let displayToWatch = function() {
     for (var i = 0; i < data[0].toWatchList.length; i++){
+      let movieToSee = document.createElement('div');
+      movieToSee.id = "to-see-div";
       // for each id in the user's list, call an ajax function that will hit the route of the movie associated with that id.
       let movieId = data[0].toWatchList[i];
         $.ajax({
@@ -306,7 +318,7 @@ let showUser = function(data) {
         }).done(function(data) {
           // empty the div we're putting the data in.
           // run the showMovie function (described externally)
-          showMovie(data);
+          // showMovie(data);
           // watchContainer.append(data.title);
 
           console.log('watchContainer data: ' + data.title );
@@ -315,21 +327,21 @@ let showUser = function(data) {
   }
   displayToWatch();
 
-  result.append('<h3> Movies' + data[0].username + ' has watched: </h3>');
-  let displayWatched = () => {
-    console.log('watched movie list length: '+ data[0].watchedList.length);
-    for (var i = 0; i < data[0].watchedList.length; i++){
-      var watchedMovieId = data[0].watchedList[i];
-      $.ajax({
-        url: 'http://localhost:3000/movies/' + watchedMovieId
-      }).done((data) => {
-        // $('#movie-profile').empty();
-        showMovie(data);
-        console.log('Movie')
-      });
-    }
-  }
-  displayWatched();
+  // result.append('<h3> Movies' + data[0].username + ' has watched: </h3>');
+  // let displayWatched = () => {
+  //   console.log('watched movie list length: '+ data[0].watchedList.length);
+  //   for (var i = 0; i < data[0].watchedList.length; i++){
+  //     var watchedMovieId = data[0].watchedList[i];
+  //     $.ajax({
+  //       url: 'http://localhost:3000/movies/' + watchedMovieId
+  //     }).done((data) => {
+  //       // $('#movie-profile').empty();
+  //       showMovie(data);
+  //       console.log('Movie')
+  //     });
+  //   }
+  // }
+  // displayWatched();
 
 }
 
