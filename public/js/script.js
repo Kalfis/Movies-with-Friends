@@ -2,20 +2,7 @@
 
 $(function(){
 
-  // eventually: we'll want this to be a link to "profile" for user and a link to another user's profile.
-  $('#view-user-test').click((event) => {
-    event.preventDefault();
-    console.log('User test button clicked');
-    $.ajax({
-      url: '/users/agatha'
-      // url: '/users/' + id of Agatha
-    }).done(function(data) {
-      $('#user-profile').empty();
-      showUser(data);
-      // empty user info display div.
-      // add the info for this particular user into the div.
-    })
-  })
+
 
   // var renderTemplate_movies = Handlebars.compile($('template#movies').html));
 
@@ -228,22 +215,122 @@ $(function(){
 
   }; // close showMovie
 
+// Click a button to view an individual user's profile
+//======================================
+  // eventually: we'll want this to be a link to "profile" for user and a link to another user's profile.
+  $('#view-user-test').click((event) => {
+    event.preventDefault();
+    console.log('User test button clicked');
+    $.ajax({
+      url: '/users/agatha'
+      // url: '/users/' + id of Agatha
+    }).done(function(data) {
+      $('#user-profile').empty();
+       showUser(data);
+      // empty user info display div.
+      // add the info for this particular user into the div.
+    })
+  })
+
 // Render information of a user profile thru DOM in index.html
 //======================================
+
+var showWatchedMovie = function(data){
+  // // using JavaScript to render info on the DOM
+  // console.log(data);
+  //
+  // $.each( data, function(key, value){
+  //   console.log( key + " : " + value);
+  // }); // checking in console how data displays before sending to the DOM
+  //
+  // var result = $('#movie-profile').append('<div>').find('div');
+  // result.attr('class', 'movie');
+  //
+  // result.append('<p><strong> Title: </strong>'+ data.title + '</p>');
+  // result.append('<p><strong>  Overview: </strong> '+ data.overview + '</p>');
+  // result.append('<img src=https://image.tmdb.org/t/p/w185' + data.poster_path + '></img>');
+  // result.append('<p><strong>  Released Date: </strong>'+ data.release_date + '</p>');
+  // result.append('<p><strong>  Comments: </strong>'+ data.comments + '</p>');
+  //
+  // // This code below displays the information directly as a key/pair exactly as labeled in database
+  // // $.each( data, function(key, value){
+  // //   result.append('<p>' + key + " : " + value + '</p>');
+  // // });
+
+}; // close showMovie
+
+var showToWatchMovie = function(data){
+  // using JavaScript to render info on the DOM
+  // console.log(data);
+  //
+  // $.each( data, function(key, value){
+  //   console.log( key + " : " + value);
+  // }); // checking in console how data displays before sending to the DOM
+  //
+  // var result = $('#movie-profile').append('<div>').find('div');
+  // result.attr('class', 'movie');
+  //
+  // result.append('<p><strong> Title: </strong>'+ data.title + '</p>');
+  // result.append('<p><strong>  Overview: </strong> '+ data.overview + '</p>');
+  // result.append('<img src=https://image.tmdb.org/t/p/w185' + data.poster_path + '></img>');
+  // result.append('<p><strong>  Released Date: </strong>'+ data.release_date + '</p>');
+  // result.append('<p><strong>  Comments: </strong>'+ data.comments + '</p>');
+  //
+  // // This code below displays the information directly as a key/pair exactly as labeled in database
+  // // $.each( data, function(key, value){
+  // //   result.append('<p>' + key + " : " + value + '</p>');
+  // // });
+
+}; // close showMovie
+
+
 let showUser = function(data) {
-  console.log(data[0]);
+  // console.log(data[0]);
   // try not appending another div to this div
-  let result = $('#user-profile').append('<div>').find('div');
+  let result = $('#user-profile');
+  let watchedContainer = $('#watched-container');
+  let toWatchContainter = $('#to-watch-container')
   result.append('<h3>Username: </h3>' + '<p>' + data[0].username + '</p>' );
   result.append('<h3>Bio: </h3>' + '<p>' + data[0].bio + '</p>');
-  result.append('<h3>Want to Watch IDs: </h3>'); //+ '<p>' + data[0].toWatchList + '</p>');
-  for (i = 0; i < data[0].watchedList.length; i++){
-    // try making this not a string..
-    let movie = Movie.find({ "_id:" ObjectId(watchedList[i].toString()) })
-    console.log(movie.title);
-    // db.mymovies.find( { "_id" : ObjectId("5653463894b9f15058893d4f") } )
+  result.append(watchContainer);
+  result.append('<h3>Movies ' + data[0].username + ' Wants to Watch: </h3>'); //+ '<p>' + data[0].toWatchList + '</p>');
+  // console.log(data[0]._id)
+  // Loop through a user's toWatchList, a list of ids of films the user wants to watch.
+  let displayToWatch = () => {
+    for (var i = 0; i < data[0].toWatchList.length; i++){
+      // for each id in the user's list, call an ajax function that will hit the route of the movie associated with that id.
+      let movieId = data[0].toWatchList[i];
+        $.ajax({
+          // look in movies_controller for the route that finds a movie by id.
+          url: 'http://localhost:3000/movies/' + movieId
+        }).done(function(data) {
+          // empty the div we're putting the data in.
+          // run the showMovie function (described externally)
+          showMovie(data);
+          // watchContainer.append(data.title);
+
+          console.log('watchContainer data: ' + data.title );
+        }); //ends .done for ajax function
+      }
   }
-  result.append('<h3> Watched Movie IDs: </h3>' + '</p>' + data[0].watchedList + '</p>');
+  displayToWatch();
+
+  result.append('<h3> Movies' + data[0].username + ' has watched: </h3>');
+  let displayWatched = () => {
+    console.log('watched movie list length: '+ data[0].watchedList.length);
+    for (var i = 0; i < data[0].watchedList.length; i++){
+      var watchedMovieId = data[0].watchedList[i];
+      $.ajax({
+        url: 'http://localhost:3000/movies/' + watchedMovieId
+      }).done((data) => {
+        // $('#movie-profile').empty();
+        showMovie(data);
+        console.log('Movie')
+      });
+    }
+  }
+  displayWatched();
+
 }
 
 

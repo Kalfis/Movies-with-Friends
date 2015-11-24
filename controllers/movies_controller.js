@@ -9,6 +9,9 @@ let Movie = require('../models/movie.js')  // requires access to the model in mo
 // this route displays all of the database's contents, i.e. the profiles of each of
 // the movies that have been selected by Users.
 // tested OK in browser
+
+
+
 router.route('/')
 .get((req, res, next) => {
   console.log ('hit / route in /movies => /movies/');
@@ -63,5 +66,26 @@ router.route('/searchByTitle/:title')
       res.send("Movie deleleted from my movies")
     });
   });
+
+  // search for movie by id. Used to show details of movies on a user's profile (accessible through id)
+  // note: make sure this returns the instance of the movie created when a user saves== user comments included.
+  router.route('/:id')
+    .get((req, res, next) => {
+    console.log ('hit /:id');
+    var id = req.params.id;
+    console.log(id);
+    // res.send('Movie id entered: '+ id )
+    Movie.findOne({ _id : id }, (err, movie) => {
+      if(err) return next(err);
+      if (movie == null) {
+        res.send("The Movie you searched for is not in 'mymovies'.");
+      };
+      console.log('movie profile searched by title accessed.');
+      console.log("This is the data: " + movie);
+      res.send(movie);
+    });
+  });
+
+
 
 module.exports = router;
