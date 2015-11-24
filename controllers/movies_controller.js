@@ -74,4 +74,37 @@ router.route('/searchByTitle/:title')
     });
   });
 
+
+// WORK IN PROGRESS
+  // router.route('/APIsearch/:title')
+  //   .get((req, res, next) => {
+  //     console.log ('hit /movies/APIsearch/:title');
+  //     var title = req.params.title;
+  //
+  //     $.ajax({
+  //       url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
+  //     }).done(function(data){
+  //       console.log('movie title from API selected');
+  //       $('#movie-profile').empty();
+  //       getMovie(data);
+  //     });
+  //
+  //     var getMovie = function() {
+  //
+  //
+  //     }
+  //     Movie.findOne({ title: title}, (err, movie) => {
+  //       if(err) return next(err);
+  //       if (movie == null) {
+  //         res.send("The Movie you searched for is not in 'mymovies'.");
+  //       };
+  //       console.log('movie profile searched by title accessed.');
+  //       console.log("This is the data: " + movie);
+  //       res.send(movie);
+  //     });
+  //   });
+// END OF WORK IN PROGRESS
+
+
+
 module.exports = router;
