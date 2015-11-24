@@ -2,14 +2,27 @@
   border: 2px dotted black;
 }
 
-#to-watch-container {
+/*#to-watch-container {
   border: 2px solid pink;
 }
 
 #watched-container {
   border: 2px solid gold;
-}
+}*/
 
+/* USER PROFILE */
 #want-movie-div {
   border: 2px solid black;
+}
+
+#seen-movie-div {
+  border: 2px solid black;
+}
+
+.to-see-indiv {
+  border: 1px solid black;
+}
+
+.seen-indiv {
+  border: 1px solid black;
 }

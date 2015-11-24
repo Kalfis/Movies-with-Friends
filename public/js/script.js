@@ -258,7 +258,7 @@ let showUser = function(data) {
     // using JavaScript to render info on the DOM
     console.log(toSee);
     var toSeeIndiv = document.createElement('div');
-    // toSeeIndiv.className = 'to-see-indiv';
+    toSeeIndiv.className = 'to-see-indiv';
     // display the information about the movie, grabbed from our moviegoerApp database.
     toSeeIndiv.innerHTML =
       ['<p><strong> Title: </strong>'+ toSee.title + '</p>' +
@@ -274,6 +274,7 @@ let showUser = function(data) {
    // using JavaScript to render info on the DOM
    console.log(seen);
    var seenIndiv = document.createElement('div');
+   seenIndiv.className = 'seen-indiv'
    seenIndiv.innerHTML =
    ['<p><strong> Title: </strong>'+ seen.title + '</p>' +
    '<p><strong>  Overview: </strong> '+ seen.overview + '</p>' +
@@ -305,7 +306,6 @@ let showUser = function(data) {
   } // ends displayToWatch
   displayToWatch();
 
-  result.append('<h3> Movies' + data[0].username + ' has watched: </h3>');
   let displayWatched = () => {
     console.log('watched movie list length: '+ data[0].watchedList.length);
     for (var i = 0; i < data[0].watchedList.length; i++){
