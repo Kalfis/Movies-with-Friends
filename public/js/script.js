@@ -217,7 +217,7 @@ $(function(){
 
 // Click a button to view an individual user's profile
 //======================================
-  // eventually: we'll want this to be a link to "profile" for user and a link to another user's profile.
+  // Ultimately we'll want this to be a link to "profile" for user and a link to another user's profile.
   $('#view-user-test').click((event) => {
     event.preventDefault();
     console.log('User test button clicked');
@@ -234,66 +234,12 @@ $(function(){
 
 // Render information of a user profile thru DOM in index.html
 //======================================
-
-var showWatchedMovie = function(data){
-  // // using JavaScript to render info on the DOM
-  // console.log(data);
-  //
-  // $.each( data, function(key, value){
-  //   console.log( key + " : " + value);
-  // }); // checking in console how data displays before sending to the DOM
-  //
-  // var result = $('#movie-profile').append('<div>').find('div');
-  // result.attr('class', 'movie');
-  //
-  // result.append('<p><strong> Title: </strong>'+ data.title + '</p>');
-  // result.append('<p><strong>  Overview: </strong> '+ data.overview + '</p>');
-  // result.append('<img src=https://image.tmdb.org/t/p/w185' + data.poster_path + '></img>');
-  // result.append('<p><strong>  Released Date: </strong>'+ data.release_date + '</p>');
-  // result.append('<p><strong>  Comments: </strong>'+ data.comments + '</p>');
-  //
-  // // This code below displays the information directly as a key/pair exactly as labeled in database
-  // // $.each( data, function(key, value){
-  // //   result.append('<p>' + key + " : " + value + '</p>');
-  // // });
-
-}; // close showMovie
-
-var showToWatchMovie = function(data){
-  // using JavaScript to render info on the DOM
-  // console.log(data);
-  //
-  // $.each( data, function(key, value){
-  //   console.log( key + " : " + value);
-  // }); // checking in console how data displays before sending to the DOM
-  //
-  // var result = $('#movie-profile').append('<div>').find('div');
-  // result.attr('class', 'movie');
-  //
-  // result.append('<p><strong> Title: </strong>'+ data.title + '</p>');
-  // result.append('<p><strong>  Overview: </strong> '+ data.overview + '</p>');
-  // result.append('<img src=https://image.tmdb.org/t/p/w185' + data.poster_path + '></img>');
-  // result.append('<p><strong>  Released Date: </strong>'+ data.release_date + '</p>');
-  // result.append('<p><strong>  Comments: </strong>'+ data.comments + '</p>');
-  //
-  // // This code below displays the information directly as a key/pair exactly as labeled in database
-  // // $.each( data, function(key, value){
-  // //   result.append('<p>' + key + " : " + value + '</p>');
-  // // });
-
-}; // close showMovie
-
-
 let showUser = function(data) {
   // console.log(data[0]);
   // try not appending another div to this div
   let result = $('#user-profile');
-  let watchedContainer = $('#watched-container').append('<div>').find('div');
-  let toWatchContainer = $('#to-watch-container');
-  result.append(watchedContainer);
-  watchedContainer.append('<p>Hello?</p>');
-  // watchedContainer.append('<p> This is inside the watchedContainer. Pink! </p>');
-  // result.append(watchedContainer);
+  // let watchedContainer = $('#watched-container').append('<div>').find('div');
+  // let toWatchContainer = $('#to-watch-container');
   result.append('<h3>Username: </h3>' + '<p>' + data[0].username + '</p>' );
   result.append('<h3>Bio: </h3>' + '<p>' + data[0].bio + '</p>');
   let wantMovieDiv = document.createElement('div');
@@ -301,11 +247,53 @@ let showUser = function(data) {
   // wantMovieDiv.css("background-color", "red");
   wantMovieDiv.innerHTML = '<h3>Movies ' + data[0].username + ' Wants to Watch: </h3>' //+ '<p>' + data[0].toWatchList + '</p>');
   result.append(wantMovieDiv);
-  // result.append(watchedContainer);
+
+  ////======= a function that will display movie data in a to-watch div inside the user-profile div.
+  var showToWatchMovie = function(toSee){
+    // using JavaScript to render info on the DOM
+    console.log(toSee);
+
+    var toSeeIndiv = document.createElement('div');
+    // toSeeIndiv.className = 'to-see-indiv';
+    //
+    toSeeIndiv.innerHTML = '<p><strong> Title: </strong>'+ toSee.title + '</p>';
+    console.log('Title sample: ' + toSeeIndiv.innerHTML)
+    wantMovieDiv.appendChild(toSeeIndiv);
+    // // toSeeIndiv.append('<p><strong>  Overview: </strong> '+ data.overview + '</p>');
+    // // toSeeIndiv.append('<img src=https://image.tmdb.org/t/p/w185' + data.poster_path + '></img>');
+    // // toSeeIndiv.append('<p><strong>  Released Date: </strong>'+ data.release_date + '</p>');
+    // // toSeeIndiv.append('<p><strong>  Comments: </strong>'+ data.comments + '</p>');
+
+
+  }; // end showToWatchMovie
+
+  ////======== a function that will display movie data in a watched div inside the user-profile div.
+  var showWatchedMovie = function(watchedMovie){
+    // // using JavaScript to render info on the DOM
+    // console.log(data);
+    //
+    // $.each( data, function(key, value){
+    //   console.log( key + " : " + value);
+    // }); // checking in console how data displays before sending to the DOM
+    //
+    // var result = $('#movie-profile').append('<div>').find('div');
+    // result.attr('class', 'movie');
+    //
+    // result.append('<p><strong> Title: </strong>'+ data.title + '</p>');
+    // result.append('<p><strong>  Overview: </strong> '+ data.overview + '</p>');
+    // result.append('<img src=https://image.tmdb.org/t/p/w185' + data.poster_path + '></img>');
+    // result.append('<p><strong>  Released Date: </strong>'+ data.release_date + '</p>');
+    // result.append('<p><strong>  Comments: </strong>'+ data.comments + '</p>');
+    //
+    // // This code below displays the information directly as a key/pair exactly as labeled in database
+    // // $.each( data, function(key, value){
+    // //   result.append('<p>' + key + " : " + value + '</p>');
+    // // });
+
+  }; //ends showWatchedMovie
 
   // console.log(data[0]._id)
   // Loop through a user's toWatchList, a list of ids of films the user wants to watch.
-  console.log('This number should be 1: ' + data[0].toWatchList.length);
   let displayToWatch = function() {
     for (var i = 0; i < data[0].toWatchList.length; i++){
       let movieToSee = document.createElement('div');
@@ -315,7 +303,11 @@ let showUser = function(data) {
         $.ajax({
           // look in movies_controller for the route that finds a movie by id.
           url: 'http://localhost:3000/movies/' + movieId
-        }).done(function(data) {
+          // should param be (data) ?
+        }).done(function(toSee) {
+          // using the data returned by the above url, display data using showToWatchMovie function
+          // should param be (data) ?
+          showToWatchMovie(toSee);
           // empty the div we're putting the data in.
           // run the showMovie function (described externally)
           // showMovie(data);
