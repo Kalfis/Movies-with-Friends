@@ -18,8 +18,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 let mongoose = require('mongoose');
 // connect to our database, moviegoerApp
+
 // look for mongolab URI if in production OR connect to local db if not in production.
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/moviegoerApp');
+
 
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
@@ -27,11 +29,12 @@ db.once('open', (callback) => {
   console.log('Mongoose Connected');
 });
 
-// register our routes
+// Register our routes
 // all routes starting with /users will be in userRoutes
 app.use('/users', userRoutes);
 // all routes starting with /movies will be in movieRoutes
 app.use('/movies', movieRoutes);
+
 
 // in production, need to use PORT instead of 3000
 let server = app.listen(process.env.PORT || 3000, () => {
