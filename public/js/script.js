@@ -91,7 +91,7 @@ $(function(){
     //===== Display all information from database in console log while on Index Page
     //====================================================
     $.ajax({
-      url: 'http://localhost:3000/movies'
+      url: 'https://localhost:3000/movies'
     }).done(function(data){
       console.log('movie loaded');
       console.log(data);
@@ -108,7 +108,7 @@ $(function(){
       console.log(titleInput);
 
           $.ajax({
-              url: 'http://localhost:3000/movies/searchByTitle/'+titleInput
+              url: 'https://localhost:3000/movies/searchByTitle/'+titleInput
             }).done(function(data){
               console.log('movie title selected');
               $('#movie-profile').empty();
