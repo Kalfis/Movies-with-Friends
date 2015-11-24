@@ -6,13 +6,15 @@ $(function(){
 
   //===== Event listener for 'Add to Database' button to save data from API to Database
   //==================================================== NOT WORKING
-  console.log("About to Click Add to MyMovies");
+  // console.log("About to Click Add to MyMovies");
+  //
+  // $('#Add-Database-Button0').click(function(event){
+  //   event.preventDefault();
+  //   console.log('Clicked Add to Database Button');
+  //
+  // }); // close ('.Add-Database-Button')
 
-  $('#Add-Database-Button0').click(function(event){
-    event.preventDefault();
-    console.log('Clicked Add to Database Button');
 
-  }); // close ('.Add-Database-Button')
 
   //===== Event listener for Keep button to save data for a new Movie as input in Form
   //====================================================
@@ -166,7 +168,7 @@ $(function(){
 
        console.log("About to Click Add to MyMovies");
 
-       $('#Add-Database-Button0').click(function(event){
+       $('#Add-Database-Button'+i).click(function(event){
          event.preventDefault();
          console.log('Clicked Add to Database Button');
 
