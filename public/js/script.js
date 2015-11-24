@@ -179,11 +179,9 @@ $(function(){
          console.log(selectedMovieData);
 
 
-
-
        }); // close ('.Add-Database-Button')
-     };
-   };
+     }; // close For loop
+   }; // close newMovies()
 
     //movieDiv.append('<button name="Add-Database-Button" value="' + i  + '">Add to MyMovies</button>');
     // $( "button[name='Add-Database-Button']" ).val( i ).click(function(event){
