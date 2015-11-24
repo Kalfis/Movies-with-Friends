@@ -1,6 +1,6 @@
 'use strict';
 const jwt = require('jsonwebtoken');
-const secret = process.env.SECRET;
+const secret = process.env.SECRET||"supersekret";
 let bcrypt = require('bcrypt');
 let mongoose = require('mongoose');
 // require model
@@ -38,7 +38,7 @@ router.route('/authenticate')
         bcrypt.compare(user.password, req.body.users.password, function(err, res){
           //console.log("pass: "+req.body.users.password)
           console.log(user.password)
-          res(true);
+          res(!res);
         })
       }
           // user and password is checks out, make token
