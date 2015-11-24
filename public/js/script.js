@@ -162,21 +162,22 @@ $(function(){
        movieDiv.append('<button id="Add-Want-Watch-Button">Add to Want to Watch List </button>');
        movieDiv.append('<button id="Add-Already-Watched-Button">Add to Already Watched List </button>');
        // movieDiv.append('<p>Add to MyMovies</p>');
-       movieDiv.append('<button id="Add-Database-Button' + i  + '">Add to MyMovies</button>');
+        // movieDiv.append('<button id="Add-Database-Button' + i  + '">Add to MyMovies</button>');
+           movieDiv.append('<button id="Add-Database-Button' + i  +'" value="'+ movieObjs.results[i].title +'">Add to MyMovies</button>');
 
        console.log("About to Click Add to MyMovies");
 
        $('#Add-Database-Button'+i).click(function(event){
          event.preventDefault();
          console.log('Clicked Add to MyMovies Button');
+         console.log( $(this).closest('button').attr('value') );
 
 
+        //  var selectedMovieData = {};
+        //  selectedMovieData.title = movieObjs.results[i].title;
+        //  selectedMovieData.overview = movieObjs.results[i].overview;
 
-         var selectedMovieData = {};
-         selectedMovieData.title = movieObjs.results[i].title;
-         selectedMovieData.overview = movieObjs.results[i].overview;
-
-         console.log(selectedMovieData);
+        //  console.log(selectedMovieData);
 
 
        }); // close ('.Add-Database-Button')
