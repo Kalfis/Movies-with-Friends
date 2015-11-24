@@ -33,11 +33,14 @@ router.route('/authenticate')
       // if is a user in database
       } else if (user) {
         // check password
+        if (err) throw err({ message: 'Authentication failed. Wrong password.'});
+      } else {
         bcrypt.compare(user.password, req.body.users.password, function(err, res){
           //console.log("pass: "+req.body.users.password)
           console.log(user.password)
-          res.json({ success: false, message: 'Authentication failed. Wrong password.'});
+          res(true);
         })
+      }
           // user and password is checks out, make token
           let token = jwt.sign(user, secret, {
             expiresInMinutes: 1440 // expires in 24 hrs
@@ -49,7 +52,7 @@ router.route('/authenticate')
             token: token
           });
 
-      }
+
   });
 });
 
