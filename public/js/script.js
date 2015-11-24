@@ -256,8 +256,13 @@ let showUser = function(data) {
     var toSeeIndiv = document.createElement('div');
     // toSeeIndiv.className = 'to-see-indiv';
     //
-    toSeeIndiv.innerHTML = '<p><strong> Title: </strong>'+ toSee.title + '</p>';
-    console.log('Title sample: ' + toSeeIndiv.innerHTML)
+    toSeeIndiv.innerHTML =
+      ['<p><strong> Title: </strong>'+ toSee.title + '</p>' +
+      '<p><strong>  Overview: </strong> '+ toSee.overview + '</p>' +
+      '<img src=https://image.tmdb.org/t/p/w185' + toSee.poster_path + '></img>' +
+      '<p><strong>  Released Date: </strong>'+ toSee.release_date + '</p>' +
+      '<p><strong>  Comments: </strong>'+ toSee.comments + '</p>']
+    // console.log('Title sample: ' + toSeeIndiv.innerHTML)
     wantMovieDiv.appendChild(toSeeIndiv);
     // // toSeeIndiv.append('<p><strong>  Overview: </strong> '+ data.overview + '</p>');
     // // toSeeIndiv.append('<img src=https://image.tmdb.org/t/p/w185' + data.poster_path + '></img>');
