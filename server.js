@@ -18,7 +18,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 let mongoose = require('mongoose');
 // connect to our database, moviegoerApp
-mongoose.connect('mongodb://localhost/moviegoerApp'); // LA changed moviegoerApp to moviegoer
+
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/moviegoerApp');
 
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
@@ -33,8 +34,10 @@ app.use('/users', userRoutes);
 app.use('/movies', movieRoutes);
 
 
-let server = app.listen(3000, () => {
+// in production, need to use PORT instead of 3000
+let server = app.listen(process.env.PORT || 3000, () => {
   let host = server.address().address;
   let port = server.address().port;
   console.log('express running', host, port);
+  console.log(process.env.SECRET);
 });

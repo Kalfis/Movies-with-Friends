@@ -161,9 +161,9 @@ $(function(){
           result.append('<p><strong>  Released Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
           result.append('<button id="Add-Watchlist-button">Add to Want to Watch List </button>');
           result.append('<button id="Add-Watchlist-button">Add to Already Watched List </button>');
+
           };
     };
-
 
 ///////
 // var showData = function(data){
@@ -184,10 +184,9 @@ $(function(){
 //     }; // close showData
 
 
-
-
   // Render information of a movie profile thru DOM in index.html
   //======================================
+
   var showMovie = function(data){
     // using JavaScript to render info on the DOM
     console.log(data);
