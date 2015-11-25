@@ -1,8 +1,8 @@
 'use strict';
 const jwt = require('jsonwebtoken');
 const secret = process.env.SECRET||"supersekret";
-let bcrypt = require('bcrypt');
 let mongoose = require('mongoose');
+let bcrypt = require('bcrypt');
 // require model
 let User = require('../models/user');
 
@@ -23,6 +23,7 @@ router.route('/authenticate')
     name: req.body.username
 
   }, function(err, user){
+
       //console.log(req.body.username)
       if (err) throw err;
       // if not any user
@@ -33,26 +34,28 @@ router.route('/authenticate')
       // if is a user in database
       } else if (user) {
         // check password
-        if (err) throw err({ message: 'Authentication failed. Wrong password.'});
-      } else {
-        bcrypt.compare(user.password, req.body.users.password, function(err, res){
-          //console.log("pass: "+req.body.users.password)
-          console.log(user.password)
-          res(!res);
-        })
+        // if (bcrypt.compare(user.password, req.body.users.password) === false) {
+          console.log(user.password);
+          console.log(req.body.users.password);
+          bcrypt.compare(user.password, req.body.users.password, function (err, isMatch){
+            if (err) throw(err);
+            return isMatch;
+            console.log(isMatch);
+          })
+          // res.json({ success: false, message: 'Auth Failed. Wrong Password'})
+        // } else {
+        //   // user and password is checks out, make token
+        //   let token = jwt.sign(user, secret, {
+        //     expiresInMinutes: 1440 // expires in 24 hrs
+        //   });
+        //   // return everything including the token as JSON
+        //   res.json({
+        //     success: true,
+        //     message: 'Here buddy, have a token!',
+        //     token: token
+        //   });
+        // }
       }
-          // user and password is checks out, make token
-          let token = jwt.sign(user, secret, {
-            expiresInMinutes: 1440 // expires in 24 hrs
-          });
-          // return everything including the token as JSON
-          res.json({
-            success: true,
-            message: 'Here buddy, have a token!',
-            token: token
-          });
-
-
   });
 });
 

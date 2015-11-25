@@ -54,14 +54,14 @@ userSchema.pre('save', function(next) {
 });
 
 // Implement password verification
-// userSchema.methods.authenticate = function(password, callback) {
-//   // compare method that returns a boolean
-//   // Determine if the first argument once encrypted corres. to the second argument
-//   bcrypt.compare(password, this.password, function(err, isMatch) {
-//     if (err) return callback(err);
-//     callback( null, isMatch);
-//   });
-// };
+userSchema.methods.authenticate = function(password, callback) {
+  // compare method that returns a boolean
+  // Determine if the first argument once encrypted corres. to the second argument
+  bcrypt.compare(password, this.password, function(err, isMatch) {
+    if (err) return callback(err);
+    callback( null, isMatch);
+  });
+};
 
 let User = mongoose.model('User', userSchema);
 module.exports = User;
