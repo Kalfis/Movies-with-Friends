@@ -28,9 +28,7 @@ $(function(){
 
   $('#API-button').click(function(event){
       event.preventDefault();
-
       console.log('Clicked API Test Button');
-
       var titleInput = $('#title-input').val();
       console.log(titleInput);
 
@@ -235,7 +233,8 @@ $(function(){
     result.append('<p><strong>  Released Date: </strong>'+ data.release_date + '</p>');
     result.append('<p><strong>  Comments: </strong>'+ data.comments + '</p>');
 
-  }; // close showMovie
+
+   }; // close showMovie
 
 
   // Retrieve data for Now Playing movies from API
