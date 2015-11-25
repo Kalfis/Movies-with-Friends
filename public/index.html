@@ -11,48 +11,48 @@
   <body>
     <p>Hello! Welcome to our static index page (/public/index.html)</p>
 
-
-
-
     <div id="movie-db-search-formholder">
       <form>
-        <strong>Search Movie Title in :</strong> <input id="title-input" type"text" name="movie-title"><br>
+        <strong>Search for Movie Title in Database :</strong> <input id="title-input" type"text" name="movie-title"><br>
         <input id="submit-button" type="submit" value = "Submit">
       </form>
     </div>
 
+  <button id="view-user-test">View User: Agatha</button>
 
-    <button id="API-button">API Test Button</button>
+  <button id="API-button">API Test Button</button>
 
-    <button id="API-Upcoming-Movies-button">Upcoming Movies</button>
+  <button id="API-Upcoming-Movies-button">Upcoming Movies</button>
 
-    <button id="API-NowPlaying-Movies-button">Now Playing Movies</button>
+  <button id="API-NowPlaying-Movies-button">Now Playing Movies</button>
 
-    <button id="add-to-mymovies">Add this to mymovies collection</button>
-
-
-    <!-- <button id="upcoming-button">Movies Coming Soon!</div> -->
-    <!-- <button id="now-playing-button">Movies Now Playing!</button> -->
-
-
+    <div id="user-profile">
+      <div id="to-watch-container"></div>
+      <div id="watched-container"></div>
+    </div>
 
 
     <div id="movie-profile">
 
     </div>
 
-    <template id="movie-handlebars" type="text/x-handlebars-template">
-      <h3>
+    <form class="form"> <br>
+        <h3> New Movie Form </h3>
+        <label> Title </label> <br>
+        <input id="movie_title" type="text" name="title"> <br>
+        <label> Overview </label> <br>
+        <input id="movie-overview" type="text" name="overview"> <br>
 
-    </template>
+        <button id="keep-button" value="keep">KEEP</button>
 
-    
+    </form>
+
 
     <div id="edit-movie-formholder">
       <h3> Edit Form </h3>
       <form>
-        <!-- <strong>Title:</strong> <input id="title-data" type="text" name="title"><br> -->
-        <strong>Comments:</strong> <input id="director-data" type="text" name="director"><br>
+         <strong>Title:</strong> <input id="title-data" type="text" name="title"><br>
+         <strong>Comments:</strong> <input id="director-data" type="text" name="director"><br>
       </form>
 
       <button id="edit-button">EDIT</button>
@@ -68,6 +68,12 @@
         <!-- <p>{{this.["results"][0].title}} </p> -->
         <!-- this.results[0]. -->
       <!-- </template> -->
+
+      <!-- <button id="add-to-mymovies">Add this to mymovies collection</button> -->
+
+
+      <!-- <button id="upcoming-button">Movies Coming Soon!</div> -->
+      <!-- <button id="now-playing-button">Movies Now Playing!</button> -->
 
 
       <script type="text/javascript" src="js/script.js"></script>
