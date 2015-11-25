@@ -1,8 +1,8 @@
 'use strict';
 const jwt = require('jsonwebtoken');
 const secret = process.env.SECRET||"supersekret";
-let mongoose = require('mongoose');
 let bcrypt = require('bcrypt');
+let mongoose = require('mongoose');
 // require model
 let User = require('../models/user');
 
@@ -20,10 +20,9 @@ router.route('/')
 router.route('/authenticate')
   .post((req, res) => {
   User.findOne({
-    name: req.body.username
+    username: req.body.username
 
   }, function(err, user){
-
       //console.log(req.body.username)
       if (err) throw err;
       // if not any user
@@ -32,30 +31,28 @@ router.route('/authenticate')
         //console.log("name: "+req.body.users.username);
         res.json({ success: false, message: 'Authentication failed. User not found.'});
       // if is a user in database
-      } else if (user) {
+      } else {
         // check password
-        // if (bcrypt.compare(user.password, req.body.users.password) === false) {
-          console.log(user.password);
-          console.log(req.body.users.password);
-          bcrypt.compare(user.password, req.body.users.password, function (err, isMatch){
-            if (err) throw(err);
-            return isMatch;
-            console.log(isMatch);
-          })
-          // res.json({ success: false, message: 'Auth Failed. Wrong Password'})
-        // } else {
-        //   // user and password is checks out, make token
-        //   let token = jwt.sign(user, secret, {
-        //     expiresInMinutes: 1440 // expires in 24 hrs
-        //   });
-        //   // return everything including the token as JSON
-        //   res.json({
-        //     success: true,
-        //     message: 'Here buddy, have a token!',
-        //     token: token
-        //   });
-        // }
+        // bcrypt.compare(user.password, req.body.users.password, function(err, res){
+        //   console.log(user.password);
+        //   console.log(req.body.users.password);
+
+        })
+        if (err) throw err({ message: 'Authentication failed. Wrong password.'});
+      } else {
       }
+          // user and password is checks out, make token
+          let token = jwt.sign(user, secret, {
+            expiresInMinutes: 1440 // expires in 24 hrs
+          });
+          // return everything including the token as JSON
+          res.json({
+            success: true,
+            message: 'Here buddy, have a token!',
+            token: token
+          });
+
+
   });
 });
 
