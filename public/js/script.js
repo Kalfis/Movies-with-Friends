@@ -113,12 +113,10 @@ $(function(){
             });
       }); // close #submit-button
 
-
     //===== event listener for EDIT button
     //====================================================
     $('#edit-button').click(function(event){
       event.preventDefault();
->>>>>>> f47d4c0a66c86a663b025fe12f0b400075e53907
 
       console.log('Clicked Edit Button');
 

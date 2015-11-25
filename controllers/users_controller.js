@@ -5,7 +5,7 @@ let router = express.Router();
 // let User = require('../models/user')
 
 // require models
-let User = require('../models/user');
+const User = require('../models/user');
 let Movie = require('../models/movie');
 
 // Index
