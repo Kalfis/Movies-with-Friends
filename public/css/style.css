@@ -26,6 +26,7 @@
 
 .seen-indiv {
   border: 1px solid black;
+}
 
 .single-movie-profile {
   border: 3px black solid;
@@ -33,6 +34,4 @@
   margin-right: 15px;
   margin-left: 15px;
   width: 350px;
-
-
 }

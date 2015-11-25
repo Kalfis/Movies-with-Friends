@@ -4,16 +4,6 @@ $(function(){
 
   console.log ('index.html linked to script.js');
 
-  //===== Event listener for 'Add to Database' button to save data from API to Database
-  //==================================================== NOT WORKING
-  // console.log("About to Click Add to MyMovies");
-  //
-  // $('#Add-Database-Button0').click(function(event){
-  //   event.preventDefault();
-  //   console.log('Clicked Add to Database Button');
-  //
-  // }); // close ('.Add-Database-Button')
-
   //===== Event listener for Keep button to save data for a new Movie as input in Form
   //====================================================
   $('#keep-button').click(function(event){
@@ -95,7 +85,7 @@ $(function(){
     }).done(function(data){
       console.log('movie loaded');
       console.log(data);
-    })
+    });
 
     //===== Event listener for Submit button to search for movie & display movie profile
     //====================================================
@@ -119,29 +109,32 @@ $(function(){
             });
       }); // close #submit-button
 
-      //===== event listener for EDIT button
-      //====================================================
-      $('#edit-button').click(function(event){
-        event.preventDefault();
+    //===== event listener for EDIT button
+    //====================================================
+    $('#edit-button').click(function(event){
+      event.preventDefault();
 
-        console.log('Clicked Edit Button');
+      console.log('Clicked Edit Button');
 
-        // edit information from database
-        // #####  PENDING ########## ///
+      // #######   PENDING ####### ///
+      // edit information from database
+      // #######   PENDING ####### ///
 
-      }); // close #edit-button event listener
+    }); // close #edit-button event listener
 
       var updateForm = function (data) {
         var resultsDiv = $(".")
       };
 
-  // var editMovie = function () { // PENDING
-  //   $.ajax({
-  //     url: 'http://localhost:3000/movies/searchByTitle/'+titleInput.
-  //     method: "GET",
-  //     dataType: "json"
-  //   }).done(updateForm)
-  // };
+      // #######   PENDING ####### ///
+      // var editMovie = function () {
+      //   $.ajax({
+      //     url: 'http://localhost:3000/movies/searchByTitle/'+titleInput.
+      //     method: "GET",
+      //     dataType: "json"
+      //   }).done(updateForm)
+      // };
+      // #######   PENDING ####### ///
 
 
   // Render information of Movies data thru DOM in index.html
@@ -162,9 +155,11 @@ $(function(){
        movieDiv.append('<p><strong>  Released Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
        movieDiv.append('<button id="Add-Want-Watch-Button">Add to Want to Watch List </button>');
        movieDiv.append('<button id="Add-Already-Watched-Button">Add to Already Watched List </button>');
-       // movieDiv.append('<p>Add to MyMovies</p>');
-        // movieDiv.append('<button id="Add-Database-Button' + i  + '">Add to MyMovies</button>');
        movieDiv.append('<button id="Add-Database-Button' + i  +'" value="'+ movieObjs.results[i].title +'">Add to MyMovies</button>');
+
+       //movieDiv.append('<button name="Add-Database-Button" value="' + i  + '">Add to MyMovies</button>');
+       // $( "button[name='Add-Database-Button']" ).val( i ).click(function(event){
+       // <button name="button" value="OK" type="button">Click Me</button>
 
        console.log("About to Click Add to MyMovies");
 
@@ -183,71 +178,38 @@ $(function(){
              }; // close if function
           }; // close for loop to match Title
 
-<<<<<<< HEAD
-          result.append('<p><strong> Title: </strong>'+ movieObjs.results[i].title + '</p>');
-          result.append('<img src=https://image.tmdb.org/t/p/w185' + movieObjs.results[i].poster_path + '></img>');
-          result.append('<p><strong>  Released Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
-          result.append('<button id="Add-Watchlist-button">Add to Want to Watch List </button>');
-          result.append('<button id="Add-Watchlist-button">Add to Already Watched List </button>');
+          var newMovieData = {};
+          newMovieData.title = movieObjs.results[location].title;
+          newMovieData.overview = movieObjs.results[location].overview;
+          newMovieData.release_date = movieObjs.results[location].release_date;
+          newMovieData.poster_path = movieObjs.results[location].poster_path;
+          console.log("The newMovieData is: ");
+          console.log(newMovieData);
 
-          };
-    };
+          $.ajax({
+            url: "/movies/",
+            method: "POST",
+            data: newMovieData
+          }); // close $.ajax
 
-///////
-// var showData = function(data){
-//       // using JavaScript to render info on the DOM
-//       console.log(data);
-//
-//       $.each( data, function(key, value){
-//         console.log( key + " : " + value);
-//       }); // checking in console how data displays before sending to the DOM
-//
-//       var result = $('#results-container').append('<div>').find('div');
-//       result.attr('class', 'movie');
-//
-//       $.each( data, function(key, value){
-//         result.append('<p>' + key + " : " + value + '</p>');
-//       });
-//
-//     }; // close showData
-=======
-         var newMovieData = {};
-         newMovieData.title = movieObjs.results[location].title;
-         newMovieData.overview = movieObjs.results[location].overview;
-         newMovieData.release_date = movieObjs.results[location].release_date;
-         newMovieData.poster_path = movieObjs.results[location].poster_path;
-         console.log("The newMovieData is: ");
-         console.log(newMovieData);
-
-         $.ajax({
-           url: "/movies/",
-           method: "POST",
-           data: newMovieData
-         }); // close $.ajax
-
->>>>>>> luis
-
-       }); // close ('.Add-Database-Button')
+        }); // close ('.Add-Database-Button')
       }; // close For loop to create Div's
     }; // close newMovies()
-      //  };
 
-<<<<<<< HEAD
-=======
-        //  var selectedMovieData = {};
-        //  selectedMovieData.title = movieObjs.results[i].title;
-        //  selectedMovieData.overview = movieObjs.results[i].overview;
+////////  START OF CONFLICT
+//// LA commented out; pending to ask Maggie if needed in her block
 
-        //  console.log(selectedMovieData);
+    //       result.append('<p><strong> Title: </strong>'+ movieObjs.results[i].title + '</p>');
+    //       result.append('<img src=https://image.tmdb.org/t/p/w185' + movieObjs.results[i].poster_path + '></img>');
+    //       result.append('<p><strong>  Released Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
+    //       result.append('<button id="Add-Watchlist-button">Add to Want to Watch List </button>');
+    //       result.append('<button id="Add-Watchlist-button">Add to Already Watched List </button>');
+    //
+    //       };
+    // };
 
+/////////// END OF CONFLICT
 
-
-    //movieDiv.append('<button name="Add-Database-Button" value="' + i  + '">Add to MyMovies</button>');
-    // $( "button[name='Add-Database-Button']" ).val( i ).click(function(event){
-    // <button name="button" value="OK" type="button">Click Me</button>
-
-
->>>>>>> luis
   // Render information of a movie profile thru DOM in index.html
   //======================================
 
@@ -271,7 +233,22 @@ $(function(){
 
   }; // close showMovie
 
-<<<<<<< HEAD
+
+  // Retrieve data for Now Playing movies from API
+  //======================================
+  var APInowPlayingData = function () {
+    $.ajax({
+      url: 'https://api.themoviedb.org/3/movie/now_playing?api_key=5c47d1a627613469f840623448f6e67b'
+    }).done(function(movieObjs){
+      console.log('Now Playing Movies Displayed');
+      $('#movie-profile').empty();
+      newMovies(movieObjs);
+    });
+  }
+
+
+//// START OF MAGGIE'S ADDITION //////
+
 // Click a button to view an individual user's profile
 //======================================
   // Ultimately we'll want this to be a link to "profile" for user and a link to another user's profile.
@@ -378,18 +355,5 @@ let showUser = function(data) {
   displayWatched();
 } //ends showUser
 
-=======
-  // Retrieve data for Now Playing movies from API
-  //======================================
-  var APInowPlayingData = function () {
-    $.ajax({
-      url: 'https://api.themoviedb.org/3/movie/now_playing?api_key=5c47d1a627613469f840623448f6e67b'
-    }).done(function(movieObjs){
-      console.log('Now Playing Movies Displayed');
-      $('#movie-profile').empty();
-      newMovies(movieObjs);
-    });
-  }
->>>>>>> luis
 
 }) // close main anonymous function
