@@ -112,7 +112,8 @@ $(function(){
           $.ajax({
               // url: 'http://localhost:3000/movies/searchByTitle/'+titleInput
               // url: 'http://localhost:3000/movies/searchByTitle/'+ titleInput || process.env.PORT + '/movies/searchByTitle/' + titleInput
-              url: process.env.PORT + '/movies/searchByTitle/' + titleInput
+              // url: process.env.PORT + '/movies/searchByTitle/' + titleInput
+              url: '/movies/searchByTitle/' + titleInput
             }).done(function(data){
               console.log('movie title selected');
               $('#movie-profile').empty();
