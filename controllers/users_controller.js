@@ -23,15 +23,15 @@ router.route('/')
 // route to user auth
 router.route('/authenticate')
   .post((req, res) => {
-  User.findOne({
-    name: req.body.username
+  User.find({
+    username: req.body.username
   }, function(err, user){
-      //console.log(req.body.username)
+      console.log("what is this "+req.body.username)
       if (err) throw err;
       // if not any user
       if (user.username != req.body.users.username) {
-        //console.log(user.username)
-        //console.log("name: "+req.body.users.username);
+        console.log("db user "+user.username)
+        console.log("name: "+req.body.users.username);
         res.json({ success: false, message: 'Authentication failed. User not found.'});
       // if is a user in database
         // console.log(user.username);

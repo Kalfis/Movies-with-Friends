@@ -77,5 +77,28 @@
 
 
       <script type="text/javascript" src="js/script.js"></script>
+      <script>
+    //only write your javascript like this to test things!
+    /* I don't like jquery */
+    var request = new XMLHttpRequest();
+    /* just change method to POST, PUT, or DELETE */
+    request.open('GET', '/my/url', true);
+
+    request.onload = () =>{
+      if (request.status >= 200 && request.status < 400) {
+        // Success!
+        var resp = request.responseText;
+      } else {
+        // We reached our target server, but it returned an error
+      }
+    };
+
+    request.onerror = function() {
+      // There was a connection error of some sort
+    };
+    request.send();
+
+
+  </script>
   </body>
 </html>
