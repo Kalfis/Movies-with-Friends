@@ -19,6 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 let mongoose = require('mongoose');
 // connect to our database, moviegoerApp
 
+
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/moviegoerApp');
 
 

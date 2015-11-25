@@ -20,7 +20,18 @@ router.route('/')
     res.send(movie);
     console.log('this is all the contents in the movies datatabase');
   });
-});
+})
+.post((req, res) => {
+  var movie = new Movie(req.body);
+  movie.save(function(err){
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(movie);
+      console.log("Movie updated");
+    }
+  });
+})
 
 // Sets router constructor
 router.route('/searchByTitle/:title')
@@ -67,6 +78,7 @@ router.route('/searchByTitle/:title')
     });
   });
 
+
   // search for movie by id. Used to show details of movies on a user's profile (accessible through id)
   // note: make sure this returns the instance of the movie created when a user saves== user comments included.
   router.route('/:id')
@@ -85,6 +97,38 @@ router.route('/searchByTitle/:title')
       res.send(movie);
     });
   });
+
+
+// WORK IN PROGRESS
+  // router.route('/APIsearch/:title')
+  //   .get((req, res, next) => {
+  //     console.log ('hit /movies/APIsearch/:title');
+  //     var title = req.params.title;
+  //
+  //     $.ajax({
+  //       url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
+  //     }).done(function(data){
+  //       console.log('movie title from API selected');
+  //       $('#movie-profile').empty();
+  //       getMovie(data);
+  //     });
+  //
+  //     var getMovie = function() {
+  //
+  //
+  //     }
+  //     Movie.findOne({ title: title}, (err, movie) => {
+  //       if(err) return next(err);
+  //       if (movie == null) {
+  //         res.send("The Movie you searched for is not in 'mymovies'.");
+  //       };
+  //       console.log('movie profile searched by title accessed.');
+  //       console.log("This is the data: " + movie);
+  //       res.send(movie);
+  //     });
+  //   });
+// END OF WORK IN PROGRESS
+
 
 
 
