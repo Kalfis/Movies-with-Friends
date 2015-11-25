@@ -2,28 +2,30 @@
 
 $(function(){
 
+
+
   // var renderTemplate_movies = Handlebars.compile($('template#movies').html));
 
   console.log ('index.html linked to script.js');
 
   //===== Event listener for API button to retrieve & display information for a hardcoded movie from API
   //======================================
-    $('#API-button').click(function(event){
-      event.preventDefault();
-
-      console.log('Clicked Submit Button');
-
-      var titleInput = $('#title-input').val();
-      console.log(titleInput);
-
-      $.ajax({
-        url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
-      }).done(function(data){
-        console.log('movie title selected');
-        $('#movie-profile').empty();
-        showMovie(data);
-      });
-    }); // close #submit-button
+    // $('#API-button').click(function(event){
+    //   event.preventDefault();
+    //
+    //   console.log('Clicked Submit Button');
+    //
+    //   var titleInput = $('#title-input').val();
+    //   console.log(titleInput);
+    //
+    //   $.ajax({
+    //     url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
+    //   }).done(function(data){
+    //     console.log('movie title selected');
+    //     $('#movie-profile').empty();
+    //     showMovie(data);
+    //   });
+    // }); // close #submit-button
 
     //===== Event listener for API button to retrieve & display Upcoming Movies from API
     //======================================
@@ -85,8 +87,9 @@ $(function(){
       event.preventDefault();
 
       console.log('Clicked Submit Button');
-
-      var titleInput = $('#title-input').val();
+      // note: searches currently case sensitve. To make them case insensitive, add .toLowerCase() to the end of .val()
+      // then add .toLowerCase() to titles in our method to save movies from the API into our own database.
+      var titleInput = $('#title-input').val()
       console.log(titleInput);
 
           $.ajax({
@@ -210,5 +213,112 @@ $(function(){
     // });
 
   }; // close showMovie
+
+// Click a button to view an individual user's profile
+//======================================
+  // Ultimately we'll want this to be a link to "profile" for user and a link to another user's profile.
+  $('#view-user-test').click((event) => {
+    event.preventDefault();
+    console.log('User test button clicked');
+    $.ajax({
+      url: '/users/agatha'
+      // url: '/users/' + id of Agatha
+    }).done(function(data) {
+      $('#user-profile').empty();
+       showUser(data);
+      // empty user info display div.
+      // add the info for this particular user into the div.
+    })
+  })
+
+// When you click the 'view-user-test' button, it calls the showUser function (below).
+// The showUser function encompasses displayToWatch (which calls showToWatchMovie) and displayWatched (which calls showWatchedMovie)
+//======================================
+let showUser = function(data) {
+  // console.log(data[0]);
+  // try not appending another div to this div
+  let result = $('#user-profile');
+  // let watchedContainer = $('#watched-container').append('<div>').find('div');
+  // let toWatchContainer = $('#to-watch-container');
+  result.append('<h3>Username: </h3>' + '<p>' + data[0].username + '</p>' );
+  result.append('<h3>Bio: </h3>' + '<p>' + data[0].bio + '</p>');
+  let wantMovieDiv = document.createElement('div');
+  wantMovieDiv.id = "want-movie-div";
+  // wantMovieDiv.css("background-color", "red");
+  wantMovieDiv.innerHTML = '<h3>Movies ' + data[0].username + ' Wants to Watch: </h3>' //+ '<p>' + data[0].toWatchList + '</p>');
+  result.append(wantMovieDiv);
+  let seenMovieDiv = document.createElement('div');
+  seenMovieDiv.id = "seen-movie-div";
+  seenMovieDiv.innerHTML = '<h3>Movies ' + data[0].username + ' Has Watched: </h3>'
+  result.append(seenMovieDiv);
+
+  ////======= a function that will display movie data in a to-watch div inside the user-profile div.
+  var showToWatchMovie = function(toSee){
+    // using JavaScript to render info on the DOM
+    console.log(toSee);
+    var toSeeIndiv = document.createElement('div');
+    toSeeIndiv.className = 'to-see-indiv';
+    // display the information about the movie, grabbed from our moviegoerApp database.
+    toSeeIndiv.innerHTML =
+      ['<p><strong> Title: </strong>'+ toSee.title + '</p>' +
+      '<p><strong>  Overview: </strong> '+ toSee.overview + '</p>' +
+      '<img src=https://image.tmdb.org/t/p/w185' + toSee.poster_path + '></img>' +
+      '<p><strong>  Released Date: </strong>'+ toSee.release_date + '</p>' +
+      '<p><strong>  Comments: </strong>'+ toSee.comments + '</p>']
+    wantMovieDiv.appendChild(toSeeIndiv);
+  }; // end showToWatchMovie
+
+  ////======== a function that will display movie data in a watched div inside the user-profile div.
+  var showWatchedMovie = function(seen){
+   // using JavaScript to render info on the DOM
+   console.log(seen);
+   var seenIndiv = document.createElement('div');
+   seenIndiv.className = 'seen-indiv'
+   seenIndiv.innerHTML =
+   ['<p><strong> Title: </strong>'+ seen.title + '</p>' +
+   '<p><strong>  Overview: </strong> '+ seen.overview + '</p>' +
+   '<img src=https://image.tmdb.org/t/p/w185' + seen.poster_path + '></img>' +
+   '<p><strong>  Released Date: </strong>'+ seen.release_date + '</p>' +
+   '<p><strong>  Comments: </strong>'+ seen.comments + '</p>']
+   seenMovieDiv.appendChild(seenIndiv);
+  }; //ends showWatchedMovie
+
+  // console.log(data[0]._id)
+  // Loop through a user's toWatchList, a list of ids of films the user wants to watch.
+  let displayToWatch = function() {
+    for (var i = 0; i < data[0].toWatchList.length; i++){
+      let movieToSee = document.createElement('div');
+      movieToSee.id = "to-see-div";
+      // for each id in the user's list, call an ajax function that will hit the route of the movie associated with that id.
+      let movieId = data[0].toWatchList[i];
+        $.ajax({
+          // look in movies_controller for the route that finds a movie by id.
+          url: 'http://localhost:3000/movies/' + movieId
+          // should param be (data) ?
+        }).done(function(toSee) {
+          // using the data returned by the above url, display data using showToWatchMovie function
+          showToWatchMovie(toSee);
+          // empty the div we're putting the data in.
+          console.log('watchContainer data: ' + data.title );
+        }); //ends .done for ajax function
+      }
+  } // ends displayToWatch
+  displayToWatch();
+
+  let displayWatched = () => {
+    console.log('watched movie list length: '+ data[0].watchedList.length);
+    for (var i = 0; i < data[0].watchedList.length; i++){
+      var watchedMovieId = data[0].watchedList[i];
+      $.ajax({
+        url: 'http://localhost:3000/movies/' + watchedMovieId
+      }).done((seen) => {
+        // .empty();
+        showWatchedMovie(seen);
+      });
+    }
+  } // ends displayWatched
+  displayWatched();
+} //ends showUser
+
 
 }) // close main anonymous function
