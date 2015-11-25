@@ -151,7 +151,7 @@ $(function(){
      console.log(movieObjs); // just to confirm data is retrieved from API and see how it is organized
      console.log("length" + movieObjs.results.length); // just to confirm how data's objects are organized
 
-     for (var i=0; i < movieObjs.results.length; i++){
+     for (var i=0; i < movieObjs.results.length; i++) {
        var movieDiv = $('<div class="single-movie-profile"></div>');
        $('#movie-profile').append(movieDiv);
 
@@ -163,7 +163,7 @@ $(function(){
        movieDiv.append('<button id="Add-Already-Watched-Button">Add to Already Watched List </button>');
        // movieDiv.append('<p>Add to MyMovies</p>');
         // movieDiv.append('<button id="Add-Database-Button' + i  + '">Add to MyMovies</button>');
-           movieDiv.append('<button id="Add-Database-Button' + i  +'" value="'+ movieObjs.results[i].title +'">Add to MyMovies</button>');
+       movieDiv.append('<button id="Add-Database-Button' + i  +'" value="'+ movieObjs.results[i].title +'">Add to MyMovies</button>');
 
        console.log("About to Click Add to MyMovies");
 
@@ -172,6 +172,35 @@ $(function(){
          console.log('Clicked Add to MyMovies Button');
          console.log( $(this).closest('button').attr('value') );
 
+         var titleSelected = ( $(this).closest('button').attr('value') );
+         console.log("This is the title selected: " + titleSelected);
+         console.log(movieObjs);
+
+         for (var i=0; i< movieObjs.results.length; i++){
+             if (movieObjs.results[i].title == titleSelected){
+               var location = i;
+             }; // close if function
+          }; // close for loop to match Title
+
+         var newMovieData = {};
+         newMovieData.title = movieObjs.results[location].title;
+         newMovieData.overview = movieObjs.results[location].overview;
+         newMovieData.release_date = movieObjs.results[location].release_date;
+         newMovieData.poster_path = movieObjs.results[location].poster_path;
+         console.log("The newMovieData is: ");
+         console.log(newMovieData);
+
+         $.ajax({
+           url: "/movies/",
+           method: "POST",
+           data: newMovieData
+         }); // close $.ajax
+
+
+       }); // close ('.Add-Database-Button')
+      }; // close For loop to create Div's
+    }; // close newMovies()
+      //  };
 
         //  var selectedMovieData = {};
         //  selectedMovieData.title = movieObjs.results[i].title;
@@ -180,9 +209,6 @@ $(function(){
         //  console.log(selectedMovieData);
 
 
-       }); // close ('.Add-Database-Button')
-     }; // close For loop
-   }; // close newMovies()
 
     //movieDiv.append('<button name="Add-Database-Button" value="' + i  + '">Add to MyMovies</button>');
     // $( "button[name='Add-Database-Button']" ).val( i ).click(function(event){
