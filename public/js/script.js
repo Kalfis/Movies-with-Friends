@@ -97,6 +97,7 @@ $(function(){
       console.log(data);
     })
 
+
     //===== Event listener for Submit button to search for movie & display movie profile
     //====================================================
     $('#submit-button').click(function(event){
@@ -107,8 +108,10 @@ $(function(){
       var titleInput = $('#title-input').val();
       console.log(titleInput);
 
+
           $.ajax({
-              url: 'http://localhost:3000/movies/searchByTitle/'+titleInput
+              // url: 'http://localhost:3000/movies/searchByTitle/'+titleInput
+              url: 'http://localhost:3000/movies/searchByTitle/'+ titleInput || process.env.PORT + '/movies/searchByTitle/' + titleInput
             }).done(function(data){
               console.log('movie title selected');
               $('#movie-profile').empty();
