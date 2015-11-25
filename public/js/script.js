@@ -2,30 +2,28 @@
 
 $(function(){
 
-
-
   // var renderTemplate_movies = Handlebars.compile($('template#movies').html));
 
   console.log ('index.html linked to script.js');
 
   //===== Event listener for API button to retrieve & display information for a hardcoded movie from API
   //======================================
-    // $('#API-button').click(function(event){
-    //   event.preventDefault();
-    //
-    //   console.log('Clicked Submit Button');
-    //
-    //   var titleInput = $('#title-input').val();
-    //   console.log(titleInput);
-    //
-    //   $.ajax({
-    //     url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
-    //   }).done(function(data){
-    //     console.log('movie title selected');
-    //     $('#movie-profile').empty();
-    //     showMovie(data);
-    //   });
-    // }); // close #submit-button
+    $('#API-button').click(function(event){
+      event.preventDefault();
+
+      console.log('Clicked Submit Button');
+
+      var titleInput = $('#title-input').val();
+      console.log(titleInput);
+
+      $.ajax({
+        url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
+      }).done(function(data){
+        console.log('movie title selected');
+        $('#movie-profile').empty();
+        showMovie(data);
+      });
+    }); // close #submit-button
 
     //===== Event listener for API button to retrieve & display Upcoming Movies from API
     //======================================
