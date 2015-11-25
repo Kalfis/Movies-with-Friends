@@ -38,6 +38,7 @@ $(function(){
         url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
       }).done(function(data){
         console.log('movie title selected');
+        $('#user-profile').empty();
         $('#movie-profile').empty();
         showMovie(data);
       });
@@ -58,6 +59,7 @@ $(function(){
         url: 'https://api.themoviedb.org/3/movie/upcoming?api_key=5c47d1a627613469f840623448f6e67b'
       }).done(function(movieObjs){
         console.log('Upcoming Movies Displayed');
+        $('#user-profile').empty();
         $('#movie-profile').empty();
         newMovies(movieObjs);
       });
@@ -68,7 +70,7 @@ $(function(){
 
     $('#API-NowPlaying-Movies-button').click(function(event){
       event.preventDefault();
-
+      $('#user-profile').empty();
       console.log('Clicked Now Playing button');
 
       var titleInput = $('#title-input').val(); //
@@ -83,6 +85,7 @@ $(function(){
     $.ajax({
       url: 'http://localhost:3000/movies'
     }).done(function(data){
+      // $('#user-profile').empty();
       console.log('movie loaded');
       console.log(data);
     });
@@ -102,6 +105,7 @@ $(function(){
               url: 'http://localhost:3000/movies/searchByTitle/'+titleInput
             }).done(function(data){
               console.log('movie title selected');
+              $('#user-profile').empty();
               $('#movie-profile').empty();
               console.log("here is the data for the movie selected: ")
               console.log(data);
