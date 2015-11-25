@@ -1,6 +1,7 @@
 'use strict';
 
 const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
 const secret = process.env.SECRET||"supersekret";
 let bcrypt = require('bcrypt');
 let mongoose = require('mongoose');
@@ -23,24 +24,27 @@ router.route('/')
 // route to user auth
 router.route('/authenticate')
   .post((req, res) => {
-  User.find({
-    username: req.body.username
-  }, function(err, user){
-      console.log("what is this "+req.body.username)
+    // console.log('req.body.username: ' + req.body.username )
+  User.findOne({
+    username: req.body.user.username
+  }, function(err, user) {
+      console.log(req.body);
+      console.log('user: ' + user);
+      // console.log("what is this "+ req.body.users.username)
       if (err) throw err;
       // if not any user
-      if (user.username != req.body.users.username) {
-        console.log("db user "+user.username)
-        console.log("name: "+req.body.users.username);
+      if (user.username != req.body.user.username) {
+        console.log("db user " + user.username)
+        console.log("CURL input: " + req.body.user.username);
         res.json({ success: false, message: 'Authentication failed. User not found.'});
       // if is a user in database
         // console.log(user.username);
         // console.log(req.body.users.username);
       } else {
         console.log(user.username);
-        console.log(req.body.users.username);
+        console.log(req.body.user.username);
         // check password using the authentication method in our User model.
-        user.authenticate(req.body.users.password, function(err, isMatch) {
+        user.authenticate(req.body.user.password, function(err, isMatch) {
           if (err) throw err;
           if (isMatch) {
             return res.send({message: "Password is good friend! Have a token buddy.", token: jwt.sign(user, secret)});
