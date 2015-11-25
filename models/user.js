@@ -11,6 +11,7 @@ let userSchema = new mongoose.Schema({
   updated_at: Date,
   bio: String,
   password: String,
+  token: String,
   // stories : [{ type: Schema.Types.ObjectId, ref: 'Story' }]
   watchedList: [
     { type: mongoose.Schema.Types.ObjectId,

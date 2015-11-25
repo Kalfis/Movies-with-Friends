@@ -1,12 +1,15 @@
 'use strict';
-let express = require('express');
-let router = express.Router();
 const jwt = require('jsonwebtoken');
-// require models
+const secret = process.env.SECRET||"supersekret";
+let bcrypt = require('bcrypt');
+let mongoose = require('mongoose');
+// require model
 let User = require('../models/user');
 let Movie = require('../models/movie');
-// do I need to explicity state the secret? test.
-const secret = process.env.SECRET;
+
+let express = require('express');
+let router = express.Router();
+// let User = require('../models/user')
 
 
 // Index
@@ -14,6 +17,40 @@ router.route('/')
   .get((req, res, next) => {
     res.send('Test. Hello! You\'ve hit the users route!');
   })
+
+
+
+// route to user auth
+router.route('/authenticate')
+  .post((req, res) => {
+  User.findOne({
+    name: req.body.username
+  }, function(err, user){
+      //console.log(req.body.username)
+      if (err) throw err;
+      // if not any user
+      if (user.username != req.body.users.username) {
+        //console.log(user.username)
+        //console.log("name: "+req.body.users.username);
+        res.json({ success: false, message: 'Authentication failed. User not found.'});
+      // if is a user in database
+        // console.log(user.username);
+        // console.log(req.body.users.username);
+      } else {
+        console.log(user.username);
+        console.log(req.body.users.username);
+        // check password using the authentication method in our User model.
+        user.authenticate(req.body.users.password, function(err, isMatch) {
+          if (err) throw err;
+          if (isMatch) {
+            return res.send({message: "Password is good friend! Have a token buddy.", token: jwt.sign(user, secret)});
+          } else {
+            return res.send({message: "Password ain't right friend. No token(soup) for you!."});
+          }
+        }) //ends .authenticate
+      } //ends .findOne
+  });
+}); //ends .post
 
 // test route for a user profile
 router.route('/agatha')
@@ -27,47 +64,5 @@ router.route('/agatha')
       res.send(user);
     }); // ends .findOne
   }); //ends .get
-
-// Authenticate a user upon login to give user a token
-router.route('/authenticate')
-  .post((req, res) => {
-  User.findOne({
-    name: req.body.username
-  }, function(err, user){
-      if (err) throw err;
-      // if not any user
-      if (user.username != req.body.users.username) {
-        //console.log(user.username)
-        //console.log("name: " + req.body.users.username);
-        res.json({ success: false, message: 'Authentication failed. User not found.'});
-      // if is a user in database
-      // deleted "if (user) 11/25"
-      } else {
-        console.log(user.username);
-        // if password does not authenticate
-          user.authenticate(req.body.users.password, function(err, isMatch) {
-            //is isMatch a var or a function? if var, is it synonymous with true?
-            console.log(isMatch);
-            // test to see if this returns undefined--to see if isMatch is a function or not...
-            console.log(isMatch;
-            if (err) throw err;
-            // if password matches, give user a token
-            if (isMatch) {
-              let token = jwt.sign(user, secret, {
-                expiresInMinutes: 1440 // expires in 24 hrs
-              });
-              // return everything including the token as JSON
-              res.json({
-                success: true,
-                message: 'Here friend, have a token!',
-                token: token
-              });
-            } else {
-              res.json({ success: false, message: 'Auth Failed. Wrong Password'})
-            }
-        }; //ends user.authenticate
-      } //ends else (if username found)
-  }); // ends anon. err/ user function
-}); // ends .post
 
 module.exports = router;
