@@ -7,7 +7,7 @@ let movieSchema = new mongoose.Schema({
   overview: String,
   release_date: Date,
   poster_path: String,
-  comments: [String]
+  comments: []
 });
 
 let Movie = mongoose.model('mymovies', movieSchema);
