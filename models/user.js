@@ -14,8 +14,6 @@ let userSchema = new mongoose.Schema({
   // stories : [{ type: Schema.Types.ObjectId, ref: 'Story' }]
   watchedList: [
     { type: mongoose.Schema.Types.ObjectId,
-      // not sure if ref should be 'Movie' or 'mymovies'
-      // is this tied to MovieSchema, l.4?
       ref: 'Movie'
     }
   ],
