@@ -2,7 +2,7 @@
 
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
-const secret = process.env.SECRET||"supersekret";
+const secret = process.env.SECRET;
 let bcrypt = require('bcrypt');
 let mongoose = require('mongoose');
 // require model

@@ -2,6 +2,8 @@
 
 $(function(){
 
+
+
   console.log ('index.html linked to script.js');
 
   //===== Event listener for Keep button to save data for a new Movie as input in Form
@@ -249,25 +251,22 @@ $(function(){
     });
   }
 
-
-//// START OF MAGGIE'S ADDITION //////
-
 // Click a button to view an individual user's profile
 //======================================
   // Ultimately we'll want this to be a link to "profile" for user and a link to another user's profile.
-  $('#view-user-test').click((event) => {
-    event.preventDefault();
-    console.log('User test button clicked');
-    $.ajax({
-      url: '/users/agatha'
-      // url: '/users/' + id of Agatha
-    }).done(function(data) {
-      $('#user-profile').empty();
-       showUser(data);
-      // empty user info display div.
-      // add the info for this particular user into the div.
-    })
+$('#view-user-test').click((event) => {
+  event.preventDefault();
+  console.log('User test button clicked');
+  $.ajax({
+    url: '/users/agatha'
+    // url: '/users/' + id of Agatha
+  }).done(function(data) {
+    $('#user-profile').empty();
+     showUser(data);
+    // empty user info display div.
+    // add the info for this particular user into the div.
   })
+})
 
 // When you click the 'view-user-test' button, it calls the showUser function (below).
 // The showUser function encompasses displayToWatch (which calls showToWatchMovie) and displayWatched (which calls showWatchedMovie)
@@ -358,5 +357,16 @@ let showUser = function(data) {
   displayWatched();
 } //ends showUser
 
+//Let user log in.
+//======================================
+$('#login-link').click((event) => {
+  event.preventDefault();
+  console.log('User test button clicked');
+  $.ajax({
+    url: '/users/authenticate',
+    type: POST
+  }).done
+
+}); //ends login-link click event
 
 }) // close main anonymous function

@@ -9,7 +9,10 @@
 
   </head>
   <body>
-    <p>Hello! Welcome to our static index page (/public/index.html)</p>
+    <a href="" id="login-link">Log In</a>
+
+    <h1>Moviegoer</h1>
+    <h2>Let's *all* go to the movies</h2>
 
     <div id="movie-db-search-formholder">
       <form>
@@ -77,28 +80,18 @@
 
 
       <script type="text/javascript" src="js/script.js"></script>
+
+      <!-- set the headers of requests to include tokens for authenticated users. -->
       <script>
-    //only write your javascript like this to test things!
-    /* I don't like jquery */
-    var request = new XMLHttpRequest();
-    /* just change method to POST, PUT, or DELETE */
-    request.open('GET', '/my/url', true);
-
-    request.onload = () =>{
-      if (request.status >= 200 && request.status < 400) {
-        // Success!
-        var resp = request.responseText;
-      } else {
-        // We reached our target server, but it returned an error
-      }
-    };
-
-    request.onerror = function() {
-      // There was a connection error of some sort
-    };
-    request.send();
-
-
-  </script>
+        'use strict';
+        var request = new XMLHttpRequest();
+        // putting multiple routes--would we need this for /authenticate, or only for view profile, edit movie/ prof, delete prof/ movie?
+        // specify the type of request; the file location; and asynchronous (true)
+        request.open('POST', '/authenticate', true);
+        // a hint on how to set a header when we have the token.
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset: UTF-8', true)
+        // set headers Authorization: Bearer [token]""
+        request.send();
+      </script>
   </body>
 </html>
