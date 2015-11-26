@@ -1,17 +1,18 @@
+#login-form {
+  width: 400px;
+  margin: 0 auto;
+  margin-bottom: 50px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  background-color: rgba(130, 180, 150, 0.5);
+}
 
+/* USER PROFILE */
 #user-profile {
   border: 2px dotted black;
 }
 
-/*#to-watch-container {
-  border: 2px solid pink;
-}
-
-#watched-container {
-  border: 2px solid gold;
-}*/
-
-/* USER PROFILE */
 #want-movie-div {
   border: 2px solid black;
 }

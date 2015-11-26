@@ -24,6 +24,7 @@ router.route('/')
 // route to user auth
 router.route('/authenticate')
   .post((req, res) => {
+    console.log('hit /users/authenticate');
     // console.log('req.body.username: ' + req.body.username )
   User.findOne({
     username: req.body.user.username

@@ -14,9 +14,17 @@
     <h1>Moviegoer</h1>
     <h2>Let's *all* go to the movies</h2>
 
+    <form id="login-form">
+      <h3>Log In</h3>
+      <strong>Username: </strong><input id="username-input" type="text" name="username"><br>
+      <strong> Password: </strong><input id="password-input" type="text" name="password"></br>
+      <button id="submit-login">Submit</button>
+
+    </form>
+
     <div id="movie-db-search-formholder">
       <form>
-        <strong>Search for Movie Title in Database :</strong> <input id="title-input" type"text" name="movie-title"><br>
+        <strong>Search for Movie Title in Database :</strong> <input id="title-input" type="text" name="movie-title"><br>
         <input id="submit-button" type="submit" value = "Submit">
       </form>
     </div>
@@ -74,24 +82,19 @@
 
       <!-- <button id="add-to-mymovies">Add this to mymovies collection</button> -->
 
-
-      <!-- <button id="upcoming-button">Movies Coming Soon!</div> -->
-      <!-- <button id="now-playing-button">Movies Now Playing!</button> -->
-
-
       <script type="text/javascript" src="js/script.js"></script>
 
       <!-- set the headers of requests to include tokens for authenticated users. -->
-      <script>
+      <!-- <script>
         'use strict';
         var request = new XMLHttpRequest();
-        // putting multiple routes--would we need this for /authenticate, or only for view profile, edit movie/ prof, delete prof/ movie?
+        // putting multiple routes; would we need this for /authenticate, or only for view profile, edit movie/ prof, delete prof/ movie?
         // specify the type of request; the file location; and asynchronous (true)
-        request.open('POST', '/authenticate', true);
+        request.open('POST', '/users/authenticate', true);
         // a hint on how to set a header when we have the token.
         request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset: UTF-8', true)
         // set headers Authorization: Bearer [token]""
         request.send();
-      </script>
+      </script> -->
   </body>
 </html>

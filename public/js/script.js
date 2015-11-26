@@ -3,7 +3,6 @@
 $(function(){
 
 
-
   console.log ('index.html linked to script.js');
 
   //===== Event listener for Keep button to save data for a new Movie as input in Form
@@ -49,12 +48,9 @@ $(function(){
 
     $('#API-Upcoming-Movies-button').click(function(event){
       event.preventDefault();
-
       console.log('Clicked Upcoming Movies Button');
-
-      var titleInput = $('#title-input').val();
-      console.log(titleInput);
-
+      // var titleInput = $('#title-input').val();
+      // console.log(titleInput);
       $.ajax({
         url: 'https://api.themoviedb.org/3/movie/upcoming?api_key=5c47d1a627613469f840623448f6e67b'
       }).done(function(movieObjs){
@@ -357,16 +353,38 @@ let showUser = function(data) {
   displayWatched();
 } //ends showUser
 
+// when the page loads/before user clicks login link, hide the login form. We only want it to appear if a user clicks the "log in" link.
+$('#login-form').hide();
+
 //Let user log in.
 //======================================
 $('#login-link').click((event) => {
   event.preventDefault();
   console.log('User test button clicked');
+  $('#login-form').show();
+  // empty user profile, movie-profile
+  // (Put new movie form, edit forms in routes only accessible through token bearers)
+  $('#user-profile').empty();
+  $('#movie-profile').empty();
+  // display a login form
+}) // ends login-link click event
+
+// create a login submit button with matching id in index
+$('#submit-login').click((event) => {
+  event.preventDefault();
+  console.log('clicked log in submit button.');
+  let userInfoEntered = {};
+  userInfoEntered.username = $('#username-input').val();
+  userInfoEntered.password = $('#password-input').val();
   $.ajax({
     url: '/users/authenticate',
-    type: POST
-  }).done
-
-}); //ends login-link click event
+    method: "POST",
+    data: userInfoEntered
+  }) //closes .ajax
+  //.done(function(data){
+  // where should user be redirected to? Homepage?
+  // what happens here with tokens--do I need to insert into header?
+  //})
+}); //ends login-submit button click event
 
 }) // close main anonymous function
