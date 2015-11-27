@@ -386,8 +386,6 @@ $('#submit-login').click((event) => {
   }) //closes .ajax
   .done(function(data){
     console.log(data);
-    
-    // console.log(req.body);
   // where should user be redirected to? Homepage?
   // what happens here with tokens--do I need to insert into header?
   })
