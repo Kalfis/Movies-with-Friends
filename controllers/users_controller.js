@@ -25,27 +25,28 @@ router.route('/')
 router.route('/authenticate')
   .post((req, res) => {
     console.log('hit /users/authenticate');
+    // console.log('req.body.user: ' + req.body);
     // console.log('req.body.username: ' + req.body.username )
   User.findOne({
-    username: req.body.user.username
+    username: req.body.username
   }, function(err, user) {
       console.log(req.body);
       console.log('user: ' + user);
       // console.log("what is this "+ req.body.users.username)
       if (err) throw err;
       // if not any user
-      if (user.username != req.body.user.username) {
+      if (user.username != req.body.username) {
         console.log("db user " + user.username)
-        console.log("CURL input: " + req.body.user.username);
+        console.log("CURL input: " + req.body.username);
         res.json({ success: false, message: 'Authentication failed. User not found.'});
       // if is a user in database
         // console.log(user.username);
         // console.log(req.body.users.username);
       } else {
         console.log(user.username);
-        console.log(req.body.user.username);
+        console.log(req.body.username);
         // check password using the authentication method in our User model.
-        user.authenticate(req.body.user.password, function(err, isMatch) {
+        user.authenticate(req.body.password, function(err, isMatch) {
           if (err) throw err;
           if (isMatch) {
             return res.send({message: "Password is good friend! Have a token buddy.", token: jwt.sign(user, secret)});

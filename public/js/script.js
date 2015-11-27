@@ -360,7 +360,7 @@ $('#login-form').hide();
 //======================================
 $('#login-link').click((event) => {
   event.preventDefault();
-  console.log('User test button clicked');
+  console.log('Log in button clicked');
   $('#login-form').show();
   // empty user profile, movie-profile
   // (Put new movie form, edit forms in routes only accessible through token bearers)
@@ -373,18 +373,22 @@ $('#login-link').click((event) => {
 $('#submit-login').click((event) => {
   event.preventDefault();
   console.log('clicked log in submit button.');
-  let userInfoEntered = {};
-  userInfoEntered.username = $('#username-input').val();
-  userInfoEntered.password = $('#password-input').val();
+  // console.log(req.body);
+  let user = {};
+  user.username = $('#username-input').val();
+  user.password = $('#password-input').val();
   $.ajax({
     url: '/users/authenticate',
     method: "POST",
-    data: userInfoEntered
+    data: user
+    // console.log(req.body);
   }) //closes .ajax
-  //.done(function(data){
+  .done(function(data){
+    console.log(data);
+    // console.log(req.body);
   // where should user be redirected to? Homepage?
   // what happens here with tokens--do I need to insert into header?
-  //})
+  })
 }); //ends login-submit button click event
 
 }) // close main anonymous function
