@@ -200,20 +200,6 @@ $(function(){
       }; // close For loop to create Div's
     }; // close newMovies()
 
-////////  START OF CONFLICT
-//// LA commented out; pending to ask Maggie if needed in her block
-
-    //       result.append('<p><strong> Title: </strong>'+ movieObjs.results[i].title + '</p>');
-    //       result.append('<img src=https://image.tmdb.org/t/p/w185' + movieObjs.results[i].poster_path + '></img>');
-    //       result.append('<p><strong>  Released Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
-    //       result.append('<button id="Add-Watchlist-button">Add to Want to Watch List </button>');
-    //       result.append('<button id="Add-Watchlist-button">Add to Already Watched List </button>');
-    //
-    //       };
-    // };
-
-/////////// END OF CONFLICT
-
   // Render information of a movie profile thru DOM in index.html
   //======================================
 
