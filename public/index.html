@@ -17,11 +17,11 @@
     <h2>Let's *all* go to the movies</h2>
 
     <form id="login-form">
+      <div id="login-failed"><p>Username or password not found. Please try again.</p></div>
       <h3>Log In</h3>
       <strong>Username: </strong><input id="username-input" type="text" name="username"><br>
       <strong> Password: </strong><input id="password-input" type="text" name="password"></br>
       <button id="submit-login">Submit</button>
-
     </form>
 
     <div id="movie-db-search-formholder">
@@ -85,6 +85,8 @@
       <!-- <button id="add-to-mymovies">Add this to mymovies collection</button> -->
 
       <script type="text/javascript" src="js/script.js"></script>
+      <!-- connect to users controller to be able to display login failure or success messages. -->
+      <!-- <script type="text/javascript" src="controllers/users_controller.js"></script> -->
 
       <!-- set the headers of requests to include tokens for authenticated users. -->
       <!-- <script>

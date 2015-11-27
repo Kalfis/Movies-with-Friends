@@ -32,18 +32,17 @@ router.route('/authenticate')
   }, function(err, user) {
       console.log(req.body);
       console.log('user: ' + user);
-      // console.log("what is this "+ req.body.users.username)
       if (err) throw err;
       // if not any user
-      if (user.username != req.body.username) {
-        console.log("db user " + user.username)
-        console.log("CURL input: " + req.body.username);
+      if (user == undefined) {
+        // console.log("db user " + user.username)
+        console.log("input: " + req.body.username);
         res.json({ success: false, message: 'Authentication failed. User not found.'});
       // if is a user in database
         // console.log(user.username);
         // console.log(req.body.users.username);
       } else {
-        console.log(user.username);
+        // console.log(user.username);
         console.log(req.body.username);
         // check password using the authentication method in our User model.
         user.authenticate(req.body.password, function(err, isMatch) {
@@ -51,6 +50,7 @@ router.route('/authenticate')
           if (isMatch) {
             return res.send({message: "Password is good friend! Have a token buddy.", token: jwt.sign(user, secret)});
           } else {
+            // $('#login-failed').show();
             return res.send({message: "Password ain't right friend. No token(soup) for you!."});
           }
         }) //ends .authenticate

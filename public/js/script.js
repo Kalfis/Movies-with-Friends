@@ -355,6 +355,7 @@ let showUser = function(data) {
 
 // when the page loads/before user clicks login link, hide the login form. We only want it to appear if a user clicks the "log in" link.
 $('#login-form').hide();
+$('#login-failed').hide();
 
 //Let user log in.
 //======================================
@@ -385,6 +386,7 @@ $('#submit-login').click((event) => {
   }) //closes .ajax
   .done(function(data){
     console.log(data);
+    
     // console.log(req.body);
   // where should user be redirected to? Homepage?
   // what happens here with tokens--do I need to insert into header?
