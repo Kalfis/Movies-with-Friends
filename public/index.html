@@ -3,40 +3,71 @@
   <head>
     <meta charset="utf-8">
     <title>Moviegoer</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- line 7 instead of line 8 to use jquery without internet connection.  -->
+    <script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.0/handlebars.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
   </head>
   <body>
-    <p>Hello! Welcome to our static index page (/public/index.html)</p>
 
-    <script type="text/javascript" src="js/script.js"></script>
+    <a href="" id="login-link">Log In</a>
+
+    <h1>Moviegoer</h1>
+    <h2>Let's *all* go to the movies</h2>
+
+    <form id="login-form">
+      <div id="login-failed"><p>Username or password not found. Please try again.</p></div>
+      <h3>Log In</h3>
+      <strong>Username: </strong><input id="username-input" type="text" name="username"><br>
+      <strong> Password: </strong><input id="password-input" type="password" name="password"></br>
+      <button id="submit-login">Submit</button>
+    </form>
 
 
     <div id="movie-db-search-formholder">
       <form>
-        <strong>Search Movie Title in :</strong> <input id="title-input" type"text" name="movie-title"><br>
+        <strong>Search for Movie Title in Database :</strong> <input id="title-input" type="text" name="movie-title">
         <input id="submit-button" type="submit" value = "Submit">
       </form>
     </div>
 
-    <button id="API-button">API Test Button</button>
+  <button id="view-user-test">View User: Agatha</button>
 
-    <button id="API-Upcoming-Movies-button">Upcoming Movies</button>
+  <button id="API-Upcoming-Movies-button">Upcoming Movies</button>
 
-    <button id="API-NowPlaying-Movies-button">Now Playing Movies</button>
+  <button id="API-NowPlaying-Movies-button">Now Playing Movies</button>
+
+    <div id="user-profile">
+      <div id="to-watch-container"></div>
+      <div id="watched-container"></div>
+    </div>
 
 
     <div id="movie-profile">
 
     </div>
 
+
+    <form class="form"> <br>
+        <h3> New Movie Form </h3>
+        <label> Title </label> <br>
+        <input id="movie_title" type="text" name="title"> <br>
+        <label> Overview </label> <br>
+        <input id="movie-overview" type="text" name="overview"> <br>
+
+        <button id="keep-button" value="keep">KEEP</button>
+
+    </form>
+
+
+
     <div id="edit-movie-formholder">
       <h3> Edit Form </h3>
       <form>
-        <!-- <strong>Title:</strong> <input id="title-data" type="text" name="title"><br> -->
-        <strong>Comments:</strong> <input id="director-data" type="text" name="director"><br>
+         <strong>Title:</strong> <input id="title-data" type="text" name="title"><br>
+         <strong>Comments:</strong> <input id="director-data" type="text" name="director"><br>
       </form>
 
       <button id="edit-button">EDIT</button>
@@ -44,5 +75,32 @@
     </div>
 
 
+      <!-- <div id="results-container"> -->
+        <!-- data will display in this div  -->
+      <!-- </div> -->
+      <!-- <template id="currentmovies" type="text/x-handlebars-template"> -->
+        <!-- {{data}} -->
+        <!-- <p>{{this.["results"][0].title}} </p> -->
+        <!-- this.results[0]. -->
+      <!-- </template> -->
+
+      <!-- <button id="add-to-mymovies">Add this to mymovies collection</button> -->
+
+      <script type="text/javascript" src="js/script.js"></script>
+      <!-- connect to users controller to be able to display login failure or success messages. -->
+      <!-- <script type="text/javascript" src="controllers/users_controller.js"></script> -->
+
+      <!-- set the headers of requests to include tokens for authenticated users. -->
+      <!-- <script>
+        'use strict';
+        var request = new XMLHttpRequest();
+        // putting multiple routes; would we need this for /authenticate, or only for view profile, edit movie/ prof, delete prof/ movie?
+        // specify the type of request; the file location; and asynchronous (true)
+        request.open('POST', '/users/authenticate', true);
+        // a hint on how to set a header when we have the token.
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset: UTF-8', true)
+        // set headers Authorization: Bearer [token]""
+        request.send();
+      </script> -->
   </body>
 </html>

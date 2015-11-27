@@ -1,6 +1,7 @@
 'use strict';
 let mongoose = require('mongoose');
 let bcrypt = require('bcrypt');
+let movieSchema = require('./movie.js').schema;
 // Define the rounds/iterations the bcrypy key setup phase uses
 let SALT_WORK_FACTOR = 10;
 
@@ -10,8 +11,19 @@ let userSchema = new mongoose.Schema({
   updated_at: Date,
   bio: String,
   password: String,
-  watchedList: [],
-  toWatchList: []
+  token: String,
+  // stories : [{ type: Schema.Types.ObjectId, ref: 'Story' }]
+  watchedList: [
+    { type: mongoose.Schema.Types.ObjectId,
+      ref: 'Movie'
+    }
+  ],
+  toWatchList: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Movie'
+    }
+  ]
   // consider adding comments to user?
 });
 
@@ -46,6 +58,7 @@ userSchema.methods.authenticate = function(password, callback) {
   bcrypt.compare(password, this.password, function(err, isMatch) {
     if (err) return callback(err);
     callback( null, isMatch);
+
   });
 };
 

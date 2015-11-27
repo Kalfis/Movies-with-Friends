@@ -2,13 +2,16 @@
 let express = require('express');
 let router = express.Router();
 let User = require('../models/user');
-
+let request = require('request')
 let Movie = require('../models/movie.js')  // requires access to the model in movie.js
 
 // create '/' route within /movies.  Accessed in browser at /movies/
 // this route displays all of the database's contents, i.e. the profiles of each of
 // the movies that have been selected by Users.
 // tested OK in browser
+
+
+
 router.route('/')
 .get((req, res, next) => {
   console.log ('hit / route in /movies => /movies/');
@@ -17,7 +20,18 @@ router.route('/')
     res.send(movie);
     console.log('this is all the contents in the movies datatabase');
   });
-});
+})
+.post((req, res) => {
+  var movie = new Movie(req.body);
+  movie.save(function(err){
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(movie);
+      console.log("Movie updated");
+    }
+  });
+})
 
 // Sets router constructor
 router.route('/searchByTitle/:title')
@@ -26,12 +40,13 @@ router.route('/searchByTitle/:title')
   .get((req, res, next) => {
     console.log ('hit /movies/searchByTitle:/:title');
     var title = req.params.title;
+    // note: to make title search case insensitive, .toLowerCase titles before they are put in our db
     Movie.findOne({ title: title}, (err, movie) => {
       if(err) return next(err);
       if (movie == null) {
         res.send("The Movie you searched for is not in 'mymovies'.");
       };
-      console.log('movie profile searched by title accessed.');
+      console.log('movie profile searched by title accesused.');
       console.log("This is the data: " + movie);
       res.send(movie);
     });
@@ -40,7 +55,6 @@ router.route('/searchByTitle/:title')
   // EDITS  a movie profile, selected by its title from database
   // pending to test in browser as it requires AJAX code in
   // public/js/script to be completed
-
   .put((req, res) => {
     var title = req.params.title;
     Movie.findOneAndUpdate({ _title: title}, { $set: req.body }, (err, movie) => {
@@ -53,7 +67,6 @@ router.route('/searchByTitle/:title')
   // DELETES a movie profile, selected by its title from database
   // pending to test in browser as it requires AJAX code in
   // public/js/script to be completed
-
   .delete((req, res) => {
     var title = req.params.title;
     Movie.findOneAndRemove({ _title: title}, (err, movie) => {
@@ -62,5 +75,59 @@ router.route('/searchByTitle/:title')
       res.send("Movie deleleted from my movies")
     });
   });
+
+
+  // search for movie by id. Used to show details of movies on a user's profile (accessible through id)
+  // note: make sure this returns the instance of the movie created when a user saves== user comments included.
+  router.route('/:id')
+    .get((req, res, next) => {
+    console.log ('hit /:id');
+    var id = req.params.id;
+    console.log(id);
+    // res.send('Movie id entered: '+ id )
+    Movie.findOne({ _id : id }, (err, movie) => {
+      if(err) return next(err);
+      if (movie == null) {
+        res.send("The Movie you searched for is not in 'mymovies'.");
+      };
+      console.log('movie profile searched by title accessed.');
+      console.log("This is the data: " + movie);
+      res.send(movie);
+    });
+  });
+
+
+// WORK IN PROGRESS
+  // router.route('/APIsearch/:title')
+  //   .get((req, res, next) => {
+  //     console.log ('hit /movies/APIsearch/:title');
+  //     var title = req.params.title;
+  //
+  //     $.ajax({
+  //       url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
+  //     }).done(function(data){
+  //       console.log('movie title from API selected');
+  //       $('#movie-profile').empty();
+  //       getMovie(data);
+  //     });
+  //
+  //     var getMovie = function() {
+  //
+  //
+  //     }
+  //     Movie.findOne({ title: title}, (err, movie) => {
+  //       if(err) return next(err);
+  //       if (movie == null) {
+  //         res.send("The Movie you searched for is not in 'mymovies'.");
+  //       };
+  //       console.log('movie profile searched by title accessed.');
+  //       console.log("This is the data: " + movie);
+  //       res.send(movie);
+  //     });
+  //   });
+// END OF WORK IN PROGRESS
+
+
+
 
 module.exports = router;
