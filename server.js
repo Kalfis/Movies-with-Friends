@@ -4,12 +4,17 @@ let logger = require('morgan');
 let request = require('request');
 let path = require('path');
 let bodyParser = require('body-parser');
+let jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
+let User = require('./models/user'); // get our mongoose model for user
+
+
 
 // require our routes
 let userRoutes = require('./controllers/users_controller');
 let movieRoutes = require('./controllers/movies_controller');
 
 let app = express();
+
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -19,8 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 let mongoose = require('mongoose');
 // connect to our database, moviegoerApp
 
-
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/moviegoerApp');
+mongoose.connect(process.env.MONGOLAB_URL || 'mongodb://localhost/moviegoerApp');
 
 
 let db = mongoose.connection;
