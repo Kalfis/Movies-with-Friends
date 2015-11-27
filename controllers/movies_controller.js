@@ -10,8 +10,6 @@ let Movie = require('../models/movie.js')  // requires access to the model in mo
 // the movies that have been selected by Users.
 // tested OK in browser
 
-
-
 router.route('/')
 .get((req, res, next) => {
   console.log ('hit / route in /movies => /movies/');
@@ -38,7 +36,7 @@ router.route('/searchByTitle/:title')
 // SEARCHES by title for movie in mymovies collection in database
 // tested OK in browser
   .get((req, res, next) => {
-    console.log ('hit /movies/searchByTitle:/:title');
+    console.log ('hit /movies/searchByTitle/:title');
     var title = req.params.title;
     // note: to make title search case insensitive, .toLowerCase titles before they are put in our db
     Movie.findOne({ title: title}, (err, movie) => {
@@ -51,6 +49,15 @@ router.route('/searchByTitle/:title')
       res.send(movie);
     });
   })
+  // .put((req, res) => { // PENDING
+  //   console.log ('hit PUT @ /movies/searchByTitle/:title');
+  //   var title = req.params.title;
+  //   Movie.findOneAndUpdate({ title: title}, (err, movie) => {
+  //     if(err) return next(err);
+  //     if (movie == null) {
+  //       res.send("The Movie you indicated is not in 'mymovies'.");
+  //     };
+  // })
 
   // EDITS  a movie profile, selected by its title from database
   // pending to test in browser as it requires AJAX code in
