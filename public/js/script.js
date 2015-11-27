@@ -24,25 +24,6 @@ $(function(){
     }); // close $.ajax
   }); // close ('.keep-button')
 
-  //===== Event listener for API button to retrieve & display information for a hardcoded movie from API
-  //====================================================
-
-  $('#API-button').click(function(event){
-      event.preventDefault();
-      console.log('Clicked API Test Button');
-      var titleInput = $('#title-input').val();
-      console.log(titleInput);
-
-      $.ajax({
-        url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
-      }).done(function(data){
-        console.log('movie title selected');
-        $('#user-profile').empty();
-        $('#movie-profile').empty();
-        showMovie(data);
-      });
-    }); // close #submit-button
-
     //===== Event listener for API button to retrieve & display Upcoming Movies from API
     //====================================================
 
