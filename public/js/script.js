@@ -365,9 +365,22 @@ $('#submit-login').click((event) => {
     data: user
     // console.log(req.body);
   }) //closes .ajax
+  // data here references the object containing a token or error message
   .done(function(data){
-    console.log(data);
-  // where should user be redirected to? Homepage?
+    console.log(data.token);
+    // if user is authenticated in /users/authenticate and granted token, hide login form
+    if (data.token) {
+      // console.log(user);
+      $('#login-form').hide();
+      // append a personalized welcome message to our user-actions div
+      let welcomeUser = document.createElement('div');
+      welcomeUser.innerHTML = '<p> Hi, ' + user.username + '</p>';
+      // note that we have to use .append here, and not .appendChild
+      $('#user-actions').append(welcomeUser);
+    // if user is not granted token, give them a 'not found' message
+    } else {
+      $('#login-failed').show();
+    }
   // what happens here with tokens--do I need to insert into header?
   })
 }); //ends login-submit button click event
