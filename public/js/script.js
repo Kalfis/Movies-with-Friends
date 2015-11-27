@@ -2,6 +2,7 @@
 
 $(function(){
 
+
   console.log ('index.html linked to script.js');
 
   //===== Event listener for Keep button to save data for a new Movie as input in Form
@@ -23,36 +24,14 @@ $(function(){
     }); // close $.ajax
   }); // close ('.keep-button')
 
-  //===== Event listener for API button to retrieve & display information for a hardcoded movie from API
-  //====================================================
-
-  $('#API-button').click(function(event){
-      event.preventDefault();
-      console.log('Clicked API Test Button');
-      var titleInput = $('#title-input').val();
-      console.log(titleInput);
-
-      $.ajax({
-        url: 'https://api.themoviedb.org/3/movie/550?api_key=5c47d1a627613469f840623448f6e67b'
-      }).done(function(data){
-        console.log('movie title selected');
-        $('#user-profile').empty();
-        $('#movie-profile').empty();
-        showMovie(data);
-      });
-    }); // close #submit-button
-
     //===== Event listener for API button to retrieve & display Upcoming Movies from API
     //====================================================
 
     $('#API-Upcoming-Movies-button').click(function(event){
       event.preventDefault();
-
       console.log('Clicked Upcoming Movies Button');
-
-      var titleInput = $('#title-input').val();
-      console.log(titleInput);
-
+      // var titleInput = $('#title-input').val();
+      // console.log(titleInput);
       $.ajax({
         url: 'https://api.themoviedb.org/3/movie/upcoming?api_key=5c47d1a627613469f840623448f6e67b'
       }).done(function(movieObjs){
@@ -249,25 +228,22 @@ $(function(){
     });
   }
 
-
-//// START OF MAGGIE'S ADDITION //////
-
 // Click a button to view an individual user's profile
 //======================================
   // Ultimately we'll want this to be a link to "profile" for user and a link to another user's profile.
-  $('#view-user-test').click((event) => {
-    event.preventDefault();
-    console.log('User test button clicked');
-    $.ajax({
-      url: '/users/agatha'
-      // url: '/users/' + id of Agatha
-    }).done(function(data) {
-      $('#user-profile').empty();
-       showUser(data);
-      // empty user info display div.
-      // add the info for this particular user into the div.
-    })
+$('#view-user-test').click((event) => {
+  event.preventDefault();
+  console.log('User test button clicked');
+  $.ajax({
+    url: '/users/agatha'
+    // url: '/users/' + id of Agatha
+  }).done(function(data) {
+    $('#user-profile').empty();
+     showUser(data);
+    // empty user info display div.
+    // add the info for this particular user into the div.
   })
+})
 
 // When you click the 'view-user-test' button, it calls the showUser function (below).
 // The showUser function encompasses displayToWatch (which calls showToWatchMovie) and displayWatched (which calls showWatchedMovie)
@@ -358,5 +334,42 @@ let showUser = function(data) {
   displayWatched();
 } //ends showUser
 
+// when the page loads/before user clicks login link, hide the login form. We only want it to appear if a user clicks the "log in" link.
+$('#login-form').hide();
+$('#login-failed').hide();
+
+//Let user log in.
+//======================================
+$('#login-link').click((event) => {
+  event.preventDefault();
+  console.log('Log in button clicked');
+  $('#login-form').show();
+  // empty user profile, movie-profile
+  // (Put new movie form, edit forms in routes only accessible through token bearers)
+  $('#user-profile').empty();
+  $('#movie-profile').empty();
+  // display a login form
+}) // ends login-link click event
+
+// create a login submit button with matching id in index
+$('#submit-login').click((event) => {
+  event.preventDefault();
+  console.log('clicked log in submit button.');
+  // console.log(req.body);
+  let user = {};
+  user.username = $('#username-input').val();
+  user.password = $('#password-input').val();
+  $.ajax({
+    url: '/users/authenticate',
+    method: "POST",
+    data: user
+    // console.log(req.body);
+  }) //closes .ajax
+  .done(function(data){
+    console.log(data);
+  // where should user be redirected to? Homepage?
+  // what happens here with tokens--do I need to insert into header?
+  })
+}); //ends login-submit button click event
 
 }) // close main anonymous function

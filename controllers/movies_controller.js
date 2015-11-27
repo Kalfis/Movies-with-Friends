@@ -33,7 +33,6 @@ router.route('/')
   });
 })
 
-
 // Sets router constructor
 router.route('/searchByTitle/:title')
 // SEARCHES by title for movie in mymovies collection in database
