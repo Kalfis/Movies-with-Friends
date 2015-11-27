@@ -33,16 +33,17 @@ router.route('/authenticate')
       console.log(req.body);
       console.log('user: ' + user);
       if (err) throw err;
-      // if not any user
+      // if unable to find the username in the app's database
       if (user == undefined) {
         // console.log("db user " + user.username)
-        console.log("input: " + req.body.username);
+        // console.log("input: " + req.body.username);
         res.json({ success: false, message: 'Authentication failed. User not found.'});
       // if is a user in database
       } else {
         // console.log(user.username);
-        console.log(req.body.username);
+        // console.log(req.body.username);
         // check password using the authentication method in our User model.
+        // Get the password we are sending through the click event and ajax call in script.js
         user.authenticate(req.body.password, function(err, isMatch) {
           if (err) throw err;
           if (isMatch) {
