@@ -20,16 +20,39 @@ router.route('/')
   });
 })
 .post((req, res) => {
-  var movie = new Movie(req.body);
-  movie.save(function(err){
-    if (err) {
-      console.log(err);
+  console.log('hit /movies/ POST route');
+  // Look for a movie in the database
+  Movie.findOne({
+    title: req.body.title
+    // movie parameter is a hypothetical movie that may or may not exist in the database
+  }, function(err, movie) {
+    console.log('req.body: ' + req.body);
+    console.log('title: ' + req.body.title);
+    console.log('movie hyp:' + movie);
+    if (err) throw err;
+    // If the movie title does not already exist in the db, add it.
+    if (movie == undefined) {
+      // create the new movie using the information passed from the ajax call in script.js
+      var movie = new Movie(req.body);
+      console.log("ran new Movie");
+      movie.save(function(err){
+          if (err) {
+            console.log(err);
+          } else {
+            res.send(movie);
+            console.log("Movie saved");
+          }; // close if else
+      }); // close movie.save
+
+    //if title is already in the db
+
     } else {
-      res.send(movie);
-      console.log("Movie updated");
-    }
-  });
-})
+    console.log("Movie already in database");
+    }; // close if else
+  // }; // ends function(err, movie)
+});  // ends Movie.findOne
+}); // ends .post
+
 
 // Sets router constructor
 router.route('/searchByTitle/:title')
@@ -133,8 +156,5 @@ router.route('/searchByTitle/:title')
   //     });
   //   });
 // END OF WORK IN PROGRESS
-
-
-
 
 module.exports = router;
