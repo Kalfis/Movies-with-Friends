@@ -134,7 +134,7 @@ $(function(){
        // movieDiv.append('<p><strong> Title: </strong>'+ movieObjs.results[i].title + '</p>');
        movieDiv.append('<img src=https://image.tmdb.org/t/p/w185' + movieObjs.results[i].poster_path + '></img>');
        movieDiv.append('<p><strong>  Released Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
-       movieDiv.append('<button id="Add-Want-Watch-Button">Add to Want to Watch List </button>');
+       movieDiv.append('<button id="Add-Want-Watch-Button' + i + '" value ="' + movieObjs.results[i].title +'">Add to Want to Watch List </button>');
        movieDiv.append('<button id="Add-Already-Watched-Button">Add to Already Watched List </button>');
        movieDiv.append('<button id="Add-Database-Button' + i  +'" value="'+ movieObjs.results[i].title +'">Add to MyMovies</button>');
 
@@ -174,6 +174,41 @@ $(function(){
           }); // close $.ajax
 
         }); // close ('.Add-Database-Button')
+
+        /// Event listener for Add to Want to Watch List - WORK IN PROGRESS ///
+        // $('#Add-Want-Watch-Button'+i).click(function(event){
+        //   event.preventDefault();
+        //   console.log('Clicked Add to Want to Watch List Button');
+        //   console.log( $(this).closest('button').attr('value') );
+        //
+        //   var titleSelected = ( $(this).closest('button').attr('value') );
+        //   console.log("This is the title selected: " + titleSelected);
+        //   console.log(movieObjs);
+        //
+        //   for (var i=0; i< movieObjs.results.length; i++){
+        //       if (movieObjs.results[i].title == titleSelected){
+        //         var location = i;
+        //       }; // close if function
+        //    }; // close for loop to match Title
+        //
+        //    var wantWatchData = {};
+        //    wantWatchData.id = movieObjs.results[location]._id;
+        //   //  var wantWatchId = movieObjs.results[location]._id;
+        //    console.log("want watch object " + movieObjs.results[location]);
+        //
+        //    console.log("The new Want To Watch ID is: " + wantWatchData.id);
+
+
+          //  $.ajax({
+          //    url: "/movies/",
+          //    method: "POST",
+          //    data: newMovieData
+          //  }); // close $.ajax
+
+         }); // close ('.Add-Database-Button')
+
+
+
       }; // close For loop to create Div's
     }; // close newMovies()
 
