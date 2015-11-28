@@ -12,16 +12,8 @@ let express = require('express');
 let router = express.Router();
 // let User = require('../models/user')
 
-// Index
-router.route('/')
-  .get((req, res, next) => {
-    User.find( {}, function(err, users) {
-      if (err) throw err;
-      res.send(users);
-      // loop through the list of users
-      // print a list of users.
-    }) //ends .find
-  }) //ends .get
+let app = express();
+
 
 // route to user auth
 router.route('/authenticate')
@@ -74,5 +66,49 @@ router.route('/:id')
       res.send(user);
     }); //ends .find
   }); //ends .get
+
+/// RESTRICT ALL ROUTES BELOW THIS LINE TO TOKEN BEARERS \\\\\\\
+// === route middleware to verify a token
+router.use(function(req, res, next) {
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  console.log(token);
+  
+  if (token) {
+    jwt.verify(token, app.get(secret), function(err, decoded) {
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.'});
+      } else {
+        req.decoded = decoded;
+        next();
+      }
+    }); // ends jwt.verify
+    // if there is no token, return error.
+    } else {
+      return res.status(403).send({
+        success: false,
+        message: 'No token provided.'
+      });
+
+    }
+  }); //ends router.use
+
+
+// List of users
+router.route('/')
+  // .all(expressJwt({
+  //   secret: 'supersekret',
+  //   // userProperty: 'auth'
+  // }))
+  .get((req, res, next) => {
+    console.log('hit /users/');
+    console.log('req.query.token: ' + req.query.token);
+    User.find({}, function(err, users) {
+      if (err) throw err;
+      res.send(users);
+      // loop through the list of users
+      // print a list of users.
+    }) //ends .find
+  }) //ends .get
+
 
 module.exports = router;
