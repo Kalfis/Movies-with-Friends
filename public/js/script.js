@@ -374,6 +374,8 @@ let showUser = function(data) {
 $('#login-form').hide();
 $('#login-failed').hide();
 $('#signup-form').hide();
+// only want users to have a view-profile link once they've logged in.
+$('#my-profile').hide();
 
 //Let user sign up.
 $('#signup-link').click((event) => {
@@ -384,6 +386,22 @@ $('#signup-link').click((event) => {
   $('user-profile').empty();
   $('#movie-profile').empty();
 })
+
+//Do sign up when someone clicks the submit button for signing up
+$('#submit-signup').click((event) => {
+  event.preventDefault();
+  console.log('clicked submit for sign up');
+
+  let user = {};
+  user.username = $('#signup-username').val();
+  user.password = $('#signup-password').val();
+    $.ajax({
+      url: '/users/signup',
+      method: 'POST',
+      data: user
+    }) //closes sign up ajax
+}) //closes sign up click event
+
 //Let user log in.
 //======================================
 $('#login-link').click((event) => {
@@ -422,9 +440,15 @@ $('#submit-login').click((event) => {
       $('#login-link').hide();
       $('#signup-link').hide();
       $('#divider').hide();
+      // Show users the link to their profile
+      $('#my-profile').show();
       // append a personalized welcome message to our user-actions div
       let welcomeUser = document.createElement('div');
-      welcomeUser.innerHTML = '<p> Hi, ' + user.username + '</p>';
+      welcomeUser.id = "welcome-user";
+      // user.username is something we sent in the post request, so it's still accessible using this syntax.
+      welcomeUser.innerHTML = '<p> Hi, ' + user.username + '  |</p>';
+      // In /users/authenticate, we're retrieving user data associated with the username and password sent in the post method, then sending all user info back as part of "data"
+      console.log('user._id: '+ data.user._id);
       // note that we have to use .append here, and not .appendChild
       $('#user-actions').append(welcomeUser);
     // if user is not granted token, give them a 'not found' message
@@ -435,19 +459,5 @@ $('#submit-login').click((event) => {
   })
 }); //ends login-submit button click event
 
-//Do sign up when someone clicks the submit button for signing up
-$('#submit-signup').click((event) => {
-  event.preventDefault();
-  console.log('clicked submit for sign up');
-
-  let user = {};
-  user.username = $('#signup-username').val();
-  user.password = $('#signup-password').val();
-    $.ajax({
-      url: '/users/signup',
-      method: 'POST',
-      data: user
-    }) //closes sign up ajax
-}) //closes sign up click event
 
 }) // close main anonymous function

@@ -47,7 +47,8 @@ router.route('/authenticate')
         user.authenticate(req.body.password, function(err, isMatch) {
           if (err) throw err;
           if (isMatch) {
-            return res.send({message: "Password is good friend! Have a token buddy.", token: jwt.sign(user, secret)});
+            // send back a success message, a token, and all of the user data for user matching that username and password.
+            return res.send({message: "Password is good friend! Have a token buddy.", token: jwt.sign(user, secret), user: user});
           } else {
             // $('#login-failed').show();
             return res.send({message: "Password ain't right friend. No token(soup) for you!."});
@@ -67,7 +68,15 @@ router.route('/agatha')
       if (err) return next(err);
       console.log(user);
       res.send(user);
-    }); // ends .findOne
+    }); // ends .find
+  }); //ends .get
+
+router.route('/:id')
+  .get((req, res, next) => {
+    User.find({ _id: req.params.id }, (err, user) => {
+      if (err) return next(err);
+      res.send(user);
+    }); //ends .find
   }); //ends .get
 
 router.route('/signup')
