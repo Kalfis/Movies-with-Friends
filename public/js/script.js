@@ -258,7 +258,7 @@ let showUser = function(data) {
   let wantMovieDiv = document.createElement('div');
   wantMovieDiv.id = "want-movie-div";
   // wantMovieDiv.css("background-color", "red");
-  wantMovieDiv.innerHTML = '<h3>Movies ' + data[0].username + ' Wants to Watch: </h3>' //+ '<p>' + data[0].toWatchList + '</p>');
+  wantMovieDiv.innerHTML = '<h3>Movies ' + data[0].username + ' Wants to Watch: </h3>';
   result.append(wantMovieDiv);
   let seenMovieDiv = document.createElement('div');
   seenMovieDiv.id = "seen-movie-div";
@@ -307,7 +307,6 @@ let showUser = function(data) {
         $.ajax({
           // look in movies_controller for the route that finds a movie by id.
           url: 'http://localhost:3000/movies/' + movieId
-          // should param be (data) ?
         }).done(function(toSee) {
           // using the data returned by the above url, display data using showToWatchMovie function
           showToWatchMovie(toSee);
@@ -325,7 +324,6 @@ let showUser = function(data) {
       $.ajax({
         url: 'http://localhost:3000/movies/' + watchedMovieId
       }).done((seen) => {
-        // .empty();
         showWatchedMovie(seen);
       });
     }
