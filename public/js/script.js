@@ -150,60 +150,36 @@ $(function(){
          console.log( $(this).closest('button').attr('value') );
 
          var titleSelected = ( $(this).closest('button').attr('value') );
-         console.log("This is the title selected: " + titleSelected);
-         console.log(movieObjs);
 
-         for (var i=0; i< movieObjs.results.length; i++){
-             if (movieObjs.results[i].title == titleSelected){
-               var location = i;
-             }; // close if function
-          }; // close for loop to match Title
-
-          var newMovieData = {};
-          newMovieData.title = movieObjs.results[location].title;
-          newMovieData.overview = movieObjs.results[location].overview;
-          newMovieData.release_date = movieObjs.results[location].release_date;
-          newMovieData.poster_path = movieObjs.results[location].poster_path;
-          console.log("The newMovieData is: ");
-          console.log(newMovieData);
-
-          $.ajax({
-            url: "/movies/",
-            method: "POST",
-            data: newMovieData
-          }); // close $.ajax
-
+         addToDatabase(titleSelected, movieObjs);
         }); // close ('.Add-Database-Button')
 
-        /// Event listener for Add to Want to Watch List - WORK IN PROGRESS ///
-        // $('#Add-Want-Watch-Button'+i).click(function(event){
-        //   event.preventDefault();
-        //   console.log('Clicked Add to Want to Watch List Button');
-        //   console.log( $(this).closest('button').attr('value') );
-        //
-        //   var titleSelected = ( $(this).closest('button').attr('value') );
-        //   console.log("This is the title selected: " + titleSelected);
-        //   console.log(movieObjs);
-        //
-        //   for (var i=0; i< movieObjs.results.length; i++){
-        //       if (movieObjs.results[i].title == titleSelected){
-        //         var location = i;
-        //       }; // close if function
-        //    }; // close for loop to match Title
-        //
-        //    var wantWatchData = {};
-        //    wantWatchData.id = movieObjs.results[location]._id;
-        //   //  var wantWatchId = movieObjs.results[location]._id;
-        //    console.log("want watch object " + movieObjs.results[location]);
-        //
-        //    console.log("The new Want To Watch ID is: " + wantWatchData.id);
+        // Event listener for Add to Want to Watch List - WORK IN PROGRESS ///
+        $('#Add-Want-Watch-Button'+i).click(function(event){
+          event.preventDefault();
+          console.log('Clicked Add to Want to Watch List Button');
+          console.log( $(this).closest('button').attr('value') );
+
+          var titleSelected = ( $(this).closest('button').attr('value') );
+
+          console.log("This is the title selected: " + titleSelected);
+          console.log(movieObjs);
+
+          addToDatabase(titleSelected, movieObjs);
+
+          var wantWatchId = ///////////////
+
+          //  var wantWatchId = movieObjs.results[location]._id;
+           console.log("want watch object " + movieObjs.results[location]);
+
+           console.log("The new Want To Watch ID is: " + wantWatchData.id);
 
 
-          //  $.ajax({
-          //    url: "/movies/",
-          //    method: "POST",
-          //    data: newMovieData
-          //  }); // close $.ajax
+           $.ajax({
+             url: "/movies/",
+             method: "POST",
+             data: newMovieData
+           }); // close $.ajax
 
          }); // close ('.Add-Database-Button')
 
@@ -211,6 +187,36 @@ $(function(){
 
       }; // close For loop to create Div's
     }; // close newMovies()
+
+
+    var addToDatabase = function (titleSelected, movieObjs) {
+
+      console.log("This is the title selected: " + titleSelected);
+      console.log(movieObjs);
+
+      for (var i=0; i< movieObjs.results.length; i++){
+          if (movieObjs.results[i].title == titleSelected){
+            var location = i;
+          }; // close if function
+       }; // close for loop to match Title
+
+       var newMovieData = {};
+       newMovieData.title = movieObjs.results[location].title;
+       newMovieData.overview = movieObjs.results[location].overview;
+       newMovieData.release_date = movieObjs.results[location].release_date;
+       newMovieData.poster_path = movieObjs.results[location].poster_path;
+       console.log("The newMovieData is: ");
+       console.log(newMovieData);
+
+       $.ajax({
+         url: "/movies/",
+         method: "POST",
+         data: newMovieData
+       }); // close $.ajax
+    }; // close addToDatabase()
+
+
+
 
   // Render information of a movie profile thru DOM in index.html
   //======================================
