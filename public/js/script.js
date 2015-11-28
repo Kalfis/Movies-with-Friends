@@ -278,6 +278,7 @@ $('#view-user-test').click((event) => {
     // url: '/users/' + id of Agatha
   }).done(function(data) {
     $('#user-profile').empty();
+    $('#movie-profile').empty();
      showUser(data);
     // empty user info display div.
     // add the info for this particular user into the div.
