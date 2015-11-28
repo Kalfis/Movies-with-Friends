@@ -337,12 +337,23 @@ let showUser = function(data) {
 // when the page loads/before user clicks login link, hide the login form. We only want it to appear if a user clicks the "log in" link.
 $('#login-form').hide();
 $('#login-failed').hide();
+$('#signup-form').hide();
 
+//Let user sign up.
+$('#signup-link').click((event) => {
+  event.preventDefault();
+  console.log('Sign up clicked');
+  $('#login-form').hide();
+  $('#signup-form').show();
+  $('user-profile').empty();
+  $('#movie-profile').empty();
+})
 //Let user log in.
 //======================================
 $('#login-link').click((event) => {
   event.preventDefault();
   console.log('Log in button clicked');
+  $('#signup-form').hide();
   $('#login-form').show();
   // empty user profile, movie-profile
   // (Put new movie form, edit forms in routes only accessible through token bearers)
@@ -384,5 +395,20 @@ $('#submit-login').click((event) => {
   // what happens here with tokens--do I need to insert into header?
   })
 }); //ends login-submit button click event
+
+//Do sign up when someone clicks the submit button for signing up
+$('#submit-signup').click((event) => {
+  event.preventDefault();
+  console.log('clicked submit for sign up');
+
+  let user = {};
+  user.username = $('#signup-username').val();
+  user.password = $('#signup-password').val();
+    $.ajax({
+      url: '/users/signup',
+      method: 'POST',
+      data: user
+    }) //closes sign up ajax
+}) //closes sign up click event
 
 }) // close main anonymous function

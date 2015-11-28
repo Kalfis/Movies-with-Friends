@@ -70,4 +70,12 @@ router.route('/agatha')
     }); // ends .findOne
   }); //ends .get
 
+router.route('/users/signup')
+  .post((req, res) => {
+    let newUser = new userSchema(req.body.user);
+    newUser.create({
+      username: req.body.user.username,
+      password: req.body.user.password
+    })
+  })
 module.exports = router;
