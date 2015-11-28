@@ -9,6 +9,16 @@
   /*background-color: rgba(130, 180, 150, 0.5);*/
 }
 
+#signup-form {
+  width: 400px;
+  margin: 0 auto;
+  margin-bottom: 50px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  border: 1px solid black;
+}
+
 /* USER PROFILE */
 #user-profile {
   border: 2px dotted black;

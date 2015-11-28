@@ -97,6 +97,18 @@ $(function(){
 
       console.log('Clicked Edit Button');
 
+      var editMovieData = {};
+      editMovieData.title = $('#title-data').val();
+      editMovieData.overview = $('#comments-data').val();
+
+      // PENDING  ////
+      console.log(newMovieData);
+      $.ajax({
+        url: "/movies/",
+        method: "POST",
+        data: editMovieData
+      }); // close $.ajax
+
       // #######   PENDING ####### ///
       // edit information from database
       // #######   PENDING ####### ///
@@ -130,11 +142,11 @@ $(function(){
        var movieDiv = $('<div class="single-movie-profile"></div>');
        $('#movie-profile').append(movieDiv);
 
-       movieDiv.append('<p><strong> Title: </strong> <a href="http://www.google.com">' + movieObjs.results[i].title + '</a></p>');
+       movieDiv.append('<p><strong>' + movieObjs.results[i].title + '</strong></p>');
        // movieDiv.append('<p><strong> Title: </strong>'+ movieObjs.results[i].title + '</p>');
        movieDiv.append('<img src=https://image.tmdb.org/t/p/w185' + movieObjs.results[i].poster_path + '></img>');
-       movieDiv.append('<p><strong>  Released Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
-       movieDiv.append('<button id="Add-Want-Watch-Button">Add to Want to Watch List </button>');
+       movieDiv.append('<p><strong>  Release Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
+       movieDiv.append('<button id="Add-Want-Watch-Button' + i + '" value ="' + movieObjs.results[i].title +'">Add to Want to Watch List </button>');
        movieDiv.append('<button id="Add-Already-Watched-Button">Add to Already Watched List </button>');
        movieDiv.append('<button id="Add-Database-Button' + i  +'" value="'+ movieObjs.results[i].title +'">Add to MyMovies</button>');
 
@@ -150,46 +162,73 @@ $(function(){
          console.log( $(this).closest('button').attr('value') );
 
          var titleSelected = ( $(this).closest('button').attr('value') );
-         console.log("This is the title selected: " + titleSelected);
-         console.log(movieObjs);
 
-         for (var i=0; i< movieObjs.results.length; i++){
-             if (movieObjs.results[i].title == titleSelected){
-               var location = i;
-             }; // close if function
-          }; // close for loop to match Title
-
-          var newMovieData = {};
-          newMovieData.title = movieObjs.results[location].title;
-          newMovieData.overview = movieObjs.results[location].overview;
-          newMovieData.release_date = movieObjs.results[location].release_date;
-          newMovieData.poster_path = movieObjs.results[location].poster_path;
-          console.log("The newMovieData is: ");
-          console.log(newMovieData);
-
-          $.ajax({
-            url: "/movies/",
-            method: "POST",
-            data: newMovieData
-          }); // close $.ajax
-
+         addToDatabase(titleSelected, movieObjs);
         }); // close ('.Add-Database-Button')
+
+        // Event listener for Add to Want to Watch List - WORK IN PROGRESS ///
+        $('#Add-Want-Watch-Button'+i).click(function(event){
+          event.preventDefault();
+          console.log('Clicked Add to Want to Watch List Button');
+          console.log( $(this).closest('button').attr('value') );
+
+          var titleSelected = ( $(this).closest('button').attr('value') );
+
+          console.log("This is the title selected: " + titleSelected);
+          console.log(movieObjs);
+
+          addToDatabase(titleSelected, movieObjs);
+
+          var wantWatchId = ///////////////
+
+          //  var wantWatchId = movieObjs.results[location]._id;
+           console.log("want watch object " + movieObjs.results[location]);
+
+           console.log("The new Want To Watch ID is: " + wantWatchData.id);
+
+
+           $.ajax({
+             url: "/movies/",
+             method: "POST",
+             data: newMovieData
+           }); // close $.ajax
+
+         }); // close ('.Add-Database-Button')
+
+
+
       }; // close For loop to create Div's
     }; // close newMovies()
 
-////////  START OF CONFLICT
-//// LA commented out; pending to ask Maggie if needed in her block
 
-    //       result.append('<p><strong> Title: </strong>'+ movieObjs.results[i].title + '</p>');
-    //       result.append('<img src=https://image.tmdb.org/t/p/w185' + movieObjs.results[i].poster_path + '></img>');
-    //       result.append('<p><strong>  Released Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
-    //       result.append('<button id="Add-Watchlist-button">Add to Want to Watch List </button>');
-    //       result.append('<button id="Add-Watchlist-button">Add to Already Watched List </button>');
-    //
-    //       };
-    // };
+    var addToDatabase = function (titleSelected, movieObjs) {
 
-/////////// END OF CONFLICT
+      console.log("This is the title selected: " + titleSelected);
+      console.log(movieObjs);
+
+      for (var i=0; i< movieObjs.results.length; i++){
+          if (movieObjs.results[i].title == titleSelected){
+            var location = i;
+          }; // close if function
+       }; // close for loop to match Title
+
+       var newMovieData = {};
+       newMovieData.title = movieObjs.results[location].title;
+       newMovieData.overview = movieObjs.results[location].overview;
+       newMovieData.release_date = movieObjs.results[location].release_date;
+       newMovieData.poster_path = movieObjs.results[location].poster_path;
+       console.log("The newMovieData is: ");
+       console.log(newMovieData);
+
+       $.ajax({
+         url: "/movies/",
+         method: "POST",
+         data: newMovieData
+       }); // close $.ajax
+    }; // close addToDatabase()
+
+
+
 
   // Render information of a movie profile thru DOM in index.html
   //======================================
@@ -239,7 +278,7 @@ $('#view-user-test').click((event) => {
     // url: '/users/' + id of Agatha
   }).done(function(data) {
     $('#user-profile').empty();
-    $('#movie-profile').empty()
+    $('#movie-profile').empty();
      showUser(data);
     // empty user info display div.
     // add the info for this particular user into the div.
@@ -334,12 +373,23 @@ let showUser = function(data) {
 // when the page loads/before user clicks login link, hide the login form. We only want it to appear if a user clicks the "log in" link.
 $('#login-form').hide();
 $('#login-failed').hide();
+$('#signup-form').hide();
 
+//Let user sign up.
+$('#signup-link').click((event) => {
+  event.preventDefault();
+  console.log('Sign up clicked');
+  $('#login-form').hide();
+  $('#signup-form').show();
+  $('user-profile').empty();
+  $('#movie-profile').empty();
+})
 //Let user log in.
 //======================================
 $('#login-link').click((event) => {
   event.preventDefault();
   console.log('Log in button clicked');
+  $('#signup-form').hide();
   $('#login-form').show();
   // empty user profile, movie-profile
   // (Put new movie form, edit forms in routes only accessible through token bearers)
@@ -369,6 +419,9 @@ $('#submit-login').click((event) => {
     if (data.token) {
       // console.log(user);
       $('#login-form').hide();
+      $('#login-link').hide();
+      $('#signup-link').hide();
+      $('#divider').hide();
       // append a personalized welcome message to our user-actions div
       let welcomeUser = document.createElement('div');
       welcomeUser.innerHTML = '<p> Hi, ' + user.username + '</p>';
@@ -381,5 +434,20 @@ $('#submit-login').click((event) => {
   // what happens here with tokens--do I need to insert into header?
   })
 }); //ends login-submit button click event
+
+//Do sign up when someone clicks the submit button for signing up
+$('#submit-signup').click((event) => {
+  event.preventDefault();
+  console.log('clicked submit for sign up');
+
+  let user = {};
+  user.username = $('#signup-username').val();
+  user.password = $('#signup-password').val();
+    $.ajax({
+      url: '/users/signup',
+      method: 'POST',
+      data: user
+    }) //closes sign up ajax
+}) //closes sign up click event
 
 }) // close main anonymous function

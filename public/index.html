@@ -4,20 +4,30 @@
     <meta charset="utf-8">
     <title>Moviegoer</title>
     <!-- line 7 instead of line 8 to use jquery without internet connection.  -->
-    <script type="text/javascript" src="jquery-1.11.3.min.js"></script>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+    <!-- <script type="text/javascript" src="jquery-1.11.3.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.0/handlebars.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
   </head>
   <body>
+
   <div id="user-actions">
-    <a href="" id="login-link">Log In</a>
-    <!-- could also put sign up here. -->
+    <a href="#" id="login-link">Log In</a><span id="divider"> | </span>
+    <a href="#" id="signup-link">Sign Up</a>
+
   </div>
 
     <h1>Moviegoer</h1>
     <h2>Let's *all* go to the movies</h2>
+
+    <form id="signup-form">
+
+      <h3>Sign Up</h3>
+      <strong>Username: </strong><input id="signup-username" type="text"><br>
+      <strong>Password: </strong><input id="signup-password" type="text"></br>
+      <button id="submit-signup">Sign Up</button>
+    </form></br>
 
     <form id="login-form">
       <div id="login-failed"><p>Username or password not found. Please try again.</p></div>
@@ -26,6 +36,7 @@
       <strong> Password: </strong><input id="password-input" type="password" name="password"></br>
       <button id="submit-login">Submit</button>
     </form>
+
 
     <div id="movie-db-search-formholder">
       <form>
@@ -38,7 +49,7 @@
 
   <button id="API-Upcoming-Movies-button">Upcoming Movies</button>
 
-  <button id="API-NowPlaying-Movies-button">Now Playing Movies</button>
+  <button id="API-NowPlaying-Movies-button">Movies Now Playing</button>
 
     <div id="user-profile">
       <div id="to-watch-container"></div>
@@ -51,22 +62,20 @@
     </div>
 
     <form class="form"> <br>
-        <h3> New Movie Form </h3>
-        <label> Title </label> <br>
-        <input id="movie_title" type="text" name="title"> <br>
-        <label> Overview </label> <br>
-        <input id="movie-overview" type="text" name="overview"> <br>
+      <h3> New Movie Form </h3>
+      <strong> Title: </strong> <input id="movie_title" type="text" name="title"> <br>
+      <strong> Overview: </strong> <input id="movie-overview" type="text" name="overview"> <br>
 
-        <button id="keep-button" value="keep">KEEP</button>
+      <button id="keep-button" value="keep">KEEP</button>
 
     </form>
 
 
     <div id="edit-movie-formholder">
-      <h3> Edit Form </h3>
+      <h3> Edit Movie Form </h3>
       <form>
          <strong>Title:</strong> <input id="title-data" type="text" name="title"><br>
-         <strong>Comments:</strong> <input id="director-data" type="text" name="director"><br>
+         <strong>Comments:</strong> <input id="comments-data" type="text" name="comments"><br>
       </form>
 
       <button id="edit-button">EDIT</button>

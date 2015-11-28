@@ -67,7 +67,7 @@ let toWatchLists = [
   [
     { title: "Jane Got a Gun", overview: "After her outlaw husband returns home shot with eight bullets and barely alive, Jane reluctantly reaches out to an ex-lover who she hasn't seen in over ten years to help her defend her farm when the time comes that her husband's gang eventually tracks him down to finish the job.", release_date: "2015-11-25", poster_path:  "/qg3cEqlszcU1sBb8P83hwPEEHnP.jpg"}
   ],
-  // movies watched by Cat--match Agatha's again--let's see if ObjectIds are identical or diffferent
+  // movies watched by Cat--match Agatha's again--let's see if ObjectIds are identical or different
   [
     { title: "Jane Got a Gun", overview: "After her outlaw husband returns home shot with eight bullets and barely alive, Jane reluctantly reaches out to an ex-lover who she hasn't seen in over ten years to help her defend her farm when the time comes that her husband's gang eventually tracks him down to finish the job.", release_date: "2015-11-25", poster_path:  "/qg3cEqlszcU1sBb8P83hwPEEHnP.jpg"}
   ]
