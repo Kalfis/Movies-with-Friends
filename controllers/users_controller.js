@@ -12,14 +12,16 @@ let express = require('express');
 let router = express.Router();
 // let User = require('../models/user')
 
-
 // Index
 router.route('/')
   .get((req, res, next) => {
-    res.send('Test. Hello! You\'ve hit the users route!');
-  })
-
-
+    User.find( {}, function(err, users) {
+      if (err) throw err;
+      res.send(users);
+      // loop through the list of users
+      // print a list of users.
+    }) //ends .find
+  }) //ends .get
 
 // route to user auth
 router.route('/authenticate')
@@ -58,6 +60,13 @@ router.route('/authenticate')
   });
 }); //ends .post
 
+router.route('/signup')
+  .post((req, res) => {
+    let newUser = new User(req.body);
+    console.log(req.body);
+    newUser.save();
+  })
+
 router.route('/:id')
   .get((req, res, next) => {
     User.find({ _id: req.params.id }, (err, user) => {
@@ -65,12 +74,5 @@ router.route('/:id')
       res.send(user);
     }); //ends .find
   }); //ends .get
-
-router.route('/signup')
-  .post((req, res) => {
-    let newUser = new User(req.body);
-    console.log(req.body);
-    newUser.save();
-  })
 
 module.exports = router;
