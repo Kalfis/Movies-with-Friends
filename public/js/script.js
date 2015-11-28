@@ -239,6 +239,7 @@ $('#view-user-test').click((event) => {
     // url: '/users/' + id of Agatha
   }).done(function(data) {
     $('#user-profile').empty();
+    $('#movie-profile').empty()
      showUser(data);
     // empty user info display div.
     // add the info for this particular user into the div.
@@ -252,8 +253,6 @@ let showUser = function(data) {
   // console.log(data[0]);
   // try not appending another div to this div
   let result = $('#user-profile');
-  // let watchedContainer = $('#watched-container').append('<div>').find('div');
-  // let toWatchContainer = $('#to-watch-container');
   result.append('<h3>Username: </h3>' + '<p>' + data[0].username + '</p>' );
   result.append('<h3>Bio: </h3>' + '<p>' + data[0].bio + '</p>');
   let wantMovieDiv = document.createElement('div');
