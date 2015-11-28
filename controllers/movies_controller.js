@@ -67,7 +67,7 @@ router.route('/searchByTitle/:title')
       if (movie == null) {
         res.send("The Movie you searched for is not in 'mymovies'.");
       };
-      console.log('movie profile searched by title accesused.');
+      console.log('movie profile searched by title accessed.');
       console.log("This is the data: " + movie);
       res.send(movie);
     });

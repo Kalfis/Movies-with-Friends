@@ -171,27 +171,62 @@ $(function(){
           event.preventDefault();
           console.log('Clicked Add to Want to Watch List Button');
           console.log( $(this).closest('button').attr('value') );
-
+          // get the title of the movie corresponding to the div where the button clicked is located
           var titleSelected = ( $(this).closest('button').attr('value') );
 
           console.log("This is the title selected: " + titleSelected);
           console.log(movieObjs);
 
+          // Then Add Movie to local database if the movie selected is not already in the database
           addToDatabase(titleSelected, movieObjs);
 
-          var wantWatchId = ///////////////
+          // $.ajax({
+          //   url: "/movies/",
+          //   method: "POST",
+          //   data: newMovieData
+          // }); // close $.ajax
+
+          //Retrieve the Movie ID from the database
+              $.ajax({
+                  url: 'http://localhost:3000/movies/searchByTitle/'+titleSelected
+                }).done(function(data){
+                  console.log("here is the data for the movie selected: ")
+                  console.log(data);
+                  console.log('Overview: ' + data.overview);
+                  console.log('Movie ID: ' + data._id);
+                  var IDmovieToAdd = {dataID: data._id};
+                  saveToUser(IDmovieToAdd);
+              });  // close $.ajax (outer)
+
+              var saveToUser = function (IDmovieToAdd) {
+                // var userID = 'ObjectId("565337649a4cc7922ca05b4b")';
+                console.log('IDmovieToAdd: '+ IDmovieToAdd.dataID);
+                var userID = '565329ec6907fd8329c60e8a';
+                $.ajax({
+                url: '/users/'+userID,
+                method: "PUT",
+                data: IDmovieToAdd
+                }); // close $.ajax (inner)
+              }
+              // Add Movie ID to the User's profile in the database
+              // specificically to the array of the watchedList element in the User's profile
+
+                  // var userID = data.user._id;
+                  // console.log (userID);
+                  //
+                  // $.ajax({
+                  //   url: '/users/'+userId,
+                  //   method: "POST",
+                  //   data: movieToAddId
+                  // }); // close $.ajax (inner)
+
 
           //  var wantWatchId = movieObjs.results[location]._id;
+
            console.log("want watch object " + movieObjs.results[location]);
 
-           console.log("The new Want To Watch ID is: " + wantWatchData.id);
+          //  console.log("The new Want To Watch ID is: " + wantWatchData.id);
 
-
-           $.ajax({
-             url: "/movies/",
-             method: "POST",
-             data: newMovieData
-           }); // close $.ajax
 
          }); // close ('.Add-Database-Button')
 
@@ -474,8 +509,6 @@ $('#submit-login').click((event) => {
   // what happens here with tokens--do I need to insert into header?
   })
 }); //ends login-submit button click event
-
-
 
 
 }) // close main anonymous function
