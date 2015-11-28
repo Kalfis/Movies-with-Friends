@@ -142,10 +142,10 @@ $(function(){
        var movieDiv = $('<div class="single-movie-profile"></div>');
        $('#movie-profile').append(movieDiv);
 
-       movieDiv.append('<p><strong> Title: </strong> <a href="http://www.google.com">' + movieObjs.results[i].title + '</a></p>');
+       movieDiv.append('<p><strong>' + movieObjs.results[i].title + '</strong></p>');
        // movieDiv.append('<p><strong> Title: </strong>'+ movieObjs.results[i].title + '</p>');
        movieDiv.append('<img src=https://image.tmdb.org/t/p/w185' + movieObjs.results[i].poster_path + '></img>');
-       movieDiv.append('<p><strong>  Released Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
+       movieDiv.append('<p><strong>  Release Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
        movieDiv.append('<button id="Add-Want-Watch-Button' + i + '" value ="' + movieObjs.results[i].title +'">Add to Want to Watch List </button>');
        movieDiv.append('<button id="Add-Already-Watched-Button">Add to Already Watched List </button>');
        movieDiv.append('<button id="Add-Database-Button' + i  +'" value="'+ movieObjs.results[i].title +'">Add to MyMovies</button>');
@@ -422,6 +422,9 @@ $('#submit-login').click((event) => {
     if (data.token) {
       // console.log(user);
       $('#login-form').hide();
+      $('#login-link').hide();
+      $('#signup-link').hide();
+      $('#divider').hide();
       // append a personalized welcome message to our user-actions div
       let welcomeUser = document.createElement('div');
       welcomeUser.innerHTML = '<p> Hi, ' + user.username + '</p>';
