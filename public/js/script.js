@@ -432,7 +432,6 @@ $('#submit-login').click((event) => {
   }) //closes .ajax
   // data here references the object containing a token or error message
   .done(function(data){
-    console.log(data.token);
     // if user is authenticated in /users/authenticate and granted token, hide login form
     if (data.token) {
       // console.log(user);
@@ -451,6 +450,23 @@ $('#submit-login').click((event) => {
       console.log('user._id: '+ data.user._id);
       // note that we have to use .append here, and not .appendChild
       $('#user-actions').append(welcomeUser);
+      // Once a user has logged in, they can click on a link to view their profiles.
+      $('#my-profile').click((event) => {
+        event.preventDefault();
+        let myId = data.user._id
+        console.log('myId: ' + myId);
+        $.ajax({
+          url: '/users/' + myId
+          // /users/:id will return all user info for that id.
+        })
+        .done(function(data) {
+          $('#user-profile').empty();
+          $('#movie-profile').empty();
+           showUser(data);
+          // empty user info display div.
+          // add the info for this particular user into the div.
+        }) //ends .done
+      }); //ends click event on my-profile link
     // if user is not granted token, give them a 'not found' message
     } else {
       $('#login-failed').show();
@@ -458,6 +474,8 @@ $('#submit-login').click((event) => {
   // what happens here with tokens--do I need to insert into header?
   })
 }); //ends login-submit button click event
+
+
 
 
 }) // close main anonymous function

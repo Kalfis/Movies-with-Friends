@@ -58,19 +58,6 @@ router.route('/authenticate')
   });
 }); //ends .post
 
-// test route for a user profile
-router.route('/agatha')
-  .get((req, res, next) => {
-    // let enteredName = req.params.username
-    // let userId = req.params.id
-    // find user matching the userId
-    User.find({ username: 'Agatha'}, (err, user) => {
-      if (err) return next(err);
-      console.log(user);
-      res.send(user);
-    }); // ends .find
-  }); //ends .get
-
 router.route('/:id')
   .get((req, res, next) => {
     User.find({ _id: req.params.id }, (err, user) => {
