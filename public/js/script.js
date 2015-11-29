@@ -102,6 +102,18 @@ $(function(){
 
       console.log('Clicked Edit Button');
 
+      var editMovieData = {};
+      editMovieData.title = $('#title-data').val();
+      editMovieData.overview = $('#comments-data').val();
+
+      // PENDING  ////
+      console.log(newMovieData);
+      $.ajax({
+        url: "/movies/",
+        method: "POST",
+        data: editMovieData
+      }); // close $.ajax
+
       // #######   PENDING ####### ///
       // edit information from database
       // #######   PENDING ####### ///
@@ -135,11 +147,11 @@ $(function(){
        var movieDiv = $('<div class="single-movie-profile"></div>');
        $('#movie-profile').append(movieDiv);
 
-       movieDiv.append('<p><strong> Title: </strong> <a href="http://www.google.com">' + movieObjs.results[i].title + '</a></p>');
+       movieDiv.append('<p><strong>' + movieObjs.results[i].title + '</strong></p>');
        // movieDiv.append('<p><strong> Title: </strong>'+ movieObjs.results[i].title + '</p>');
        movieDiv.append('<img src=https://image.tmdb.org/t/p/w185' + movieObjs.results[i].poster_path + '></img>');
-       movieDiv.append('<p><strong>  Released Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
-       movieDiv.append('<button id="Add-Want-Watch-Button">Add to Want to Watch List </button>');
+       movieDiv.append('<p><strong>  Release Date: </strong>'+ movieObjs.results[i].release_date + '</p>');
+       movieDiv.append('<button id="Add-Want-Watch-Button' + i + '" value ="' + movieObjs.results[i].title +'">Add to Want to Watch List </button>');
        movieDiv.append('<button id="Add-Already-Watched-Button">Add to Already Watched List </button>');
        movieDiv.append('<button id="Add-Database-Button' + i  +'" value="'+ movieObjs.results[i].title +'">Add to MyMovies</button>');
 
@@ -155,32 +167,88 @@ $(function(){
          console.log( $(this).closest('button').attr('value') );
 
          var titleSelected = ( $(this).closest('button').attr('value') );
-         console.log("This is the title selected: " + titleSelected);
-         console.log(movieObjs);
 
-         for (var i=0; i< movieObjs.results.length; i++){
-             if (movieObjs.results[i].title == titleSelected){
-               var location = i;
-             }; // close if function
-          }; // close for loop to match Title
-
-          var newMovieData = {};
-          newMovieData.title = movieObjs.results[location].title;
-          newMovieData.overview = movieObjs.results[location].overview;
-          newMovieData.release_date = movieObjs.results[location].release_date;
-          newMovieData.poster_path = movieObjs.results[location].poster_path;
-          console.log("The newMovieData is: ");
-          console.log(newMovieData);
-
-          $.ajax({
-            url: "/movies/",
-            method: "POST",
-            data: newMovieData
-          }); // close $.ajax
-
+         addToDatabase(titleSelected, movieObjs);
         }); // close ('.Add-Database-Button')
+
+        // Event listener for Add to Want to Watch List - WORK IN PROGRESS ///
+        $('#Add-Want-Watch-Button'+i).click(function(event){
+          event.preventDefault();
+          console.log('Clicked Add to Want to Watch List Button');
+          console.log( $(this).closest('button').attr('value') );
+          // get the title of the movie corresponding to the div where the button clicked is located
+          var titleSelected = ( $(this).closest('button').attr('value') );
+
+          console.log("This is the title selected: " + titleSelected);
+          console.log(movieObjs);
+
+          // Then Add Movie to local database if the movie selected is not already in the database
+          addToDatabase(titleSelected, movieObjs);
+
+          //Retrieve the Movie ID from the database
+              $.ajax({
+                  url: 'http://localhost:3000/movies/searchByTitle/'+titleSelected
+                }).done(function(data){
+                  console.log("here is the data for the movie selected: ")
+                  console.log(data);
+                  console.log('Overview: ' + data.overview);
+                  console.log('Movie ID: ' + data._id);
+                  var IDmovieToAdd = {dataID: data._id};
+                  saveToUser(IDmovieToAdd);
+              });  // close $.ajax (outer)
+
+              // Add Movie ID to the User's profile in the database
+              // specificically to the array of the watchedList element in the User's profile
+
+              var saveToUser = function (IDmovieToAdd) {
+
+                var currentUserID = $('#current-user').html();
+
+                console.log("The Current User ID: " + currentUserID);
+
+                console.log('IDmovieToAdd: '+ IDmovieToAdd.dataID);
+                var userID = currentUserID;
+                // var userID = '565329ec6907fd8329c60e8a'; // Agatha
+                // var userID = '5659107f7e84b23e06e6a124'; // Luis
+
+                $.ajax({
+                url: '/users/'+userID,
+                method: "PUT",
+                data: IDmovieToAdd
+                }); // close $.ajax (inner)
+              }
+
+         }); // close ('.Add-Database-Button')
+
       }; // close For loop to create Div's
     }; // close newMovies()
+
+
+    var addToDatabase = function (titleSelected, movieObjs) {
+
+      console.log("This is the title selected: " + titleSelected);
+      console.log(movieObjs);
+
+      for (var i=0; i< movieObjs.results.length; i++){
+          if (movieObjs.results[i].title == titleSelected){
+            var location = i;
+          }; // close if function
+       }; // close for loop to match Title
+
+       var newMovieData = {};
+       newMovieData.title = movieObjs.results[location].title;
+       newMovieData.overview = movieObjs.results[location].overview;
+       newMovieData.release_date = movieObjs.results[location].release_date;
+       newMovieData.poster_path = movieObjs.results[location].poster_path;
+       console.log("The newMovieData is: ");
+       console.log(newMovieData);
+
+       $.ajax({
+         url: "/movies/",
+         method: "POST",
+         data: newMovieData
+       }); // close $.ajax
+    }; // close addToDatabase()
 
   // Render information of a movie profile thru DOM in index.html
   //======================================
@@ -230,6 +298,7 @@ $('#view-user-test').click((event) => {
     // url: '/users/' + id of Agatha
   }).done(function(data) {
     $('#user-profile').empty();
+    $('#movie-profile').empty();
      showUser(data);
     // empty user info display div.
     // add the info for this particular user into the div.
@@ -243,14 +312,12 @@ let showUser = function(data) {
   // console.log(data[0]);
   // try not appending another div to this div
   let result = $('#user-profile');
-  // let watchedContainer = $('#watched-container').append('<div>').find('div');
-  // let toWatchContainer = $('#to-watch-container');
   result.append('<h3>Username: </h3>' + '<p>' + data[0].username + '</p>' );
   result.append('<h3>Bio: </h3>' + '<p>' + data[0].bio + '</p>');
   let wantMovieDiv = document.createElement('div');
   wantMovieDiv.id = "want-movie-div";
   // wantMovieDiv.css("background-color", "red");
-  wantMovieDiv.innerHTML = '<h3>Movies ' + data[0].username + ' Wants to Watch: </h3>' //+ '<p>' + data[0].toWatchList + '</p>');
+  wantMovieDiv.innerHTML = '<h3>Movies ' + data[0].username + ' Wants to Watch: </h3>';
   result.append(wantMovieDiv);
   let seenMovieDiv = document.createElement('div');
   seenMovieDiv.id = "seen-movie-div";
@@ -299,7 +366,6 @@ let showUser = function(data) {
         $.ajax({
           // look in movies_controller for the route that finds a movie by id.
           url: 'http://localhost:3000/movies/' + movieId
-          // should param be (data) ?
         }).done(function(toSee) {
           // using the data returned by the above url, display data using showToWatchMovie function
           showToWatchMovie(toSee);
@@ -317,7 +383,6 @@ let showUser = function(data) {
       $.ajax({
         url: 'http://localhost:3000/movies/' + watchedMovieId
       }).done((seen) => {
-        // .empty();
         showWatchedMovie(seen);
       });
     }
@@ -328,12 +393,41 @@ let showUser = function(data) {
 // when the page loads/before user clicks login link, hide the login form. We only want it to appear if a user clicks the "log in" link.
 $('#login-form').hide();
 $('#login-failed').hide();
+$('#signup-form').hide();
+// only want users to have a view-profile link once they've logged in.
+$('#my-profile').hide();
+
+//Let user sign up.
+$('#signup-link').click((event) => {
+  event.preventDefault();
+  console.log('Sign up clicked');
+  $('#login-form').hide();
+  $('#signup-form').show();
+  $('user-profile').empty();
+  $('#movie-profile').empty();
+})
+
+//Do sign up when someone clicks the submit button for signing up
+$('#submit-signup').click((event) => {
+  event.preventDefault();
+  console.log('clicked submit for sign up');
+
+  let user = {};
+  user.username = $('#signup-username').val();
+  user.password = $('#signup-password').val();
+    $.ajax({
+      url: '/users/signup',
+      method: 'POST',
+      data: user
+    }) //closes sign up ajax
+}) //closes sign up click event
 
 //Let user log in.
 //======================================
 $('#login-link').click((event) => {
   event.preventDefault();
   console.log('Log in button clicked');
+  $('#signup-form').hide();
   $('#login-form').show();
   // empty user profile, movie-profile
   // (Put new movie form, edit forms in routes only accessible through token bearers)
@@ -356,11 +450,63 @@ $('#submit-login').click((event) => {
     data: user
     // console.log(req.body);
   }) //closes .ajax
+  // data here references the object containing a token or error message
   .done(function(data){
-    console.log(data);
-  // where should user be redirected to? Homepage?
+    // if user is authenticated in /users/authenticate and granted token, hide login form
+    if (data.token) {
+      // console.log(user);
+      $('#login-form').hide();
+      $('#login-link').hide();
+      $('#signup-link').hide();
+      $('#divider').hide();
+      // Show users the link to their profile
+      $('#my-profile').show();
+
+
+      // append a personalized welcome message to our user-actions div
+      let welcomeUser = document.createElement('div');
+      welcomeUser.id = "welcome-user";
+      // user.username is something we sent in the post request, so it's still accessible using this syntax.
+      welcomeUser.innerHTML = '<p> Hi, ' + user.username + '  |</p>';
+      // In /users/authenticate, we're retrieving user data associated with the username and password sent in the post method, then sending all user info back as part of "data"
+      console.log('user._id: '+ data.user._id);
+      // note that we have to use .append here, and not .appendChild
+      $('#user-actions').append(welcomeUser);
+
+      //
+      let currentUser = document.createElement('div');
+      currentUser.id = "current-user";
+      currentUser.innerHTML = data.user._id;
+      $('#user-actions').append(currentUser);
+      $('#current-user').hide();
+      //
+
+      // Once a user has logged in, they can click on a link to view their profiles.
+      $('#my-profile').click((event) => {
+        event.preventDefault();
+        let myId = data.user._id
+        console.log('myId: ' + myId);
+
+        $.ajax({
+          url: '/users/' + myId
+          // /users/:id will return all user info for that id.
+        })
+        .done(function(data) {
+          $('#user-profile').empty();
+          $('#movie-profile').empty();
+           showUser(data);
+
+          // empty user info display div.
+          // add the info for this particular user into the div.
+        }) //ends .done
+      }); //ends click event on my-profile link
+    // if user is not granted token, give them a 'not found' message
+    } else {
+      $('#login-failed').show();
+    }
   // what happens here with tokens--do I need to insert into header?
   })
 }); //ends login-submit button click event
+
 
 }) // close main anonymous function

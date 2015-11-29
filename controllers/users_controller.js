@@ -19,8 +19,6 @@ router.route('/')
     res.send('Test. Hello! You\'ve hit the users route!');
   })
 
-
-
 // route to user auth
 router.route('/authenticate')
   .post((req, res) => {
@@ -47,7 +45,8 @@ router.route('/authenticate')
         user.authenticate(req.body.password, function(err, isMatch) {
           if (err) throw err;
           if (isMatch) {
-            return res.send({message: "Password is good friend! Have a token buddy.", token: jwt.sign(user, secret)});
+            // send back a success message, a token, and all of the user data for user matching that username and password.
+            return res.send({message: "Password is good friend! Have a token buddy.", token: jwt.sign(user, secret), user: user});
           } else {
             // $('#login-failed').show();
             return res.send({message: "Password ain't right friend. No token(soup) for you!."});
@@ -57,17 +56,38 @@ router.route('/authenticate')
   });
 }); //ends .post
 
-// test route for a user profile
-router.route('/agatha')
+router.route('/:id')
   .get((req, res, next) => {
-    // let enteredName = req.params.username
-    // let userId = req.params.id
-    // find user matching the userId
-    User.find({ username: 'Agatha'}, (err, user) => {
+    User.find({ _id: req.params.id }, (err, user) => {
       if (err) return next(err);
-      console.log(user);
       res.send(user);
-    }); // ends .findOne
-  }); //ends .get
+    }); //ends .find
+  }) //ends .get
+  // Add Post Method in order to add data to the User's profile
+// WORK IN PROGRESS
+  .put((req, res) => {
+    console.log('hit /users/:id POST route');
+    var movieID = req.body.dataID;
+    console.log('movieID is: ' + movieID);
+    console.log('User ID: ' + req.params.id);
+
+    var update = {$push: {"watchedList": movieID }};
+
+    User.findOneAndUpdate({ _id: req.params.id}, update, (err, user) => {
+      if(err) console.log(err);
+      res.send(user);
+      console.log('movie data in PUT: ' + user);
+      console.log("Movie to Watch added to User");
+    });
+  });
+
+// END OF WORK IN PROGRESS
+
+router.route('/signup')
+  .post((req, res) => {
+    let newUser = new User(req.body);
+    console.log(req.body);
+    newUser.save();
+  })
 
 module.exports = router;
