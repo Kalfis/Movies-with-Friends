@@ -120,10 +120,10 @@ router.use(function(req, res, next) {
 // List of users
 router.route('/')
 // set the header for user with a token so that they can access restricted routes
-  .all(expressJwt({
-    secret: secret,
-    url: '/users/authenticate'
-  }))
+  // .all(expressJwt({
+  //   secret: secret,
+  //   url: '/users/authenticate'
+  // }))
   .get((req, res, next) => {
     console.log('hit /users/');
     console.log(req.headers);

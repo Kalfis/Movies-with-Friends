@@ -395,6 +395,8 @@ $('#welcome-divider').hide();
 $('#view-users').hide();
 $('#profile-divider').hide();
 $('#signup-success').hide();
+$('#logout-link').hide();
+$('#view-users-divider').hide();
 
 //Let user sign up.
 $('#signup-link').click((event) => {
@@ -437,6 +439,13 @@ $('#login-link').click((event) => {
   // display a login form
 }) // ends login-link click event
 
+$('#logout-link').click((event) => {
+  event.preventDefault();
+  $.get({
+    url: '/'
+  })
+})
+
 // create a login submit button with matching id in index
 $('#submit-login').click((event) => {
   event.preventDefault();
@@ -467,6 +476,8 @@ $('#submit-login').click((event) => {
       $('#view-users').show();
       $('#welcome-divider').show();
       $('#profile-divider').show();
+      $('#view-users-divider').show();
+      $('#logout-link').show();
 
       // append a personalized welcome message to our user-actions div
       let welcomeUser = document.createElement('div');
