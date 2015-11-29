@@ -16,6 +16,7 @@ let router = express.Router();
 // route to user auth
 router.route('/authenticate')
   .post((req, res) => {
+    // let authenticateUser = function(){
     console.log('hit /users/authenticate');
     // console.log('req.body.user: ' + req.body);
     // console.log('req.body.username: ' + req.body.username )
@@ -47,7 +48,9 @@ router.route('/authenticate')
           }
         }) //ends .authenticate
       } //ends .findOne
-  });
+    });
+  // } //ends authenticateUser
+  // authenticateUser();
 }); //ends .post
 
 router.route('/signup')
@@ -88,7 +91,6 @@ router.use(function(req, res, next) {
         success: false,
         message: 'No token provided.'
       });
-
     }
   }); //ends router.use
 
@@ -96,15 +98,17 @@ router.use(function(req, res, next) {
 // List of users
 router.route('/')
 // set the header for user with a token so that they can access restricted routes.
-  .all(expressJwt({
-    url: '/authenticate',
-    secret: secret
-    // headers: {
-    //     'x-access-token': jwt
-    //   }
-  }))
+  // .all(expressJwt({
+  //   // url: '/authenticate',
+  //   secret: secret
+  //   //requestProperty: 'auth'
+  //   // headers: {
+  //   //     'x-access-token': jwt
+  //   //   }
+  // }))
   .get((req, res, next) => {
     console.log('hit /users/');
+    console.log('data.token:' + data.token)
     // console.log('headers: ' + req.headers);
     // console.log(req.query);
     // console.log('req.query.token: ' + req.query.token);

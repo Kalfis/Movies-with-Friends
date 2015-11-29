@@ -491,8 +491,10 @@ $('#submit-login').click((event) => {
   $('#view-users').click((event) => {
     event.preventDefault();
     $.ajax({
+      // url: '/users/authenticate'
       url: '/users/'
     }).done(function(data) {
+      // console.log(data.token);
       $('#user-profile').empty();
       $('#movie-profile').empty();
       listUsers(data);
