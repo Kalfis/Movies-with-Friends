@@ -12,7 +12,6 @@ let userSchema = new mongoose.Schema({
   bio: String,
   password: String,
   token: String,
-  // stories : [{ type: Schema.Types.ObjectId, ref: 'Story' }]
   watchedList: [
     { type: mongoose.Schema.Types.ObjectId,
       ref: 'Movie'

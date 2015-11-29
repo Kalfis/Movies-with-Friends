@@ -6,23 +6,38 @@
     <!-- line 7 instead of line 8 to use jquery without internet connection.  -->
     <!-- <script type="text/javascript" src="jquery-1.11.3.min.js"></script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- <script src="//cdn.auth0.com/js/lock-7.9.min.js"></script> -->
+    <!-- <meta name="viewport" content="width-device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.0/handlebars.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
   </head>
   <body>
 
+    <!-- <script>
+      // set the headers of requests to include tokens for authenticated users.
+
+    'use strict';
+    var request = new XMLHttpRequest();
+    request.open('GET', '/users/', true);
+    request.setRequestHeader("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NjU5MDgzYjNjNjU2OGExYTc4MWExMzciLCJ1c2VybmFtZSI6Im1hZ2dpZSIsInBhc3N3b3JkIjoiJDJhJDEwJElpQ015dW1mUXVERWZiMVdDdzdvRU9Jdi96MDFDMXFGY0pONUxvRG9QbGw3dnZqNlJxaXpxIiwiX192IjowLCJ0b1dhdGNoTGlzdCI6W10sIndhdGNoZWRMaXN0IjpbXX0.024bGH5C7wqc1jjq9Wmepg_VmyejOQkb7htsd1p6mAE")
+    // set headers Authorization: Bearer [token]""
+    request.send();
+  </script> -->
+
   <div id="user-actions">
     <a href="#" id="login-link">Log In</a><span id="divider"> | </span>
     <a href="#" id="signup-link">Sign Up</a>
-    <a href="#" id="my-profile">View My Profile</a>
+    <a href="#" id="my-profile">View My Profile</a><span id="profile-divider">|</span>
+    <a href="#" id="view-users">View All Users</a>
   </div>
 
     <h1>Moviegoer</h1>
     <h2>Let's *all* go to the movies</h2>
 
-    <form id="signup-form">
+    <div id="signup-success"><p>Sign Up Successful! Log in:</p></div>
 
+    <form id="signup-form">
       <h3>Sign Up</h3>
       <strong>Username: </strong><input id="signup-username" type="text"><br>
       <strong>Password: </strong><input id="signup-password" type="text"></br>
@@ -98,17 +113,6 @@
       <!-- connect to users controller to be able to display login failure or success messages. -->
       <!-- <script type="text/javascript" src="controllers/users_controller.js"></script> -->
 
-      <!-- set the headers of requests to include tokens for authenticated users. -->
-      <!-- <script>
-        'use strict';
-        var request = new XMLHttpRequest();
-        // putting multiple routes; would we need this for /authenticate, or only for view profile, edit movie/ prof, delete prof/ movie?
-        // specify the type of request; the file location; and asynchronous (true)
-        request.open('POST', '/users/authenticate', true);
-        // a hint on how to set a header when we have the token.
-        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset: UTF-8', true)
-        // set headers Authorization: Bearer [token]""
-        request.send();
-      </script> -->
+
   </body>
 </html>

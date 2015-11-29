@@ -12,16 +12,10 @@ let express = require('express');
 let router = express.Router();
 // let User = require('../models/user')
 
-
-// Index
-router.route('/')
-  .get((req, res, next) => {
-    res.send('Test. Hello! You\'ve hit the users route!');
-  })
-
 // route to user auth
 router.route('/authenticate')
   .post((req, res) => {
+    // let authenticateUser = function(){
     console.log('hit /users/authenticate');
     // console.log('req.body.user: ' + req.body);
     // console.log('req.body.username: ' + req.body.username )
@@ -53,11 +47,21 @@ router.route('/authenticate')
           }
         }) //ends .authenticate
       } //ends .findOne
-  });
+    });
+  // } //ends authenticateUser
+  // authenticateUser();
 }); //ends .post
+
+router.route('/signup')
+  .post((req, res) => {
+    let newUser = new User(req.body);
+    console.log(req.body);
+    newUser.save();
+  })
 
 router.route('/:id')
   .get((req, res, next) => {
+    console.log(req.headers.host);
     User.find({ _id: req.params.id }, (err, user) => {
       if (err) return next(err);
       res.send(user);
@@ -71,7 +75,7 @@ router.route('/:id')
     console.log('movieID is: ' + movieID);
     console.log('User ID: ' + req.params.id);
 
-    var update = {$push: {"watchedList": movieID }};
+    var update = {$push: {"toWatchList": movieID }};
 
     User.findOneAndUpdate({ _id: req.params.id}, update, (err, user) => {
       if(err) console.log(err);
@@ -83,11 +87,59 @@ router.route('/:id')
 
 // END OF WORK IN PROGRESS
 
-router.route('/signup')
-  .post((req, res) => {
-    let newUser = new User(req.body);
-    console.log(req.body);
-    newUser.save();
-  })
+/// RESTRICT ALL ROUTES BELOW THIS LINE TO TOKEN BEARERS \\\\\\\
+// === route middleware to verify a token
+router.use(function(req, res, next) {
+  // var token = req.query.token
+  var token = req.body.token || req.query.token //|| req.headers['Authorization'];
+  console.log('req.query.token: ' + req.query.token);
+
+  if (token) {
+    jwt.verify(token, secret, function(err, decoded) {
+      if (err) {
+        console.log('err' + err);
+        return res.json({ success: false, message: 'Failed to authenticate token.'});
+      } else {
+        req.decoded = decoded;
+        console.log('This is the secret, post decode: '+ secret);
+        //let's see what I'm setting to x-access-token in .all below--jwt is giving object Object, which means in line 10 it's not being set to the token... figure out how to access token within that...
+        console.log('jwt test: ' + jwt.sign);
+        next();
+      }
+    }); // ends jwt.verify
+    // if there is no token, return error.
+    } else {
+      return res.status(403).send({
+        success: false,
+        message: 'No token provided.'
+      });
+    }
+  }); //ends router.use
+
+
+// List of users
+router.route('/')
+// set the header for user with a token so that they can access restricted routes
+  .all(expressJwt({
+    secret: secret,
+    url: '/users/authenticate'
+  }))
+  .get((req, res, next) => {
+    console.log('hit /users/');
+    console.log(req.headers);
+    //^you have access to these headers only if you are allowed access to this route. Headers must be set before.
+    // req.setRequestHeader("Authorization", "Bearer" + token);
+    // console.log('data.token:' + data.token)
+    // console.log('headers: ' + req.headers);
+    // console.log(req.query);
+    // console.log('req.query.token: ' + req.query.token);
+    User.find({}, function(err, users) {
+      if (err) throw err;
+      res.send(users);
+      // loop through the list of users
+      // print a list of users.
+    }) //ends .find
+  }) //ends .get
+
 
 module.exports = router;
