@@ -93,7 +93,7 @@ router.route('/:id')
 router.use(function(req, res, next) {
   console.log("user token: " + userToken);
   // var token = req.query.token
-  var token = userToken // req.body.token || req.query.token || req.headers['Authorization'];
+  var token = req.body.token || req.query.token || req.headers['Authorization'];
   //console.log('req.query.token: ' + req.query.token);
   console.log(token);
   if (token) {

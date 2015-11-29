@@ -468,8 +468,8 @@ $('#submit-login').click((event) => {
     if (data.token) {
       $('#signup-success').hide();
       // console.log(user);
-
       console.log('token: '+data.token);
+      // putting the data.token into the user object
       data.user.token = data.token;
       console.log('user_token: '+data.user.token)
       $('#login-form').hide();
