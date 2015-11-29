@@ -187,7 +187,7 @@ $(function(){
 
           //Retrieve the Movie ID from the database
               $.ajax({
-                  url: 'http://localhost:3000/movies/searchByTitle/'+titleSelected
+                  url: '/movies/searchByTitle/'+titleSelected
                 }).done(function(data){
                   console.log("here is the data for the movie selected: ")
                   console.log(data);
