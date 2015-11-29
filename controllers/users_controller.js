@@ -62,6 +62,7 @@ router.route('/signup')
 
 router.route('/:id')
   .get((req, res, next) => {
+    console.log(req.headers.host);
     User.find({ _id: req.params.id }, (err, user) => {
       if (err) return next(err);
       res.send(user);
@@ -72,8 +73,8 @@ router.route('/:id')
 // === route middleware to verify a token
 router.use(function(req, res, next) {
   // var token = req.query.token
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
-  console.log('req.query: ' + req.query.token);
+  var token = req.body.token || req.query.token //|| req.headers['Authorization'];
+  console.log('req.query.token: ' + req.query.token);
 
   if (token) {
     jwt.verify(token, secret, function(err, decoded) {
@@ -82,6 +83,9 @@ router.use(function(req, res, next) {
         return res.json({ success: false, message: 'Failed to authenticate token.'});
       } else {
         req.decoded = decoded;
+        console.log('This is the secret, post decode: '+ secret);
+        //let's see what I'm setting to x-access-token in .all below--jwt is giving object Object, which means in line 10 it's not being set to the token... figure out how to access token within that...
+        console.log('jwt test: ' + jwt.sign);
         next();
       }
     }); // ends jwt.verify
@@ -97,18 +101,17 @@ router.use(function(req, res, next) {
 
 // List of users
 router.route('/')
-// set the header for user with a token so that they can access restricted routes.
-  // .all(expressJwt({
-  //   // url: '/authenticate',
-  //   secret: secret
-  //   //requestProperty: 'auth'
-  //   // headers: {
-  //   //     'x-access-token': jwt
-  //   //   }
-  // }))
+// set the header for user with a token so that they can access restricted routes
+  .all(expressJwt({
+    secret: secret,
+    url: '/users/authenticate'
+  }))
   .get((req, res, next) => {
     console.log('hit /users/');
-    console.log('data.token:' + data.token)
+    console.log(req.headers);
+    //^you have access to these headers only if you are allowed access to this route. Headers must be set before.
+    // req.setRequestHeader("Authorization", "Bearer" + token);
+    // console.log('data.token:' + data.token)
     // console.log('headers: ' + req.headers);
     // console.log(req.query);
     // console.log('req.query.token: ' + req.query.token);

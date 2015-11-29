@@ -440,6 +440,7 @@ $('#submit-login').click((event) => {
   .done(function(data){
     // if user is authenticated in /users/authenticate and granted token, hide login form
     if (data.token) {
+      $('#signup-success').hide();
       // console.log(user);
       console.log(data.token)
       $('#login-form').hide();
