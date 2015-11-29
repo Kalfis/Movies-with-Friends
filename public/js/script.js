@@ -24,6 +24,7 @@ $(function(){
     }); // close $.ajax
   }); // close ('.keep-button')
 
+
     //===== Event listener for API button to retrieve & display Upcoming Movies from API
     //====================================================
 
@@ -62,7 +63,6 @@ $(function(){
     $.ajax({
       url: 'http://localhost:3000/movies'
     }).done(function(data){
-      // $('#user-profile').empty();
       console.log('movie loaded');
       console.log(data);
     });
@@ -309,15 +309,35 @@ let showUser = function(data) {
   let result = $('#user-profile');
   result.append('<h3>Username: </h3>' + '<p>' + data[0].username + '</p>' );
   result.append('<h3>Bio: </h3>' + '<p>' + data[0].bio + '</p>');
+  result.append('<button id="edit-profile-button" value="'+ data[0]._id +'">Edit my Profile</button>');
+
   let wantMovieDiv = document.createElement('div');
   wantMovieDiv.id = "want-movie-div";
   // wantMovieDiv.css("background-color", "red");
   wantMovieDiv.innerHTML = '<h3>Movies ' + data[0].username + ' Wants to Watch: </h3>';
   result.append(wantMovieDiv);
+
   let seenMovieDiv = document.createElement('div');
   seenMovieDiv.id = "seen-movie-div";
   seenMovieDiv.innerHTML = '<h3>Movies ' + data[0].username + ' Has Watched: </h3>'
   result.append(seenMovieDiv);
+
+    //===== Event listener for Edit My Profile Button - WORK IN PROGRESS
+    //====================================================
+
+    $('#edit-profile-button').click(function(event){
+      event.preventDefault();
+      // $('#user-profile').empty();
+      console.log('Clicked Edit Profile Button');
+       ///  Make reference or insert Form
+
+       var bioInput = $('#bio-input').val(); //
+      
+      // var titleInput = $('#title-input').val(); //
+      // console.log(titleInput); //
+
+    }); // close #Edit-Profile-Button
+
 
   ////======= a function that will display movie data in a to-watch div inside the user-profile div.
   var showToWatchMovie = function(toSee){
@@ -360,7 +380,7 @@ let showUser = function(data) {
       let movieId = data[0].toWatchList[i];
         $.ajax({
           // look in movies_controller for the route that finds a movie by id.
-          url: 'http://localhost:3000/movies/' + movieId
+          url: '/movies/' + movieId
         }).done(function(toSee) {
           // using the data returned by the above url, display data using showToWatchMovie function
           showToWatchMovie(toSee);
@@ -376,7 +396,7 @@ let showUser = function(data) {
     for (var i = 0; i < data[0].watchedList.length; i++){
       var watchedMovieId = data[0].watchedList[i];
       $.ajax({
-        url: 'http://localhost:3000/movies/' + watchedMovieId
+        url: '/movies/' + watchedMovieId
       }).done((seen) => {
         showWatchedMovie(seen);
       });
@@ -391,6 +411,7 @@ $('#login-failed').hide();
 $('#signup-form').hide();
 // only want users to have a view-profile link once they've logged in.
 $('#my-profile').hide();
+$('#edit-profile-form').hide();
 
 //Let user sign up.
 $('#signup-link').click((event) => {
