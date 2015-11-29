@@ -462,11 +462,16 @@ $('#submit-login').click((event) => {
   }) //closes .ajax
   // data here references the object containing a token or error message
   .done(function(data){
+    //console.log('user_object: '+data.user)
+    console.log(data)
     // if user is authenticated in /users/authenticate and granted token, hide login form
     if (data.token) {
       $('#signup-success').hide();
       // console.log(user);
-      console.log(data.token)
+
+      console.log('token: '+data.token);
+      data.user.token = data.token;
+      console.log('user_token: '+data.user.token)
       $('#login-form').hide();
       $('#login-link').hide();
       $('#signup-link').hide();
