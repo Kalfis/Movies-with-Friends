@@ -1,7 +1,9 @@
 # moviegoer_app
 **Project 3: Working in teams to build an Express app**
 
-Our app is designed for users to be able to track movies that are both upcoming and now playing that they are interested in seeing. Users can store films on their profile pages in either "Want to Watch" and "Watched" lists. 
+**[Check out our app on Heroku](https://evening-dusk-5932.herokuapp.com/)**
+
+**What it is:** Our app is designed for users to be able to track movies that are both upcoming and now playing that they are interested in seeing. Users can store films on their profile pages in either "Want to Watch" and "Watched" lists. 
 
 **Technologies Used:**
 * [TMDb API](https://www.themoviedb.org/documentation/api)
