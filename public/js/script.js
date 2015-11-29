@@ -364,7 +364,7 @@ let showUser = function(data) {
       let movieId = data[0].toWatchList[i];
         $.ajax({
           // look in movies_controller for the route that finds a movie by id.
-          url: 'http://localhost:3000/movies/' + movieId
+          url: '/movies/' + movieId
         }).done(function(toSee) {
           // using the data returned by the above url, display data using showToWatchMovie function
           showToWatchMovie(toSee);
@@ -380,7 +380,7 @@ let showUser = function(data) {
     for (var i = 0; i < data[0].watchedList.length; i++){
       var watchedMovieId = data[0].watchedList[i];
       $.ajax({
-        url: 'http://localhost:3000/movies/' + watchedMovieId
+        url: '/movies/' + watchedMovieId
       }).done((seen) => {
         showWatchedMovie(seen);
       });
