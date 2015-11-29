@@ -12,7 +12,6 @@ let express = require('express');
 let router = express.Router();
 // let User = require('../models/user')
 
-
 // route to user auth
 router.route('/authenticate')
   .post((req, res) => {
@@ -67,7 +66,26 @@ router.route('/:id')
       if (err) return next(err);
       res.send(user);
     }); //ends .find
-  }); //ends .get
+  }) //ends .get
+  // Add Post Method in order to add data to the User's profile
+// WORK IN PROGRESS
+  .put((req, res) => {
+    console.log('hit /users/:id POST route');
+    var movieID = req.body.dataID;
+    console.log('movieID is: ' + movieID);
+    console.log('User ID: ' + req.params.id);
+
+    var update = {$push: {"toWatchList": movieID }};
+
+    User.findOneAndUpdate({ _id: req.params.id}, update, (err, user) => {
+      if(err) console.log(err);
+      res.send(user);
+      console.log('movie data in PUT: ' + user);
+      console.log("Movie to Watch added to User");
+    });
+  });
+
+// END OF WORK IN PROGRESS
 
 /// RESTRICT ALL ROUTES BELOW THIS LINE TO TOKEN BEARERS \\\\\\\
 // === route middleware to verify a token

@@ -59,12 +59,13 @@ $(function(){
     //===== Display all information from database in console log while on Index Page
     //====================================================
     $.ajax({
-      url: 'http://localhost:3000/movies'
+      url: '/movies'
     }).done(function(data){
       // $('#user-profile').empty();
       console.log('movie loaded');
       console.log(data);
     });
+
 
     //===== Event listener for Submit button to search for movie & display movie profile
     //====================================================
@@ -77,8 +78,12 @@ $(function(){
       var titleInput = $('#title-input').val()
       console.log(titleInput);
 
+
           $.ajax({
-              url: 'http://localhost:3000/movies/searchByTitle/'+titleInput
+              // url: 'http://localhost:3000/movies/searchByTitle/'+titleInput
+              // url: 'http://localhost:3000/movies/searchByTitle/'+ titleInput || process.env.PORT + '/movies/searchByTitle/' + titleInput
+              // url: process.env.PORT + '/movies/searchByTitle/' + titleInput
+              url: '/movies/searchByTitle/' + titleInput
             }).done(function(data){
               console.log('movie title selected');
               $('#user-profile').empty();
@@ -170,31 +175,49 @@ $(function(){
           event.preventDefault();
           console.log('Clicked Add to Want to Watch List Button');
           console.log( $(this).closest('button').attr('value') );
-
+          // get the title of the movie corresponding to the div where the button clicked is located
           var titleSelected = ( $(this).closest('button').attr('value') );
 
           console.log("This is the title selected: " + titleSelected);
           console.log(movieObjs);
 
+          // Then Add Movie to local database if the movie selected is not already in the database
           addToDatabase(titleSelected, movieObjs);
 
-          var wantWatchId = ///////////////
+          //Retrieve the Movie ID from the database
+              $.ajax({
+                  url: '/movies/searchByTitle/'+titleSelected
+                }).done(function(data){
+                  console.log("here is the data for the movie selected: ")
+                  console.log(data);
+                  console.log('Overview: ' + data.overview);
+                  console.log('Movie ID: ' + data._id);
+                  var IDmovieToAdd = {dataID: data._id};
+                  saveToUser(IDmovieToAdd);
+              });  // close $.ajax (outer)
 
-          //  var wantWatchId = movieObjs.results[location]._id;
-           console.log("want watch object " + movieObjs.results[location]);
+              // Add Movie ID to the User's profile in the database
+              // specificically to the array of the watchedList element in the User's profile
 
-           console.log("The new Want To Watch ID is: " + wantWatchData.id);
+              var saveToUser = function (IDmovieToAdd) {
 
+                var currentUserID = $('#current-user').html();
 
-           $.ajax({
-             url: "/movies/",
-             method: "POST",
-             data: newMovieData
-           }); // close $.ajax
+                console.log("The Current User ID: " + currentUserID);
+
+                console.log('IDmovieToAdd: '+ IDmovieToAdd.dataID);
+                var userID = currentUserID;
+                // var userID = '565329ec6907fd8329c60e8a'; // Agatha
+                // var userID = '5659107f7e84b23e06e6a124'; // Luis
+
+                $.ajax({
+                url: '/users/'+userID,
+                method: "PUT",
+                data: IDmovieToAdd
+                }); // close $.ajax (inner)
+              }
 
          }); // close ('.Add-Database-Button')
-
-
 
       }; // close For loop to create Div's
     }; // close newMovies()
@@ -225,9 +248,6 @@ $(function(){
          data: newMovieData
        }); // close $.ajax
     }; // close addToDatabase()
-
-
-
 
   // Render information of a movie profile thru DOM in index.html
   //======================================
@@ -344,7 +364,7 @@ let showUser = function(data) {
       let movieId = data[0].toWatchList[i];
         $.ajax({
           // look in movies_controller for the route that finds a movie by id.
-          url: 'http://localhost:3000/movies/' + movieId
+          url: '/movies/' + movieId
         }).done(function(toSee) {
           // using the data returned by the above url, display data using showToWatchMovie function
           showToWatchMovie(toSee);
@@ -360,7 +380,7 @@ let showUser = function(data) {
     for (var i = 0; i < data[0].watchedList.length; i++){
       var watchedMovieId = data[0].watchedList[i];
       $.ajax({
-        url: 'http://localhost:3000/movies/' + watchedMovieId
+        url: '/movies/' + watchedMovieId
       }).done((seen) => {
         showWatchedMovie(seen);
       });
@@ -452,6 +472,7 @@ $('#submit-login').click((event) => {
       $('#view-users').show();
       $('#welcome-divider').show();
       $('#profile-divider').show();
+
       // append a personalized welcome message to our user-actions div
       let welcomeUser = document.createElement('div');
       welcomeUser.id = "welcome-user";
@@ -462,11 +483,20 @@ $('#submit-login').click((event) => {
       // note that we have to use .append here, and not .appendChild
       $('#user-actions').append(welcomeUser);
 
+      //
+      let currentUser = document.createElement('div');
+      currentUser.id = "current-user";
+      currentUser.innerHTML = data.user._id;
+      $('#user-actions').append(currentUser);
+      $('#current-user').hide();
+      //
+
       // Once a user has logged in, they can click on a link to view their profiles.
       $('#my-profile').click((event) => {
         event.preventDefault();
         let myId = data.user._id
         console.log('myId: ' + myId);
+
         $.ajax({
           url: '/users/' + myId
           // /users/:id will return all user info for that id.
@@ -511,7 +541,5 @@ $('#submit-login').click((event) => {
     usernameLi.innerHTML = data[i].username
     }
   } //ends listUsers function
-
-
 
 }) // close main anonymous function
