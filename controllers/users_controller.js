@@ -69,16 +69,31 @@ router.route('/:id')
     }); //ends .find
   }) //ends .get
   // Add Post Method in order to add data to the User's profile
-// WORK IN PROGRESS
+
   .put((req, res) => {
     console.log('hit /users/:id POST route');
     var movieID = req.body.dataID;
+
+    var bioData = req.body.userBio; // added last
+
+    console.log('bioData is: ' + bioData);
+
     console.log('movieID is: ' + movieID);
     console.log('User ID: ' + req.params.id);
 
-    var update = {$push: {"watchedList": movieID }};
+    // if (movieId==undefined) {
+    //   var update = {"bio": bioData };
+    // }; // added last
 
-    User.findOneAndUpdate({ _id: req.params.id}, update, (err, user) => {
+    // if (bioData==undefined) {
+      var update = {$push: {"watchedList": movieID }}; // original
+      var update2 = {"bio": bioData };
+    // }; // added last
+
+
+
+
+    User.findOneAndUpdate({ _id: req.params.id}, update, update2, (err, user) => {
       if(err) console.log(err);
       res.send(user);
       console.log('movie data in PUT: ' + user);
@@ -86,7 +101,6 @@ router.route('/:id')
     });
   });
 
-// END OF WORK IN PROGRESS
 
 /// RESTRICT ALL ROUTES BELOW THIS LINE TO TOKEN BEARERS \\\\\\\
 // === route middleware to verify a token
