@@ -71,7 +71,7 @@ router.route('/:id')
     console.log('movieID is: ' + movieID);
     console.log('User ID: ' + req.params.id);
 
-    var update = {$push: {"watchedList": movieID }};
+    var update = {$push: {"toWatchList": movieID }};
 
     User.findOneAndUpdate({ _id: req.params.id}, update, (err, user) => {
       if(err) console.log(err);
