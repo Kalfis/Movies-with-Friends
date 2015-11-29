@@ -180,12 +180,6 @@ $(function(){
           // Then Add Movie to local database if the movie selected is not already in the database
           addToDatabase(titleSelected, movieObjs);
 
-          // $.ajax({
-          //   url: "/movies/",
-          //   method: "POST",
-          //   data: newMovieData
-          // }); // close $.ajax
-
           //Retrieve the Movie ID from the database
               $.ajax({
                   url: 'http://localhost:3000/movies/searchByTitle/'+titleSelected
@@ -198,39 +192,48 @@ $(function(){
                   saveToUser(IDmovieToAdd);
               });  // close $.ajax (outer)
 
+              // Add Movie ID to the User's profile in the database
+              // specificically to the array of the watchedList element in the User's profile
+
               var saveToUser = function (IDmovieToAdd) {
-                // var userID = 'ObjectId("565337649a4cc7922ca05b4b")';
+
+                // console.log('myId: ' + myId);
+                // console.log('user: ' + user.username);
+
+                // $.ajax({
+                //   url: '/users/:id',
+                //   method: "GET",
+                //   data: user
+                //   // console.log(req.body);
+                // }) //closes .ajax
+                //
+                // console.log ('userID:' + user.username);
+                // console.log ('userID:' + user._id);
+                // console.log('this is the user: ' + user);
+
+                // console.log(myIdnow);
+
+                // console.log( $(this).closest('button').attr('value') );
+                // var titleSelected = ( $(this).closest('button').attr('value') );
+
+
+                var currentUserID = $('#current-user').html();
+
+                console.log("The Current User ID: " + currentUserID);
+
                 console.log('IDmovieToAdd: '+ IDmovieToAdd.dataID);
-                var userID = '565329ec6907fd8329c60e8a';
+                var userID = currentUserID;
+                // var userID = '565329ec6907fd8329c60e8a'; // Agatha
+                // var userID = '5659107f7e84b23e06e6a124'; // Luis
+
                 $.ajax({
                 url: '/users/'+userID,
                 method: "PUT",
                 data: IDmovieToAdd
                 }); // close $.ajax (inner)
               }
-              // Add Movie ID to the User's profile in the database
-              // specificically to the array of the watchedList element in the User's profile
-
-                  // var userID = data.user._id;
-                  // console.log (userID);
-                  //
-                  // $.ajax({
-                  //   url: '/users/'+userId,
-                  //   method: "POST",
-                  //   data: movieToAddId
-                  // }); // close $.ajax (inner)
-
-
-          //  var wantWatchId = movieObjs.results[location]._id;
-
-           console.log("want watch object " + movieObjs.results[location]);
-
-          //  console.log("The new Want To Watch ID is: " + wantWatchData.id);
-
 
          }); // close ('.Add-Database-Button')
-
-
 
       }; // close For loop to create Div's
     }; // close newMovies()
@@ -261,9 +264,6 @@ $(function(){
          data: newMovieData
        }); // close $.ajax
     }; // close addToDatabase()
-
-
-
 
   // Render information of a movie profile thru DOM in index.html
   //======================================
@@ -476,6 +476,8 @@ $('#submit-login').click((event) => {
       $('#divider').hide();
       // Show users the link to their profile
       $('#my-profile').show();
+
+
       // append a personalized welcome message to our user-actions div
       let welcomeUser = document.createElement('div');
       welcomeUser.id = "welcome-user";
@@ -485,11 +487,21 @@ $('#submit-login').click((event) => {
       console.log('user._id: '+ data.user._id);
       // note that we have to use .append here, and not .appendChild
       $('#user-actions').append(welcomeUser);
+
+      // LA Added
+      let currentUser = document.createElement('div');
+      currentUser.id = "current-user";
+      currentUser.innerHTML = data.user._id;
+      $('#user-actions').append(currentUser);
+      $('#current-user').hide();
+      // LA Added
+
       // Once a user has logged in, they can click on a link to view their profiles.
       $('#my-profile').click((event) => {
         event.preventDefault();
         let myId = data.user._id
         console.log('myId: ' + myId);
+
         $.ajax({
           url: '/users/' + myId
           // /users/:id will return all user info for that id.
@@ -498,6 +510,7 @@ $('#submit-login').click((event) => {
           $('#user-profile').empty();
           $('#movie-profile').empty();
            showUser(data);
+
           // empty user info display div.
           // add the info for this particular user into the div.
         }) //ends .done

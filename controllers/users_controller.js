@@ -19,8 +19,6 @@ router.route('/')
     res.send('Test. Hello! You\'ve hit the users route!');
   })
 
-
-
 // route to user auth
 router.route('/authenticate')
   .post((req, res) => {
