@@ -82,13 +82,13 @@ router.route('/:id')
 
     // if (bioData==undefined) {
       var update = {$push: {"watchedList": movieID }}; // original
-      var update2 = {"bio": bioData };
+      // var update2 = {"bio": bioData };
     // }; // added last
 
 
 
 
-    User.findOneAndUpdate({ _id: req.params.id}, update, update2, (err, user) => {
+    User.findOneAndUpdate({ _id: req.params.id}, update, (err, user) => {
       if(err) console.log(err);
       res.send(user);
       console.log('movie data in PUT: ' + user);
