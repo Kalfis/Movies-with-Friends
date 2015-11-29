@@ -322,21 +322,21 @@ let showUser = function(data) {
   seenMovieDiv.innerHTML = '<h3>Movies ' + data[0].username + ' Has Watched: </h3>'
   result.append(seenMovieDiv);
 
-    //===== Event listener for Edit My Profile Button - WORK IN PROGRESS
-    //====================================================
+      //===== Event listener for Edit My Profile Button - WORK IN PROGRESS
+      //====================================================
 
-    $('#edit-profile-button').click(function(event){
-      event.preventDefault();
-      // $('#user-profile').empty();
-      console.log('Clicked Edit Profile Button');
-       ///  Make reference or insert Form
+      $('#edit-profile-button').click(function(event){
+        event.preventDefault();
+        // $('#user-profile').empty();
+        console.log('Clicked Edit Profile Button');
+         ///  Make reference or insert Form
 
-       var bioInput = $('#bio-input').val(); //
-      
-      // var titleInput = $('#title-input').val(); //
-      // console.log(titleInput); //
+         $('#edit-profile-form').show();
 
-    }); // close #Edit-Profile-Button
+         var bioInput = $('#bio-input').val(); //
+         console.log(bioInput);
+
+      }); // close #Edit-Profile-Button
 
 
   ////======= a function that will display movie data in a to-watch div inside the user-profile div.
