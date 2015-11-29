@@ -197,26 +197,6 @@ $(function(){
 
               var saveToUser = function (IDmovieToAdd) {
 
-                // console.log('myId: ' + myId);
-                // console.log('user: ' + user.username);
-
-                // $.ajax({
-                //   url: '/users/:id',
-                //   method: "GET",
-                //   data: user
-                //   // console.log(req.body);
-                // }) //closes .ajax
-                //
-                // console.log ('userID:' + user.username);
-                // console.log ('userID:' + user._id);
-                // console.log('this is the user: ' + user);
-
-                // console.log(myIdnow);
-
-                // console.log( $(this).closest('button').attr('value') );
-                // var titleSelected = ( $(this).closest('button').attr('value') );
-
-
                 var currentUserID = $('#current-user').html();
 
                 console.log("The Current User ID: " + currentUserID);
@@ -488,13 +468,13 @@ $('#submit-login').click((event) => {
       // note that we have to use .append here, and not .appendChild
       $('#user-actions').append(welcomeUser);
 
-      // LA Added
+      //
       let currentUser = document.createElement('div');
       currentUser.id = "current-user";
       currentUser.innerHTML = data.user._id;
       $('#user-actions').append(currentUser);
       $('#current-user').hide();
-      // LA Added
+      //
 
       // Once a user has logged in, they can click on a link to view their profiles.
       $('#my-profile').click((event) => {
