@@ -2,7 +2,6 @@
 
 $(function(){
 
-
   console.log ('index.html linked to script.js');
 
   //===== Event listener for Keep button to save data for a new Movie as input in Form
@@ -486,30 +485,30 @@ $('#submit-login').click((event) => {
   })
 }); //ends login-submit button click event
 
-// // if a user is logged in, allow user to view other users.
-// if (user) {
-//   // A logged-in user has the option to view a list of users.
-//   $('#view-users').click((event) => {
-//     event.preventDefault();
-//     $.ajax({
-//       url: '/users/'
-//     }).done(function(data) {
-//       $('#user-profile').empty();
-//       $('#movie-profile').empty();
-//       listUsers(data);
-//     }) //ends .done
-//   }) // ends click event
-//
-//   let listUsers = function(data){
-//   let result = $('#user-profile');
-//   let listedUsers = document.createElement('ul');
-//   result.append(listUsers);
-//   for (var i = 0; i < data.length; i++){
-//     let usernameLi = document.createElement('li');
-//     usernameLi.innerHTML = data[i].username
-//     }
-//   } //ends listUsers function
-// } //ends if (user)
+// if a user is logged in, allow user to view other users.
+
+  // A logged-in user has the option to view a list of users.
+  $('#view-users').click((event) => {
+    event.preventDefault();
+    $.ajax({
+      url: '/users/'
+    }).done(function(data) {
+      $('#user-profile').empty();
+      $('#movie-profile').empty();
+      listUsers(data);
+    }) //ends .done
+  }) // ends click event
+
+  let listUsers = function(data){
+  let result = $('#user-profile');
+  let listedUsers = document.createElement('ul');
+  result.append(listUsers);
+  for (var i = 0; i < data.length; i++){
+    let usernameLi = document.createElement('li');
+    usernameLi.innerHTML = data[i].username
+    }
+  } //ends listUsers function
+
 
 
 }) // close main anonymous function

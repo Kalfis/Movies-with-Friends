@@ -12,8 +12,6 @@ let express = require('express');
 let router = express.Router();
 // let User = require('../models/user')
 
-let app = express();
-
 
 // route to user auth
 router.route('/authenticate')
@@ -70,12 +68,14 @@ router.route('/:id')
 /// RESTRICT ALL ROUTES BELOW THIS LINE TO TOKEN BEARERS \\\\\\\
 // === route middleware to verify a token
 router.use(function(req, res, next) {
+  // var token = req.query.token
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
-  console.log(token);
-  
+  console.log('req.query: ' + req.query.token);
+
   if (token) {
-    jwt.verify(token, app.get(secret), function(err, decoded) {
+    jwt.verify(token, secret, function(err, decoded) {
       if (err) {
+        console.log('err' + err);
         return res.json({ success: false, message: 'Failed to authenticate token.'});
       } else {
         req.decoded = decoded;
@@ -95,13 +95,19 @@ router.use(function(req, res, next) {
 
 // List of users
 router.route('/')
-  // .all(expressJwt({
-  //   secret: 'supersekret',
-  //   // userProperty: 'auth'
-  // }))
+// set the header for user with a token so that they can access restricted routes.
+  .all(expressJwt({
+    url: '/authenticate',
+    secret: secret
+    // headers: {
+    //     'x-access-token': jwt
+    //   }
+  }))
   .get((req, res, next) => {
     console.log('hit /users/');
-    console.log('req.query.token: ' + req.query.token);
+    // console.log('headers: ' + req.headers);
+    // console.log(req.query);
+    // console.log('req.query.token: ' + req.query.token);
     User.find({}, function(err, users) {
       if (err) throw err;
       res.send(users);
