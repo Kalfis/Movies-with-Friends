@@ -166,7 +166,7 @@ $(function(){
          addToDatabase(titleSelected, movieObjs);
         }); // close ('.Add-Database-Button')
 
-        // Event listener for Add to Want to Watch List - WORK IN PROGRESS ///
+        // Event listener for Add to Want to Watch List ///
         $('#Add-Want-Watch-Button'+i).click(function(event){
           event.preventDefault();
           console.log('Clicked Add to Want to Watch List Button');
@@ -322,21 +322,61 @@ let showUser = function(data) {
   seenMovieDiv.innerHTML = '<h3>Movies ' + data[0].username + ' Has Watched: </h3>'
   result.append(seenMovieDiv);
 
-      //===== Event listener for Edit My Profile Button - WORK IN PROGRESS
+      //===== Event listener for edit profile Button -
       //====================================================
 
       $('#edit-profile-button').click(function(event){
-        event.preventDefault();
-        // $('#user-profile').empty();
-        console.log('Clicked Edit Profile Button');
-         ///  Make reference or insert Form
+          event.preventDefault();
+          // $('#user-profile').empty();
+          console.log('Clicked Edit Profile Button');
+          $('#edit-profile-form').show();
 
-         $('#edit-profile-form').show();
+              //===== Event listener for submit edit profile Button - WORK IN PROGRESS
+              //====================================================
 
-         var bioInput = $('#bio-input').val(); //
-         console.log(bioInput);
+              $('#submit-edit-profile-button').click(function(event){
+                  event.preventDefault();
+                  console.log('Clicked submit edit profile Button');
 
-      }); // close #Edit-Profile-Button
+                  var bioInputVal = $('#bio-input').val();
+                  var bioInput = { userBio: bioInputVal};
+                  console.log('bioInput: ' + bioInput);
+                  console.log('bioInput: ' + bioInput.userBio);
+
+                  var currentUserID = $('#current-user').html();
+
+                  $.ajax({
+                  url: '/users/'+currentUserID,
+                  method: "PUT",
+                  data: bioInput
+                  }); // close $.ajax (inner)
+
+                  $('#edit-profile-form').hide();
+
+              }); // close #submit-edit-profile Button
+
+      }); // close #edit-profile-button
+
+////////////////////////////////////////
+// var saveToUser = function (IDmovieToAdd) {
+//
+//   var currentUserID = $('#current-user').html();
+//
+//   console.log("The Current User ID: " + currentUserID);
+//
+//   console.log('IDmovieToAdd: '+ IDmovieToAdd.dataID);
+//   var userID = currentUserID;
+//   // var userID = '565329ec6907fd8329c60e8a'; // Agatha
+//   // var userID = '5659107f7e84b23e06e6a124'; // Luis
+//
+//   $.ajax({
+//   url: '/users/'+userID,
+//   method: "PUT",
+//   data: IDmovieToAdd
+//   }); // close $.ajax (inner)
+// }
+/////////////////////////////////////////
+
 
 
   ////======= a function that will display movie data in a to-watch div inside the user-profile div.
