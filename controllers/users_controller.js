@@ -11,7 +11,7 @@ let Movie = require('../models/movie');
 let express = require('express');
 let router = express.Router();
 // let User = require('../models/user')
-
+var userToken;
 // route to user auth
 router.route('/authenticate')
   .post((req, res) => {
@@ -41,6 +41,7 @@ router.route('/authenticate')
           if (isMatch) {
             // send back a success message, a token, and all of the user data for user matching that username and password.
             return res.send({message: "Password is good friend! Have a token buddy.", token: jwt.sign(user, secret), user: user});
+            //userToken = token;
           } else {
             // $('#login-failed').show();
             return res.send({message: "Password ain't right friend. No token(soup) for you!."});
@@ -104,10 +105,11 @@ router.route('/:id')
 /// RESTRICT ALL ROUTES BELOW THIS LINE TO TOKEN BEARERS \\\\\\\
 // === route middleware to verify a token
 router.use(function(req, res, next) {
+  console.log("user token: " + userToken);
   // var token = req.query.token
-  var token = req.body.token || req.query.token //|| req.headers['Authorization'];
-  console.log('req.query.token: ' + req.query.token);
-
+  var token = req.body.token || req.query.token || req.headers['Authorization'];
+  //console.log('req.query.token: ' + req.query.token);
+  console.log(token);
   if (token) {
     jwt.verify(token, secret, function(err, decoded) {
       if (err) {

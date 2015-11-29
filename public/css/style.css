@@ -25,7 +25,12 @@
 #profile-divider {
   margin-left: 50px;
 }
-
+#view-users-divider {
+  margin-left: 50px;
+}
+#logout-link {
+  margin-left: 70px;
+}
 #view-users {
   margin-left: 70px;
 }

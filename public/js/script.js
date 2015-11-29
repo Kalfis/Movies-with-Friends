@@ -455,15 +455,15 @@ $('#login-failed').hide();
 $('#signup-form').hide();
 // only want users to have a view-profile link once they've logged in.
 $('#my-profile').hide();
-<<<<<<< HEAD
-$('#edit-profile-form').hide();
-=======
+
 // view users link is also restricted to logged-in users.
 $('#welcome-divider').hide();
 $('#view-users').hide();
 $('#profile-divider').hide();
 $('#signup-success').hide();
->>>>>>> develop
+$('#logout-link').hide();
+$('#view-users-divider').hide();
+$('#edit-profile-form').hide();
 
 //Let user sign up.
 $('#signup-link').click((event) => {
@@ -506,6 +506,13 @@ $('#login-link').click((event) => {
   // display a login form
 }) // ends login-link click event
 
+$('#logout-link').click((event) => {
+  event.preventDefault();
+  $.get({
+    url: '/'
+  })
+})
+
 // create a login submit button with matching id in index
 $('#submit-login').click((event) => {
   event.preventDefault();
@@ -522,11 +529,16 @@ $('#submit-login').click((event) => {
   }) //closes .ajax
   // data here references the object containing a token or error message
   .done(function(data){
+    //console.log('user_object: '+data.user)
+    console.log(data)
     // if user is authenticated in /users/authenticate and granted token, hide login form
     if (data.token) {
       $('#signup-success').hide();
       // console.log(user);
-      console.log(data.token)
+      console.log('token: '+data.token);
+      // putting the data.token into the user object
+      data.user.token = data.token;
+      console.log('user_token: '+data.user.token)
       $('#login-form').hide();
       $('#login-link').hide();
       $('#signup-link').hide();
@@ -536,6 +548,8 @@ $('#submit-login').click((event) => {
       $('#view-users').show();
       $('#welcome-divider').show();
       $('#profile-divider').show();
+      $('#view-users-divider').show();
+      $('#logout-link').show();
 
       // append a personalized welcome message to our user-actions div
       let welcomeUser = document.createElement('div');
