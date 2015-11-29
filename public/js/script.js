@@ -60,7 +60,7 @@ $(function(){
     //===== Display all information from database in console log while on Index Page
     //====================================================
     $.ajax({
-      url: 'http://localhost:3000/movies'
+      url: '/movies'
     }).done(function(data){
       // $('#user-profile').empty();
       console.log('movie loaded');
