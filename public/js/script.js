@@ -2,7 +2,6 @@
 
 $(function(){
 
-
   console.log ('index.html linked to script.js');
 
   //===== Event listener for Keep button to save data for a new Movie as input in Form
@@ -61,11 +60,12 @@ $(function(){
     //===== Display all information from database in console log while on Index Page
     //====================================================
     $.ajax({
-      url: 'http://localhost:3000/movies'
+      url: '/movies'
     }).done(function(data){
       console.log('movie loaded');
       console.log(data);
     });
+
 
     //===== Event listener for Submit button to search for movie & display movie profile
     //====================================================
@@ -78,8 +78,12 @@ $(function(){
       var titleInput = $('#title-input').val()
       console.log(titleInput);
 
+
           $.ajax({
-              url: 'http://localhost:3000/movies/searchByTitle/'+titleInput
+              // url: 'http://localhost:3000/movies/searchByTitle/'+titleInput
+              // url: 'http://localhost:3000/movies/searchByTitle/'+ titleInput || process.env.PORT + '/movies/searchByTitle/' + titleInput
+              // url: process.env.PORT + '/movies/searchByTitle/' + titleInput
+              url: '/movies/searchByTitle/' + titleInput
             }).done(function(data){
               console.log('movie title selected');
               $('#user-profile').empty();
@@ -182,7 +186,7 @@ $(function(){
 
           //Retrieve the Movie ID from the database
               $.ajax({
-                  url: 'http://localhost:3000/movies/searchByTitle/'+titleSelected
+                  url: '/movies/searchByTitle/'+titleSelected
                 }).done(function(data){
                   console.log("here is the data for the movie selected: ")
                   console.log(data);
@@ -451,7 +455,15 @@ $('#login-failed').hide();
 $('#signup-form').hide();
 // only want users to have a view-profile link once they've logged in.
 $('#my-profile').hide();
+<<<<<<< HEAD
 $('#edit-profile-form').hide();
+=======
+// view users link is also restricted to logged-in users.
+$('#welcome-divider').hide();
+$('#view-users').hide();
+$('#profile-divider').hide();
+$('#signup-success').hide();
+>>>>>>> develop
 
 //Let user sign up.
 $('#signup-link').click((event) => {
@@ -467,7 +479,9 @@ $('#signup-link').click((event) => {
 $('#submit-signup').click((event) => {
   event.preventDefault();
   console.log('clicked submit for sign up');
-
+  $('#signup-form').hide();
+  $('#login-form').show();
+  $('#signup-success').show();
   let user = {};
   user.username = $('#signup-username').val();
   user.password = $('#signup-password').val();
@@ -510,20 +524,24 @@ $('#submit-login').click((event) => {
   .done(function(data){
     // if user is authenticated in /users/authenticate and granted token, hide login form
     if (data.token) {
+      $('#signup-success').hide();
       // console.log(user);
+      console.log(data.token)
       $('#login-form').hide();
       $('#login-link').hide();
       $('#signup-link').hide();
       $('#divider').hide();
       // Show users the link to their profile
       $('#my-profile').show();
-
+      $('#view-users').show();
+      $('#welcome-divider').show();
+      $('#profile-divider').show();
 
       // append a personalized welcome message to our user-actions div
       let welcomeUser = document.createElement('div');
       welcomeUser.id = "welcome-user";
       // user.username is something we sent in the post request, so it's still accessible using this syntax.
-      welcomeUser.innerHTML = '<p> Hi, ' + user.username + '  |</p>';
+      welcomeUser.innerHTML = '<p> Hi, ' + user.username + '<span id="welcome-divider">|</span></p>';
       // In /users/authenticate, we're retrieving user data associated with the username and password sent in the post method, then sending all user info back as part of "data"
       console.log('user._id: '+ data.user._id);
       // note that we have to use .append here, and not .appendChild
@@ -551,11 +569,9 @@ $('#submit-login').click((event) => {
           $('#user-profile').empty();
           $('#movie-profile').empty();
            showUser(data);
-
-          // empty user info display div.
-          // add the info for this particular user into the div.
         }) //ends .done
       }); //ends click event on my-profile link
+
     // if user is not granted token, give them a 'not found' message
     } else {
       $('#login-failed').show();
@@ -564,5 +580,30 @@ $('#submit-login').click((event) => {
   })
 }); //ends login-submit button click event
 
+// if a user is logged in, allow user to view other users.
+
+  // A logged-in user has the option to view a list of users.
+  $('#view-users').click((event) => {
+    event.preventDefault();
+    $.ajax({
+      // url: '/users/authenticate'
+      url: '/users/'
+    }).done(function(data) {
+      // console.log(data.token);
+      $('#user-profile').empty();
+      $('#movie-profile').empty();
+      listUsers(data);
+    }) //ends .done
+  }) // ends click event
+
+  let listUsers = function(data){
+  let result = $('#user-profile');
+  let listedUsers = document.createElement('ul');
+  result.append(listUsers);
+  for (var i = 0; i < data.length; i++){
+    let usernameLi = document.createElement('li');
+    usernameLi.innerHTML = data[i].username
+    }
+  } //ends listUsers function
 
 }) // close main anonymous function
