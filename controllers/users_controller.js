@@ -81,17 +81,17 @@ router.route('/:id')
     console.log('movieID is: ' + movieID);
     console.log('User ID: ' + req.params.id);
 
+
     // if (movieId==undefined) {
     //   var update = {"bio": bioData };
     // }; // added last
 
     // if (bioData==undefined) {
-      var update = {$push: {"watchedList": movieID }}; // original
+      // var update = {$push: {"watchedList": movieID }}; // original
       // var update2 = {"bio": bioData };
     // }; // added last
 
-
-
+    var update = {$push: {"toWatchList": movieID }};
 
     User.findOneAndUpdate({ _id: req.params.id}, update, (err, user) => {
       if(err) console.log(err);
