@@ -1,4 +1,10 @@
 /* Log In */
+
+body {
+  background-image: url('http://freedesignfile.com/upload/2015/04/Halation-movies-film-art-background-vector-03.jpg');
+  background-repeat: repeat-y;
+  background-size: 100%;
+}
 #login-form {
   width: 400px;
   margin: 0 auto;
