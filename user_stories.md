@@ -1,4 +1,4 @@
-** Application **
+**Application**
 * Models
   * User
   * Movie
@@ -10,7 +10,7 @@
 * App Database
   A movie selected by a **User** will be stored in the App database within the collection of '**Selected Movies**'.
 
-** User Stories **
+**User Stories**
 
 As a **User** I want to:
 * Sign up as a new **User**, if I am a new **User**.
@@ -33,19 +33,16 @@ Once a **User** is signed in.
 
 * View any **Released Movie** profile.  This will show the information of the movie as retrieved from the 3rd party API. Also, it will show any additional data input by **Users** such as Avg. Rating, list of **Users** who also want to see it, etc.
 
-** User Profile **
+**User Profile**
 * Name
 * Email
 * Password
 * List of **Selected Movies**.
 * ***Note***: A **Selected Movie** links to its corresponding **Movie Profile**.
 
-** Movie Profile **
+**Movie Profile**
 * Title
 * Genre
 * Description
 * Released date
 * Comments from **Users**.
-
-Optional for **User**:
-* Rate other users: e.g. good or bad moviegoer (based on their behavior, e.g. texting during movies, talking during movies, etc.).

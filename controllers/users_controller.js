@@ -74,9 +74,9 @@ router.route('/:id')
     console.log('hit /users/:id POST route');
     var movieID = req.body.dataID;
 
-    var bioData = req.body.userBio; // added last
+    // var bioData = req.body.userBio; // added last
 
-    console.log('bioData is: ' + bioData);
+    // console.log('bioData is: ' + bioData);
 
     console.log('movieID is: ' + movieID);
     console.log('User ID: ' + req.params.id);
