@@ -80,9 +80,6 @@ $(function(){
 
 
           $.ajax({
-              // url: 'http://localhost:3000/movies/searchByTitle/'+titleInput
-              // url: 'http://localhost:3000/movies/searchByTitle/'+ titleInput || process.env.PORT + '/movies/searchByTitle/' + titleInput
-              // url: process.env.PORT + '/movies/searchByTitle/' + titleInput
               url: '/movies/searchByTitle/' + titleInput
             }).done(function(data){
               console.log('movie title selected');
@@ -119,20 +116,6 @@ $(function(){
 
     }); // close #edit-button event listener
 
-      var updateForm = function (data) {
-        var resultsDiv = $(".")
-      };
-
-      // #######   PENDING ####### ///
-      // var editMovie = function () {
-      //   $.ajax({
-      //     url: 'http://localhost:3000/movies/searchByTitle/'+titleInput.
-      //     method: "GET",
-      //     dataType: "json"
-      //   }).done(updateForm)
-      // };
-      // #######   PENDING ####### ///
-
 
   // Render information of Movies data thru DOM in index.html
   //======================================
@@ -153,10 +136,6 @@ $(function(){
        movieDiv.append('<button id="Add-Want-Watch-Button' + i + '" value ="' + movieObjs.results[i].title +'">Add to Want to Watch List </button>');
        movieDiv.append('<button id="Add-Already-Watched-Button">Add to Already Watched List </button>');
        movieDiv.append('<button id="Add-Database-Button' + i  +'" value="'+ movieObjs.results[i].title +'">Add to MyMovies</button>');
-
-       //movieDiv.append('<button name="Add-Database-Button" value="' + i  + '">Add to MyMovies</button>');
-       // $( "button[name='Add-Database-Button']" ).val( i ).click(function(event){
-       // <button name="button" value="OK" type="button">Click Me</button>
 
        console.log("About to Click Add to MyMovies");
 
@@ -361,28 +340,6 @@ let showUser = function(data) {
 
       }); // close #edit-profile-button
 
-////////////////////////////////////////
-// var saveToUser = function (IDmovieToAdd) {
-//
-//   var currentUserID = $('#current-user').html();
-//
-//   console.log("The Current User ID: " + currentUserID);
-//
-//   console.log('IDmovieToAdd: '+ IDmovieToAdd.dataID);
-//   var userID = currentUserID;
-//   // var userID = '565329ec6907fd8329c60e8a'; // Agatha
-//   // var userID = '5659107f7e84b23e06e6a124'; // Luis
-//
-//   $.ajax({
-//   url: '/users/'+userID,
-//   method: "PUT",
-//   data: IDmovieToAdd
-//   }); // close $.ajax (inner)
-// }
-/////////////////////////////////////////
-
-
-
   ////======= a function that will display movie data in a to-watch div inside the user-profile div.
   var showToWatchMovie = function(toSee){
     // using JavaScript to render info on the DOM
@@ -464,6 +421,10 @@ $('#signup-success').hide();
 $('#logout-link').hide();
 $('#view-users-divider').hide();
 $('#edit-profile-form').hide();
+
+$('#form').hide();
+$('#edit-movie-formholder').hide();
+
 
 //Let user sign up.
 $('#signup-link').click((event) => {
@@ -550,6 +511,9 @@ $('#submit-login').click((event) => {
       $('#profile-divider').show();
       $('#view-users-divider').show();
       $('#logout-link').show();
+
+      $('#form').show();
+      $('#edit-movie-formholder').show();
 
       // append a personalized welcome message to our user-actions div
       let welcomeUser = document.createElement('div');

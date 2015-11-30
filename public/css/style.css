@@ -10,6 +10,11 @@
   /*background-color: rgba(130, 180, 150, 0.5);*/
 }
 
+#user-actions {
+  align-items: center;
+}
+
+
 #welcome-user {
   margin-top: -33px;
 }
