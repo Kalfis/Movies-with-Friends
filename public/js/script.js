@@ -551,11 +551,11 @@ $('#submit-login').click((event) => {
       let welcomeUser = document.createElement('div');
       welcomeUser.id = "welcome-user";
       // user.username is something we sent in the post request, so it's still accessible using this syntax.
-      welcomeUser.innerHTML = '<p> Hi, ' + user.username + '<span id="welcome-divider">|</span></p>';
+      welcomeUser.innerHTML = '<p> Hi, ' + user.username;
       // In /users/authenticate, we're retrieving user data associated with the username and password sent in the post method, then sending all user info back as part of "data"
       console.log('user._id: '+ data.user._id);
       // note that we have to use .append here, and not .appendChild
-      $('#user-actions').append(welcomeUser);
+      $('#user-welcome').append(welcomeUser);
 
       //
       let currentUser = document.createElement('div');

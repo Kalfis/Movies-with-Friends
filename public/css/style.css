@@ -14,27 +14,6 @@
   margin-top: -33px;
 }
 
-#welcome-divider {
-  margin-left: 50px;
-}
-
-#my-profile {
-  margin-left: 170px;
-}
-
-#profile-divider {
-  margin-left: 50px;
-}
-#view-users-divider {
-  margin-left: 50px;
-}
-#logout-link {
-  margin-left: 70px;
-}
-#view-users {
-  margin-left: 70px;
-}
-
 #signup-success {
   width: 400px;
   margin: 0 auto;
