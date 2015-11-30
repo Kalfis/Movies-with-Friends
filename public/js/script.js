@@ -102,17 +102,13 @@ $(function(){
       editMovieData.title = $('#title-data').val();
       editMovieData.overview = $('#comments-data').val();
 
-      // PENDING  ////
+      ///////
       console.log(newMovieData);
       $.ajax({
         url: "/movies/",
         method: "POST",
         data: editMovieData
       }); // close $.ajax
-
-      // #######   PENDING ####### ///
-      // edit information from database
-      // #######   PENDING ####### ///
 
     }); // close #edit-button event listener
 
